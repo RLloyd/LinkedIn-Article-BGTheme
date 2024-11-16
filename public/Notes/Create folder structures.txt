@@ -1,0 +1,5 @@
+go to root directory and run the following command in the terminal:
+mkdir -p src/components/{Navbar,Hero,Card}
+mkdir -p src/pages/Home
+mkdir -p src/styles
+mkdir -p src/data
