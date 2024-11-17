@@ -10,6 +10,11 @@ const fadeIn = keyframes`
   }
 `;
 
+const slideVertical = keyframes`
+  from { top: -100px}
+  to { top: 20px }
+`;
+
 export const NavbarContainer = styled.nav`
    position: fixed;
    top: 0;
@@ -23,18 +28,7 @@ export const NavbarContainer = styled.nav`
    background-color: ${({ theme }) => theme.colors.navBackground};
    z-index: 1000;
    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.1);
-//   height: ${({ theme }) => theme.sizes.navHeight};
-//   background: ${({ theme }) => theme.colors.navBackground};
-//   position: fixed;
-//   width: 100%;
-//   top: 0;
-//   display: flex;
-//   align-items: center;
-//   justify-content: space-between; // Changed to space-between for main container
-//   padding: 0 1rem;
-//   z-index: 1000;
-//   backdrop-filter: blur(5px);
-//   box-shadow: 0 4px 18px rgba(0, 0, 0, 0.1);
+   transition: background-color 1s ease;
 `;
 
 export const NavigationGroup = styled.div`
@@ -61,6 +55,7 @@ export const LogoButton = styled.button`
   align-items: center;
   justify-content: center;
   transition: opacity 0.3s ease;
+  top: 0;
 
   &:hover {
     opacity: 0.8;
@@ -76,7 +71,7 @@ export const LogoButton = styled.button`
       width: auto;
       object-fit: contain;
       position: relative;
-      top: 10px;
+      animation: ${slideVertical} .5s ease-in forwards;
    }
 `;
 
