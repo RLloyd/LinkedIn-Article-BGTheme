@@ -1,6 +1,7 @@
-import React, { useState, useCallback } from 'react';
+// src/components/Navbar/Navbar.tsx
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FiMenu, FiX, FiSun, FiMoon, FiExternalLink } from 'react-icons/fi';
+import { FiMenu, FiX, FiSun, FiMoon } from 'react-icons/fi';
 import {
   NavbarContainer,
   NavigationGroup,
@@ -11,8 +12,7 @@ import {
   ThemeToggle,
   MobileMenuButton,
   MobileMenu,
-  ExternalLinkIcon,
-  VisuallyHidden
+  LogoButton
 } from './Navbar.styles';
 import { navigationData } from '@/data/mockData';
 import { NavigationItem } from '@/types/navigation';
@@ -24,162 +24,221 @@ interface NavbarProps {
 
 const Navbar: React.FC<NavbarProps> = ({ toggleTheme, isDarkTheme }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   const { menuItems: { left: leftMenuItems, right: rightMenuItems }, logo } = navigationData;
 
-  const handleExternalLink = useCallback((
-    event: React.MouseEvent<HTMLAnchorElement>,
-    path: string,
-    label: string
-  ) => {
-    try {
-      // Validate URL
-      const url = new URL(path);
-      if (!['http:', 'https:'].includes(url.protocol)) {
-        throw new Error('Invalid URL protocol');
-      }
-    } catch (err) {
-      event.preventDefault();
-      setError(`Unable to navigate to ${label}. Please try again later.`);
-      console.error('Navigation error:', err);
+  const homeUrl = leftMenuItems.find(item => item.label === 'Home')?.path || 'https://www.rlloydgonzales.com';
 
-      // Clear error after 5 seconds
-      setTimeout(() => setError(null), 5000);
+  const handleLogoClick = () => {
+    const windowFeatures = `
+      height=1020,
+      width=${window.innerWidth},
+      left=${window.screenX},
+      top=${window.screenY},
+      menubar=no,
+      toolbar=no,
+      location=yes,
+      status=no,
+      scrollbars=yes
+    `.replace(/\s/g, '');
+
+    const newWindow = window.open(homeUrl, '_blank', windowFeatures);
+    if (newWindow) {
+      newWindow.focus();
+      window.close();
     }
-  }, []);
+  };
 
-  const toggleMobileMenu = useCallback(() => {
-    setIsMobileMenuOpen(prev => !prev);
-  }, []);
-
-  const renderMenuItem = (item: NavigationItem, isMobile: boolean = false) => {
-    const commonProps = {
-      onClick: isMobile ? toggleMobileMenu : undefined,
-      role: "menuitem",
-    };
-
+  const renderMenuItem = (item: NavigationItem) => {
     if (item.isExternal) {
       return (
-        <MenuItem
-          key={item.label}
-          {...commonProps}
-        >
+        <MenuItem key={item.label}>
           <a
             href={item.path}
             target="_blank"
             rel="noopener noreferrer"
-            onClick={(e) => handleExternalLink(e, item.path, item.label)}
-            aria-label={`${item.label} (opens in new tab)`}
           >
             {item.label}
-            <ExternalLinkIcon aria-hidden="true">
-              <FiExternalLink />
-            </ExternalLinkIcon>
-            <VisuallyHidden>(opens in new tab)</VisuallyHidden>
           </a>
         </MenuItem>
       );
     }
 
     return (
-      <MenuItem
-        key={item.label}
-        {...commonProps}
-      >
-        <Link
-          to={item.path}
-          aria-current={window.location.pathname === item.path ? "page" : undefined}
-        >
-          {item.label}
-        </Link>
+      <MenuItem key={item.label}>
+        <Link to={item.path}>{item.label}</Link>
       </MenuItem>
     );
   };
 
   return (
-    <nav
-      aria-label="Main navigation"
-      role="navigation"
-    >
-      <NavbarContainer>
-        <NavigationGroup>
-          <MenuItems
-            className="left-menu"
-            role="menu"
-            aria-label="Left navigation"
-          >
-            {leftMenuItems.map(item => renderMenuItem(item))}
-          </MenuItems>
+    <NavbarContainer>
+      <NavigationGroup>
+        <MenuItems className="left-menu">
+          {leftMenuItems.map(renderMenuItem)}
+        </MenuItems>
 
-          <Logo>
-            <Link
-              to="/"
-              aria-label={`${logo.alt} - Return to homepage`}
-            >
-              <img
-                src={logo.image}
-                alt=""
-                loading="eager"
-                aria-hidden="true"
-              />
-            </Link>
-          </Logo>
-
-          <MenuItems
-            className="right-menu"
-            role="menu"
-            aria-label="Right navigation"
+        <Logo>
+          <LogoButton
+            onClick={handleLogoClick}
+            aria-label={`${logo.alt} - Open in new window`}
           >
-            {rightMenuItems.map(item => renderMenuItem(item))}
-          </MenuItems>
-        </NavigationGroup>
+            <img
+              src={logo.image}
+              alt={logo.alt}
+              loading="eager"
+            />
+          </LogoButton>
+        </Logo>
 
-        <ControlsGroup>
-          <ThemeToggle
-            onClick={toggleTheme}
-            aria-label={`Switch to ${isDarkTheme ? 'light' : 'dark'} theme`}
-            role="button"
-          >
-            {isDarkTheme ? <FiSun aria-hidden="true" /> : <FiMoon aria-hidden="true" />}
-          </ThemeToggle>
+        <MenuItems className="right-menu">
+          {rightMenuItems.map(renderMenuItem)}
+        </MenuItems>
+      </NavigationGroup>
 
-          <MobileMenuButton
-            onClick={toggleMobileMenu}
-            aria-expanded={isMobileMenuOpen}
-            aria-controls="mobile-menu"
-            aria-label={`${isMobileMenuOpen ? 'Close' : 'Open'} mobile menu`}
-          >
-            {isMobileMenuOpen ?
-              <FiX aria-hidden="true" /> :
-              <FiMenu aria-hidden="true" />
-            }
-          </MobileMenuButton>
-        </ControlsGroup>
+      <ControlsGroup>
+        <ThemeToggle onClick={toggleTheme}>
+          {isDarkTheme ? <FiSun /> : <FiMoon />}
+        </ThemeToggle>
 
-        {isMobileMenuOpen && (
-          <MobileMenu
-            id="mobile-menu"
-            role="menu"
-            aria-label="Mobile navigation"
-          >
-            {[...leftMenuItems, ...rightMenuItems].map(item =>
-              renderMenuItem(item, true)
-            )}
-          </MobileMenu>
-        )}
+        <MobileMenuButton onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+          {isMobileMenuOpen ? <FiX /> : <FiMenu />}
+        </MobileMenuButton>
+      </ControlsGroup>
 
-        {error && (
-          <div
-            role="alert"
-            aria-live="polite"
-            className="error-message"
-          >
-            {error}
-          </div>
-        )}
-      </NavbarContainer>
-    </nav>
+      {isMobileMenuOpen && (
+        <MobileMenu>
+          {[...leftMenuItems, ...rightMenuItems].map(renderMenuItem)}
+        </MobileMenu>
+      )}
+    </NavbarContainer>
   );
 };
 
 export default Navbar;
+
+// // src/components/Navbar/Navbar.tsx
+// import React, { useState } from 'react';
+// import { Link } from 'react-router-dom';
+// import { FiMenu, FiX, FiSun, FiMoon } from 'react-icons/fi';
+// import {
+//   NavbarContainer,
+//   NavigationGroup,
+//   ControlsGroup,
+//   Logo,
+//   MenuItems,
+//   MenuItem,
+//   ThemeToggle,
+//   MobileMenuButton,
+//   MobileMenu,
+//   LogoButton,
+//   FadeOverlay
+// } from './Navbar.styles';
+// import { navigationData } from '@/data/mockData';
+// import { NavigationItem } from '@/types/navigation';
+
+// interface NavbarProps {
+//   toggleTheme: () => void;
+//   isDarkTheme: boolean;
+// }
+
+// const Navbar: React.FC<NavbarProps> = ({ toggleTheme, isDarkTheme }) => {
+//   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+//   const [isTransitioning, setIsTransitioning] = useState(false);
+//   const { menuItems: { left: leftMenuItems, right: rightMenuItems }, logo } = navigationData;
+
+//   const homeUrl = leftMenuItems.find(item => item.label === 'Home')?.path || 'https://www.rlloydgonzales.com';
+
+//   const handleLogoClick = () => {
+//     const windowFeatures = `
+//       height=1020,
+//       width=${window.innerWidth},
+//       left=${window.screenX},
+//       top=${window.screenY},
+//       menubar=no,
+//       toolbar=no,
+//       location=yes,
+//       status=no,
+//       scrollbars=yes
+//     `.replace(/\s/g, '');
+
+//     const newWindow = window.open(homeUrl, '_blank', windowFeatures);
+//     if (newWindow) {
+//       newWindow.focus();
+//       window.close();
+//     }
+//   };
+
+//   const renderMenuItem = (item: NavigationItem) => {
+//     if (item.isExternal) {
+//       return (
+//         <MenuItem key={item.label}>
+//           <a
+//             href={item.path}
+//             target="_blank"
+//             rel="noopener noreferrer"
+//           >
+//             {item.label}
+//           </a>
+//         </MenuItem>
+//       );
+//     }
+
+//     return (
+//       <MenuItem key={item.label}>
+//         <Link to={item.path}>{item.label}</Link>
+//       </MenuItem>
+//     );
+//   };
+
+//   return (
+//     <>
+//       {isTransitioning && <FadeOverlay />}
+//       <NavbarContainer>
+//         <NavigationGroup>
+//           <MenuItems className="left-menu">
+//             {leftMenuItems.map(renderMenuItem)}
+//           </MenuItems>
+
+//           <Logo>
+//             <LogoButton
+//               onClick={handleLogoClick}
+//               aria-label={`${logo.alt} - Open in new window`}
+//               disabled={isTransitioning}
+//             >
+//               <img
+//                 src={logo.image}
+//                 alt={logo.alt}
+//                 loading="eager"
+//               />
+//             </LogoButton>
+//           </Logo>
+
+//           <MenuItems className="right-menu">
+//             {rightMenuItems.map(renderMenuItem)}
+//           </MenuItems>
+//         </NavigationGroup>
+
+//         <ControlsGroup>
+//           <ThemeToggle onClick={toggleTheme} disabled={isTransitioning}>
+//             {isDarkTheme ? <FiSun /> : <FiMoon />}
+//           </ThemeToggle>
+
+//           <MobileMenuButton
+//             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+//             disabled={isTransitioning}
+//           >
+//             {isMobileMenuOpen ? <FiX /> : <FiMenu />}
+//           </MobileMenuButton>
+//         </ControlsGroup>
+
+//         {isMobileMenuOpen && (
+//           <MobileMenu>
+//             {[...leftMenuItems, ...rightMenuItems].map(renderMenuItem)}
+//           </MobileMenu>
+//         )}
+//       </NavbarContainer>
+//     </>
+//   );
+// };
+
+// export default Navbar;

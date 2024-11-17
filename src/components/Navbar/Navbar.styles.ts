@@ -1,19 +1,40 @@
 // src/components/Navbar/Navbar.styles.ts
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
+
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`;
 
 export const NavbarContainer = styled.nav`
-  height: ${({ theme }) => theme.sizes.navHeight};
-  background: ${({ theme }) => theme.colors.navBackground};
-  position: fixed;
-  width: 100%;
-  top: 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between; // Changed to space-between for main container
-  padding: 0 1rem;
-  z-index: 1000;
-  backdrop-filter: blur(5px);
-  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.1);
+   position: fixed;
+   top: 0;
+   left: 0;
+   right: 0;
+   height: ${({ theme }) => theme.sizes.navHeight};
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   padding: 0 24px;
+   background-color: ${({ theme }) => theme.colors.navBackground};
+   z-index: 1000;
+   box-shadow: 0 4px 18px rgba(0, 0, 0, 0.1);
+//   height: ${({ theme }) => theme.sizes.navHeight};
+//   background: ${({ theme }) => theme.colors.navBackground};
+//   position: fixed;
+//   width: 100%;
+//   top: 0;
+//   display: flex;
+//   align-items: center;
+//   justify-content: space-between; // Changed to space-between for main container
+//   padding: 0 1rem;
+//   z-index: 1000;
+//   backdrop-filter: blur(5px);
+//   box-shadow: 0 4px 18px rgba(0, 0, 0, 0.1);
 `;
 
 export const NavigationGroup = styled.div`
@@ -28,37 +49,65 @@ export const ControlsGroup = styled.div`
   display: flex;
   align-items: center;
   gap: 1rem;
-  margin-left: 1rem; // Space between navigation and controls
+//   margin-left: 1rem; // Space between navigation and controls
 `;
 
-// image logo
+export const LogoButton = styled.button`
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.3s ease;
+
+  &:hover {
+    opacity: 0.8;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+   img {
+      height: 100px; // Adjust this value based on your needs
+      width: auto;
+      object-fit: contain;
+      position: relative;
+      top: 10px;
+   }
+`;
+
+export const FadeOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: ${({ theme }) => theme.colors.background};
+  z-index: 9999;
+  animation: ${fadeIn} 0.5s ease-in forwards;
+`;
+
 export const Logo = styled.div`
   display: flex;
   align-items: center;
-  margin: 0 1rem;
-
-  a {
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-  }
-
-  img {
-    height: 100px; // Adjust this value based on your needs
-    width: auto;
-    object-fit: contain;
-    position: relative;
-   top: 10px;
-  }
+  justify-content: center;
+  padding: 0 20px;
 `;
 
+
 export const MenuItems = styled.ul`
-  display: flex;
-  list-style: none;
-  gap: 1rem;
-  align-items: center;
-  padding: 0;
-  margin: 0;
+   display: flex;
+   gap: 20px;
+//   display: flex;
+//   list-style: none;
+//   gap: 1rem;
+//   align-items: center;
+//   padding: 0;
+//   margin: 0;
 
   @media (max-width: 768px) {
     display: none;
@@ -88,6 +137,16 @@ export const ThemeToggle = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: opacity 0.3s ease;
+
+  &:hover {
+    opacity: 0.7;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
 `;
 
 export const MobileMenuButton = styled.button`
@@ -96,10 +155,17 @@ export const MobileMenuButton = styled.button`
   border: none;
   cursor: pointer;
   color: ${({ theme }) => theme.colors.text};
-  font-size: 1.5rem;
+  padding: 8px;
 
   @media (max-width: 768px) {
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
   }
 `;
 
@@ -108,15 +174,15 @@ export const MobileMenu = styled.div`
   top: ${({ theme }) => theme.sizes.navHeight};
   left: 0;
   right: 0;
-  background: ${({ theme }) => theme.colors.navBackground};
-  padding: 1rem;
+  background-color: ${({ theme }) => theme.colors.navBackground};
+  padding: 20px;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  backdrop-filter: blur(5px);
+  gap: 16px;
+  z-index: 999;
 
-  @media (min-width: 769px) {
-    display: none;
+  ${MenuItem} {
+    text-align: center;
   }
 `;
 
