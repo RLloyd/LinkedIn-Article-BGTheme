@@ -1,5 +1,5 @@
 // src/components/ImageTest.tsx
-import React from 'react';
+// import React from 'react';
 import styled from 'styled-components';
 import lightBg from '../assets/gradatedBackground.webp';
 import darkBg from '../assets/gradatedBackground-dark.webp';

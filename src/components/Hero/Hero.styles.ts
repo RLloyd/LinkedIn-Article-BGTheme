@@ -1,28 +1,28 @@
 import styled from 'styled-components';
-// import { motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 
-// export const SlideWrapper = styled(motion.div)`
-//   position: absolute;
-//   top: 0;
-//   left: 0;
-//   right: 0;
-//   bottom: 0;
-//   display: flex;
-//   width: 100%;
-//   height: 100%;
-//   background: ${({ theme }) => theme.colors.heroGradient};
-// `;
+export const SlideWrapper = styled(motion.div)`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  background: ${({ theme }) => theme.colors.heroGradient};
+`;
 
-// export const HeroContainer = styled.section`
 //   max-width: ${({ theme }) => theme.sizes.maxWidth};
 //   height: ${({ theme }) => theme.sizes.heroHeight};
-//   margin: 0 auto;
-//   margin-top: ${({ theme }) => theme.sizes.navHeight};
-//   position: relative;
-//   overflow: hidden;
-//   border-radius: 20px;
-//   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-// `;
+export const HeroContainer = styled.section`
+  margin: 0 auto;
+  margin-top: ${({ theme }) => theme.sizes.navHeight};
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+`;
 
 export const ContentSide = styled.div`
   flex: 1;

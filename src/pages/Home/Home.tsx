@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { fetchData, AppData } from "@data/mockData";
-import { HomeContainer, ImageDiv, TextDiv } from "./Home.styles";
+import { HomeContainer, ImageDiv } from "./Home.styles";
 import bonsai from "@/assets/bonsai.png";
 import AnimatedText from "@/components/Animations/AnimatedText";
 

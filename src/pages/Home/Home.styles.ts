@@ -12,8 +12,8 @@ export const HomeContainer = styled.div`
 //   border: 10px solid red; /* DEBUG: Remove after layout confirmation */
 `;
 
+//   max-width: ${({ theme }) => theme.sizes.maxWidth};
 export const CardsSection = styled.section`
-  max-width: ${({ theme }) => theme.sizes.maxWidth};
   margin: 20px auto;
   padding: 2rem 0;
   display: flex;
