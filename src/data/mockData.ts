@@ -8,7 +8,8 @@ export const navigationData: NavigationData = {
    },
    menuItems: {
       left: [
-         { label: 'Home', path: 'https://www.rlloydgonzales.com', isExternal: true },
+         // { label: 'Home', path: 'https://www.rlloydgonzales.com', isExternal: true },
+         { label: 'Home', path: 'https://gd-article-bgtheme.netlify.app/', isExternal: true },
          { label: 'MediaMash Studio', path: '/mediamash-studio' },
          { label: 'DigitalOne', path: '/digitalone' }
        ],
