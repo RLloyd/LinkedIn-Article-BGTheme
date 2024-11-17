@@ -8,16 +8,12 @@ declare module 'styled-components' {
       background: string;
       text: string;
       navBackground: string;
-      cardGradient: string;
-      heroGradient: string;
       textSecondary: string;
       border: string;
-      secondary: string;
+      error: string;
     };
     sizes: {
       navHeight: string;
-      // heroHeight: string;
-      // maxWidth: string;
     };
     backgroundColor: string;
     backgroundBlendMode: string;
