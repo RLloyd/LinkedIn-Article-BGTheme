@@ -1,21 +1,52 @@
+// src/data/mockData.ts
 import logo from '@/assets/GD-Fusion-logo.png';
-import { NavigationData } from '../types/navigation';
 
-export const navigationData: NavigationData = {
-   logo: {
-      image: logo,
-      alt: 'GonzalesDesign Fusion Logo'
-   },
-   menuItems: {
-      left: [
-         { label: 'Home', path: 'https://www.rlloydgonzales.com', isExternal: true },
-         { label: 'MediaMash Studio', path: '/mediamash-studio' },
-         { label: 'DigitalOne', path: '/digitalone' }
-       ],
-       right: [
-         { label: 'Zenmonics', path: '/zenmonics' },
-         { label: 'Styleguide', path: '/styleguide' },
-         { label: 'Profile', path: '/profile' }
-       ]
-   }
+const URLS = {
+  portfolioSite: 'https://www.rlloydgonzales.com',
+  articleSite: 'https://gd-article-bgtheme.netlify.app/'
+} as const;
+
+export const navigationData = {
+  logo: {
+    image: logo,
+    alt: 'GonzalesDesign Fusion Logo',
+    path: URLS.articleSite
+  },
+  menuItems: {
+    left: [
+      { label: 'Home', path: URLS.portfolioSite, isExternal: true },
+      { label: 'MediaMash Studio', path: '/mediamash-studio' },
+      { label: 'DigitalOne', path: '/digitalone' }
+    ],
+    right: [
+      { label: 'Zenmonics', path: '/zenmonics' },
+      { label: 'Styleguide', path: '/styleguide' },
+      { label: 'Profile', path: '/profile' }
+    ]
+  }
 };
+
+export { URLS };
+
+// import logo from '@/assets/GD-Fusion-logo.png';
+// import { NavigationData } from '../types/navigation';
+
+// export const navigationData: NavigationData = {
+//    logo: {
+//       image: logo,
+//       alt: 'GonzalesDesign Fusion Logo'
+//    },
+//    menuItems: {
+//       left: [
+//          // { label: 'Home', path: 'https://www.rlloydgonzales.com', isExternal: true },
+//          { label: 'Home', path: 'https://gd-article-bgtheme.netlify.app/', isExternal: true },
+//          { label: 'MediaMash Studio', path: '/mediamash-studio' },
+//          { label: 'DigitalOne', path: '/digitalone' }
+//        ],
+//        right: [
+//          { label: 'Zenmonics', path: '/zenmonics' },
+//          { label: 'Styleguide', path: '/styleguide' },
+//          { label: 'Profile', path: '/profile' }
+//        ]
+//    }
+// };
