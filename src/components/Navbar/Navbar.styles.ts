@@ -102,8 +102,8 @@ export const Logo = styled.div`
 export const MenuItems = styled.ul`
    display: flex;
    gap: 20px;
+   list-style: none;
 //   display: flex;
-//   list-style: none;
 //   gap: 1rem;
 //   align-items: center;
 //   padding: 0;
