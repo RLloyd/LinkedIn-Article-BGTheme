@@ -3,6 +3,7 @@ export interface NavigationItem {
    label: string;
    path: string;
    isExternal?: boolean;
+   openInWindow?: boolean; // New property
  }
 
  export interface NavigationData {
