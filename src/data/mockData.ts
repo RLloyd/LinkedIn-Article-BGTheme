@@ -24,12 +24,12 @@ export const navigationData = {
       { label: 'Zenmonics', path: '/zenmonics' },
       { label: 'Styleguide', path: '/styleguide' },
       { label: 'Profile', path: '/profile' },
-      {
+      // {
       //   label: 'Sample page',
       //   path: URLS.samplePage,
       //   isExternal: true,
       //   openInWindow: true // New flag to indicate window opening behavior
-      }
+      // }
     ]
   }
 };
