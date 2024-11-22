@@ -8,10 +8,12 @@ import { ThemeMode } from '@/styles/theme';
 const Container = styled.div`
   position: relative;
   width: 100%;
+  height: 100%;
   min-height: 200px;
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: transparent;
 `;
 
 const LoaderOverlay = styled(motion.div)<{ $mode: ThemeMode }>`
@@ -20,7 +22,7 @@ const LoaderOverlay = styled(motion.div)<{ $mode: ThemeMode }>`
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: ${({ theme, $mode }) =>
+  background-color: ${({ $mode }) =>
     $mode === 'light' ? 'rgba(255, 255, 255, 0.9)' : 'rgba(0, 0, 0, 0.9)'};
   display: flex;
   flex-direction: column;
@@ -31,29 +33,31 @@ const LoaderOverlay = styled(motion.div)<{ $mode: ThemeMode }>`
 
 const LoadingText = styled.div<{ $mode: ThemeMode }>`
   font-size: 18px;
-  color: ${({ theme, $mode }) =>
-    $mode === 'light' ? theme.colors.text.light.primary : theme.colors.text.dark.primary};
+  color: ${({ $mode }) =>
+    $mode === 'light' ? '#333333' : '#FFFFFF'};
   margin-bottom: 1rem;
 `;
 
 const ProgressBar = styled(motion.div)`
   width: 200px;
   height: 4px;
-  background-color: ${({ theme }) => theme.colors.gray[200]};
+  background-color: #E5E7EB;
   border-radius: 2px;
   overflow: hidden;
 `;
 
 const ProgressFill = styled(motion.div)`
   height: 100%;
-  background-color: ${({ theme }) => theme.colors.primary[500]};
+  background-color: #3B82F6;
   border-radius: 2px;
 `;
 
 const StyledImage = styled(motion.img)`
   max-width: 100%;
+  width: 100%;
   height: auto;
   display: block;
+  object-fit: cover;
 `;
 
 interface ImageLoaderProps {
@@ -88,7 +92,6 @@ const ImageLoader: React.FC<ImageLoaderProps> = ({
     xhr.onload = () => {
       if (xhr.status === 200) {
         setProgress(100);
-        // Small delay to show 100% progress
         setTimeout(() => setIsLoading(false), 300);
       } else {
         setHasError(true);

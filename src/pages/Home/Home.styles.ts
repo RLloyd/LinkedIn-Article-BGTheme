@@ -3,13 +3,14 @@
 import styled from 'styled-components';
 
 export const HomeContainer = styled.div`
-//   background-color: ${({ theme }) => theme.colors.background.light};
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
   padding-top: ${({ theme }) => theme.sizes.navHeight};
+  background: transparent;
+  position: relative;
 `;
 
 export const ImageDiv = styled.div`
@@ -22,4 +23,5 @@ export const ImageDiv = styled.div`
   margin: 0 auto;
   overflow: hidden;
   border-radius: 1rem;
+  background: transparent;
 `;
