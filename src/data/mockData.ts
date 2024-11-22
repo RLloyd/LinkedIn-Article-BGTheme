@@ -17,7 +17,7 @@ export const navigationData = {
   menuItems: {
     left: [
       { label: 'Home', path: URLS.portfolioSite, isExternal: true },
-      { label: 'MashMedia Studio', path: '/mediamash-studio' },
+      { label: 'MashMedia Studio', path: '/mashmedia' },
       { label: 'DigitalOne', path: '/digitalone' }
     ],
     right: [

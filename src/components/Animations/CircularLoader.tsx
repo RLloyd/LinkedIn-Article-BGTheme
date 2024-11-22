@@ -168,6 +168,7 @@ const ImageLoader: React.FC<ImageLoaderProps> = ({ src, alt, className }) => {
 					</LoaderContainer>
 				)}
 			</AnimatePresence>
+
 		</Container>
 	);
 };
