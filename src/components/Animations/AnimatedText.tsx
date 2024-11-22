@@ -12,6 +12,7 @@ const AnimatedTextDiv = styled(motion.div)`
   position: fixed;
   width: 100%;
   transition: color 2s ease;
+  z-index: 100;
 
   @media (max-width: 768px) {
     font-size: 22vw;

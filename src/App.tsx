@@ -7,8 +7,9 @@ import { GlobalStyles } from '@/styles/GlobalStyles';
 import Background from '@/components/Background';
 import Navbar from '@/components/Navbar';
 import MashMediaStudio from './pages/MashMediaStudio/MashMediaStudio';
-// import Home from '@/pages/Home';
-import { Loader } from 'lucide-react';
+// import Loader from './pages/Loader/Loader';
+import Home from '@/pages/Home';
+// import { Loader } from 'lucide-react';
 
 const App: React.FC = () => {
   const [isDarkTheme, setIsDarkTheme] = useState(false);
@@ -25,8 +26,8 @@ const App: React.FC = () => {
       <Router>
         <Navbar toggleTheme={toggleTheme} isDarkTheme={isDarkTheme} />
         <Routes>
-          {/* <Route path="/"                 element={<Home/>} /> */}
-          <Route path="/"                 element={<Loader/>} />
+          <Route path="/"                 element={<Home/>} />
+          {/* <Route path="/"                 element={<Loader/>} /> */}
           {/* <Route path="/BulkLoading"      element={<div>MediaMash Studio</div>} /> */}
           <Route path="/mashmedia"        element={<MashMediaStudio />} />
           <Route path="/digitalone"       element={<div>DigitalOne</div>} />
