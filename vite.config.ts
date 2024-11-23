@@ -9,6 +9,7 @@ export default defineConfig({
             plugins: [
                [
                   "babel-plugin-styled-components",
+                  'styled-components',
                   {
                      displayName: true,
                      fileName: true,

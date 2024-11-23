@@ -146,7 +146,7 @@ This is a binary file of the type: Image
 # public/component-description.md
 
 ```md
-<!-- src/components/Animations/ImageLoader.tsx | Loading & Audio: 11.23.2024•A -->
+<!-- src/components/Animations/ImageLoader.tsx | Loading & Audio & Replaced Poem : 11.23.2024•B -->
 
 This is a React functional component named `ImageLoader`. It appears to be a complex animation component that loads an image, plays a whale sound, and displays a poem. Here's a succinct breakdown of its functionality:
 
@@ -161,7 +161,10 @@ This is a React functional component named `ImageLoader`. It appears to be a com
 4. **Manual Play Button**: The component also includes a play button that allows the user to manually play the whale sound.
 5. **Error Handling**: If there's an error loading the image or playing the sound, the component displays an error message.
 
-Overall, this component seems to be designed to create an immersive experience with a loading animation, a poem, and a whale sound.
+The component uses several state variables to manage its behavior, including `isLoading`, `progress`, `showPoem`, `startSlideAnimation`, `hasError`, and `isPlaying`. It also uses several refs to store references to audio elements and nodes.
+
+
+
 ```
 
 # public/Notes/Create folder structures.txt
@@ -1290,6 +1293,8 @@ export default BulkImageLoader;
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import styled from "styled-components";
+import AudioPlayer from "../Sound/AudioPlayer";
+import whaleSound from "@/assets/sounds/whale-call-2.wav";
 
 const Container = styled.div`
 	position: relative;
@@ -1299,7 +1304,7 @@ const Container = styled.div`
 	display: flex;
 	justify-content: center;
 	align-items: center;
-   // border: 1px solid yellowgreen;
+	// border: 1px solid yellowgreen;
 `;
 
 const LoaderContainer = styled.div`
@@ -1310,7 +1315,7 @@ const LoaderContainer = styled.div`
 	align-items: center;
 	width: 200px;
 	height: 200px;
-   // border: 1px solid red;
+	// border: 1px solid red;
 `;
 
 const CircularSVG = styled.div`
@@ -1323,7 +1328,7 @@ const CircularSVG = styled.div`
 	display: flex;
 	justify-content: center;
 	align-items: center;
-   // border: 1px solid cyan;
+	// border: 1px solid cyan;
 `;
 
 const Image = styled.img`
@@ -1344,13 +1349,13 @@ const CounterContainer = styled.div`
 	line-height: 1;
 	position: relative;
 	z-index: 101;
-   // border: 1px solid blue;
+	// border: 1px solid blue;
 `;
 
 const LoadingText = styled.p`
-	font-size: .6rem;
+	font-size: 0.6rem;
 	margin: 0;
-	color: #3F1F0B;
+	color: #3f1f0b;
 `;
 
 const CountdownText = styled.div`
@@ -1359,7 +1364,7 @@ const CountdownText = styled.div`
 	gap: 4px;
 	font-size: 2rem;
 	margin: 0;
-	color: #3F1F0B;
+	color: #3f1f0b;
 `;
 
 interface ImageLoaderProps {
@@ -1368,8 +1373,7 @@ interface ImageLoaderProps {
 	className?: string;
 }
 
-
-const ImageLoader: React.FC<ImageLoaderProps> = ({ src, alt, className }) => {
+const CircularLoader: React.FC<ImageLoaderProps> = ({ src, alt, className }) => {
 	const [loading, setLoading] = useState(true);
 	const [progress, setProgress] = useState(0);
 	const easing = [0.35, 0.27, 0.3, 0.83];
@@ -1409,7 +1413,6 @@ const ImageLoader: React.FC<ImageLoaderProps> = ({ src, alt, className }) => {
 	return (
 		<Container>
 			<Image src={src} alt={alt} className={`${className} ${!loading ? "loaded" : ""}`} />
-
 			<AnimatePresence>
 				{loading && (
 					<LoaderContainer>
@@ -1423,11 +1426,7 @@ const ImageLoader: React.FC<ImageLoaderProps> = ({ src, alt, className }) => {
 
 						<CircularSVG>
 							<motion.svg width="314" height="314" viewBox="0 0 314 314" fill="none" xmlns="http://www.w3.org/2000/svg">
-								<motion.path
-                           initial={{ rotate: 0 }}
-                           animate={{ rotate: 720 }}
-                           transition={{ duration: animationDuration, ease: easing, repeat: Infinity }}
-                           fill-rule="evenodd" clip-rule="evenodd" d="M156.699 33.1997C88.4921 33.1997 33.1992 88.4925 33.1992 156.7C33.1992 224.907 88.4921 280.2 156.699 280.2C224.906 280.2 280.199 224.907 280.199 156.7C280.199 88.4925 224.906 33.1997 156.699 33.1997ZM31.1992 156.7C31.1992 87.388 87.3875 31.1997 156.699 31.1997C226.011 31.1997 282.199 87.388 282.199 156.7C282.199 226.011 226.011 282.2 156.699 282.2C87.3875 282.2 31.1992 226.011 31.1992 156.7Z" fill="#85aab6" />
+								<motion.path initial={{ rotate: 0 }} animate={{ rotate: 720 }} transition={{ duration: animationDuration, ease: easing, repeat: Infinity }} fill-rule="evenodd" clip-rule="evenodd" d="M156.699 33.1997C88.4921 33.1997 33.1992 88.4925 33.1992 156.7C33.1992 224.907 88.4921 280.2 156.699 280.2C224.906 280.2 280.199 224.907 280.199 156.7C280.199 88.4925 224.906 33.1997 156.699 33.1997ZM31.1992 156.7C31.1992 87.388 87.3875 31.1997 156.699 31.1997C226.011 31.1997 282.199 87.388 282.199 156.7C282.199 226.011 226.011 282.2 156.699 282.2C87.3875 282.2 31.1992 226.011 31.1992 156.7Z" fill="#85aab6" />
 								<motion.path
 									initial={{ rotate: 0 }}
 									animate={{ rotate: 60 }}
@@ -1452,18 +1451,32 @@ const ImageLoader: React.FC<ImageLoaderProps> = ({ src, alt, className }) => {
 								<motion.path initial={{ rotate: 0 }} animate={{ rotate: 360 }} transition={{ duration: animationDuration, ease: easing, repeat: Infinity }} fill-rule="evenodd" clip-rule="evenodd" d="M156.7 95.2993C138.384 95.2993 121.907 103.312 110.707 116.059L101.692 108.139C115.092 92.8871 134.816 83.2993 156.7 83.2993C197.214 83.2993 230.1 116.186 230.1 156.699C230.1 197.213 197.214 230.099 156.7 230.099C116.186 230.099 83.2998 197.213 83.2998 156.699H95.2998C95.2998 190.586 122.814 218.099 156.7 218.099C190.586 218.099 218.1 190.586 218.1 156.699C218.1 122.813 190.586 95.2993 156.7 95.2993Z" fill="#ff6a00" />
 								<motion.path initial={{ rotate: 0 }} animate={{ rotate: -260 }} transition={{ duration: animationDuration, ease: easing, repeat: Infinity }} fill-rule="evenodd" clip-rule="evenodd" d="M166.383 101.654C136.009 96.339 106.97 116.654 101.655 147.014C98.807 163.443 103.365 179.476 113.039 191.521L108.361 195.278C97.6353 181.924 92.593 164.157 95.7439 145.987L95.7447 145.982C101.631 112.344 133.791 89.8598 167.417 95.7442C201.055 101.631 223.539 133.791 217.655 167.416C211.768 201.055 179.608 223.539 145.983 217.654L147.017 211.744C177.391 217.06 206.431 196.744 211.745 166.382C217.06 136.008 196.744 106.968 166.383 101.654Z" fill="#bad2d9" />
 							</motion.svg>
-
 						</CircularSVG>
 					</LoaderContainer>
 				)}
 			</AnimatePresence>
 
+         {/* Basic usage */}
+			{/* <AudioPlayer audioSrc={whaleSound} /> */}
+
+         {/* Advanced usage */}
+         <AudioPlayer
+            audioSrc={whaleSound}
+            autoPlayDelay={1000}
+            initialVolume={0.5}
+            fadeInDuration={2}
+            onPlayStart={() => console.log('Started playing')}
+            onPlayEnd={() => console.log('Finished playing')}
+            onError={(error) => console.error('Audio error:', error)}
+            controls={true}
+            className="custom-audio-player"
+         />
+
 		</Container>
 	);
 };
 
-export default ImageLoader;
-
+export default CircularLoader;
 
 ```
 
@@ -1715,7 +1728,7 @@ export default ImageLoader;
 # src/components/Animations/ImageLoader.tsx
 
 ```tsx
-// src/components/Animations/ImageLoader.tsx | Loading & Audio: 11.23.2024•A
+// src/components/Animations/ImageLoader.tsx | Loading & Audio & Replaced Poem : 11.23.2024•B
 
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -1724,339 +1737,324 @@ import { ThemeMode } from "@/styles/theme";
 import whaleSound from "@/assets/sounds/whale-call-2.wav";
 
 const Container = styled.div`
-  position: relative;
-  width: 100%;
-  height: 100%;
-  min-height: 200px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: transparent;
+	position: relative;
+	width: 100%;
+	height: 100%;
+	min-height: 200px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: transparent;
 `;
 
 const LoaderOverlay = styled(motion.div)<{ $mode: ThemeMode }>`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: ${({ $mode }) => ($mode === "light" ? "rgba(255, 255, 255, 0.9)" : "rgba(0, 0, 0, 0.9)")};
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  z-index: 10;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: ${({ $mode }) => ($mode === "light" ? "rgba(255, 255, 255, 0.9)" : "rgba(0, 0, 0, 0.9)")};
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	z-index: 10;
 `;
 
 const StyledImage = styled(motion.img)`
-  max-width: 100%;
-  width: 100%;
-  height: 50%;
-  display: block;
-  object-fit: cover;
-  position: relative;
-  border-radius: 2rem;
-  border: 6px solid yellow;
+	max-width: 100%;
+	width: 100%;
+	height: 50%;
+	display: block;
+	object-fit: cover;
+	position: relative;
+	border-radius: 2rem;
+	border: 6px solid yellow;
 `;
 
 const PoemOverlay = styled(motion.div)`
-  position: absolute;
-  width: 90%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background: rgba(0, 0, 0, 0.5);
-  color: white;
-  padding: 2rem;
-  text-align: center;
-  pointer-events: none;
+	position: absolute;
+	width: 90%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	background: rgba(0, 0, 0, 0.5);
+	color: white;
+	padding: 2rem;
+	text-align: center;
+	pointer-events: none;
 `;
 
 const PoemTitle = styled.h2`
-  font-size: 4rem;
-  margin-bottom: 1rem;
-  font-family: "Libre Baskerville", serif;
+	font-size: 4rem;
+	margin-bottom: 1rem;
+	font-family: "Libre Baskerville", serif;
 `;
 
 const PoemText = styled.p`
-  font-size: 2rem;
-  line-height: 1.6;
-  font-family: "Libre Baskerville", serif;
-  font-style: italic;
+	font-size: 2rem;
+	line-height: 1.6;
+	font-family: "Libre Baskerville", serif;
+	font-style: italic;
 `;
 
 const ContentWrapper = styled(motion.div)`
-  position: relative;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+	position: relative;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 `;
 
 const PlayButton = styled.button`
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  padding: 12px 24px;
-  background: rgba(0, 0, 0, 0.7);
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 1rem;
-  z-index: 1000;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  transition: background-color 0.3s ease;
+	position: fixed;
+	bottom: 20px;
+	right: 20px;
+	padding: 12px 24px;
+	background: rgba(0, 0, 0, 0.7);
+	color: white;
+	border: none;
+	border-radius: 8px;
+	cursor: pointer;
+	font-size: 1rem;
+	z-index: 1000;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	transition: background-color 0.3s ease;
 
-  &:hover {
-    background: rgba(0, 0, 0, 0.9);
-  }
+	&:hover {
+		background: rgba(0, 0, 0, 0.9);
+	}
 
-  &:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
+	&:disabled {
+		opacity: 0.5;
+		cursor: not-allowed;
+	}
 `;
 
 interface ImageLoaderProps {
-   src: string;
-   alt: string;
-   mode?: ThemeMode;
-   className?: string;
- }
+	src: string;
+	alt: string;
+	mode?: ThemeMode;
+	className?: string;
+}
 
- const ImageLoader: React.FC<ImageLoaderProps> = ({
-   src,
-   alt,
-   mode = "light",
-   className
- }) => {
-   const [isLoading, setIsLoading] = useState(true);
-   const [progress, setProgress] = useState(0);
-   const [showPoem, setShowPoem] = useState(false);
-   const [startSlideAnimation, setStartSlideAnimation] = useState(false);
-   const [hasError, setHasError] = useState(false);
-   const [isPlaying, setIsPlaying] = useState(false);
+const ImageLoader: React.FC<ImageLoaderProps> = ({ src, alt, mode = "light", className }) => {
+	const [isLoading, setIsLoading] = useState(true);
+	const [progress, setProgress] = useState(0);
+	const [showPoem, setShowPoem] = useState(false);
+	const [startSlideAnimation, setStartSlideAnimation] = useState(false);
+	const [hasError, setHasError] = useState(false);
+	const [isPlaying, setIsPlaying] = useState(false);
 
-   const audioRef = useRef<HTMLAudioElement | null>(null);
-   const audioContextRef = useRef<AudioContext | null>(null);
-   const sourceRef = useRef<AudioBufferSourceNode | null>(null);
-   const gainNodeRef = useRef<GainNode | null>(null);
-   const [audioBuffer, setAudioBuffer] = useState<AudioBuffer | null>(null);
 
-   // Initialize WebAudio context
-   useEffect(() => {
-     const initAudioContext = async () => {
-       try {
-         const AudioContext = window.AudioContext || window.webkitAudioContext;
-         audioContextRef.current = new AudioContext();
+	// const audioRef = useRef<HTMLAudioElement | null>(null);
+	const audioContextRef = useRef<AudioContext | null>(null);
+	const sourceRef = useRef<AudioBufferSourceNode | null>(null);
+	const gainNodeRef = useRef<GainNode | null>(null);
+	const [audioBuffer, setAudioBuffer] = useState<AudioBuffer | null>(null);
 
-         // Fetch and decode audio file
-         const response = await fetch(whaleSound);
-         const arrayBuffer = await response.arrayBuffer();
-         const decodedBuffer = await audioContextRef.current.decodeAudioData(arrayBuffer);
-         setAudioBuffer(decodedBuffer);
+	// Initialize WebAudio context
+	useEffect(() => {
+		const initAudioContext = async () => {
+			try {
+				const AudioContext = window.AudioContext || window.webkitAudioContext;
+				audioContextRef.current = new AudioContext();
 
-         // Create gain node
-         gainNodeRef.current = audioContextRef.current.createGain();
-         gainNodeRef.current.connect(audioContextRef.current.destination);
-         gainNodeRef.current.gain.value = 0;
-       } catch (error) {
-         console.error("Audio initialization error:", error);
-       }
-     };
+				// Fetch and decode audio file
+				const response = await fetch(whaleSound);
+				const arrayBuffer = await response.arrayBuffer();
+				const decodedBuffer = await audioContextRef.current.decodeAudioData(arrayBuffer);
+				setAudioBuffer(decodedBuffer);
 
-     initAudioContext();
+				// Create gain node
+				gainNodeRef.current = audioContextRef.current.createGain();
+				gainNodeRef.current.connect(audioContextRef.current.destination);
+				gainNodeRef.current.gain.value = 0;
+			} catch (error) {
+				console.error("Audio initialization error:", error);
+			}
+		};
 
-     return () => {
-       if (audioContextRef.current) {
-         audioContextRef.current.close();
-       }
-     };
-   }, []);
+		initAudioContext();
 
-   const playSound = useCallback(async (isAutoplay = false) => {
-     if (!audioContextRef.current || !audioBuffer || !gainNodeRef.current) return;
+		return () => {
+			if (audioContextRef.current) {
+				audioContextRef.current.close();
+			}
+		};
+	}, []);
 
-     try {
-       // Resume context if suspended
-       if (audioContextRef.current.state === 'suspended') {
-         await audioContextRef.current.resume();
-       }
+	const playSound = useCallback(
+		async (isAutoplay = false) => {
+			if (!audioContextRef.current || !audioBuffer || !gainNodeRef.current) return;
 
-       // Stop any currently playing sound
-       if (sourceRef.current) {
-         sourceRef.current.stop();
-         sourceRef.current.disconnect();
-       }
+			try {
+				// Resume context if suspended
+				if (audioContextRef.current.state === "suspended") {
+					await audioContextRef.current.resume();
+				}
 
-       // Create and configure new source
-       sourceRef.current = audioContextRef.current.createBufferSource();
-       sourceRef.current.buffer = audioBuffer;
-       sourceRef.current.connect(gainNodeRef.current);
+				// Stop any currently playing sound
+				if (sourceRef.current) {
+					sourceRef.current.stop();
+					sourceRef.current.disconnect();
+				}
 
-       // Reset gain and start fade in
-       gainNodeRef.current.gain.setValueAtTime(0, audioContextRef.current.currentTime);
-       gainNodeRef.current.gain.linearRampToValueAtTime(
-         0.3,
-         audioContextRef.current.currentTime + 1
-       );
+				// Create and configure new source
+				sourceRef.current = audioContextRef.current.createBufferSource();
+				sourceRef.current.buffer = audioBuffer;
+				sourceRef.current.connect(gainNodeRef.current);
 
-       // Start playback
-       sourceRef.current.start();
-       setIsPlaying(true);
+				// Reset gain and start fade in
+				gainNodeRef.current.gain.setValueAtTime(0, audioContextRef.current.currentTime);
+				gainNodeRef.current.gain.linearRampToValueAtTime(0.3, audioContextRef.current.currentTime + 1);
 
-       // Handle ending
-       sourceRef.current.onended = () => {
-         setIsPlaying(false);
-       };
+				// Start playback
+				sourceRef.current.start();
+				setIsPlaying(true);
 
-     } catch (error) {
-       console.error("Playback failed:", error);
-       setIsPlaying(false);
-     }
-   }, [audioBuffer]);
+				// Handle ending
+				sourceRef.current.onended = () => {
+					setIsPlaying(false);
+				};
+			} catch (error) {
+				console.error("Playback failed:", error);
+				setIsPlaying(false);
+			}
+		},
+		[audioBuffer]
+	);
 
-   // Initialize animation and try autoplay
-   useEffect(() => {
-     const xhr = new XMLHttpRequest();
-     xhr.open("GET", src, true);
-     xhr.responseType = "blob";
+	// Initialize animation and try autoplay
+	useEffect(() => {
+		const xhr = new XMLHttpRequest();
+		xhr.open("GET", src, true);
+		xhr.responseType = "blob";
 
-     xhr.onprogress = (event) => {
-       if (event.lengthComputable) {
-         const percentComplete = (event.loaded / event.total) * 100;
-         setProgress(Math.round(percentComplete));
-       }
-     };
+		xhr.onprogress = (event) => {
+			if (event.lengthComputable) {
+				const percentComplete = (event.loaded / event.total) * 100;
+				setProgress(Math.round(percentComplete));
+			}
+		};
 
-     xhr.onload = () => {
-       if (xhr.status === 200) {
-         setProgress(100);
-         const runAnimationSequence = async () => {
-           setIsLoading(false);
+		xhr.onload = () => {
+			if (xhr.status === 200) {
+				setProgress(100);
+				const runAnimationSequence = async () => {
+					setIsLoading(false);
 
-           await new Promise(resolve => setTimeout(resolve, 500));
-           setShowPoem(true);
+					await new Promise((resolve) => setTimeout(resolve, 500));
+					setShowPoem(true);
 
-           await new Promise(resolve => setTimeout(resolve, 1000));
-           setStartSlideAnimation(true);
+					await new Promise((resolve) => setTimeout(resolve, 1000));
+					setStartSlideAnimation(true);
 
-           // Attempt to play sound after animation
-           await new Promise(resolve => setTimeout(resolve, 800));
+					// Attempt to play sound after animation
+					await new Promise((resolve) => setTimeout(resolve, 800));
 
-           // Create a temporary button and simulate click
-           const tempButton = document.createElement('button');
-           tempButton.style.display = 'none';
-           document.body.appendChild(tempButton);
-           tempButton.addEventListener('click', () => {
-             playSound(true);
-             tempButton.remove();
-           });
-           tempButton.click();
-         };
+					// Create a temporary button and simulate click
+					const tempButton = document.createElement("button");
+					tempButton.style.display = "none";
+					document.body.appendChild(tempButton);
+					tempButton.addEventListener("click", () => {
+						playSound(true);
+						tempButton.remove();
+					});
+					tempButton.click();
+				};
 
-         runAnimationSequence();
-       } else {
-         setHasError(true);
-       }
-     };
+				runAnimationSequence();
+			} else {
+				setHasError(true);
+			}
+		};
 
-     xhr.onerror = () => {
-       setHasError(true);
-     };
+		xhr.onerror = () => {
+			setHasError(true);
+		};
 
-     xhr.send();
+		xhr.send();
 
-     return () => {
-       xhr.abort();
-       if (sourceRef.current) {
-         sourceRef.current.stop();
-       }
-     };
-   }, [src, playSound]);
+		return () => {
+			xhr.abort();
+			if (sourceRef.current) {
+				sourceRef.current.stop();
+			}
+		};
+	}, [src, playSound]);
 
-   // Handle manual play button click
-   const handlePlayClick = () => {
-     playSound(false);
-   };
+	// Handle manual play button click
+	const handlePlayClick = () => {
+		playSound(false);
+	};
 
-   if (hasError) {
-     return <div>Error loading image</div>;
-   }
+	if (hasError) {
+		return <div>Error loading image</div>;
+	}
 
-   return (
-     <Container className={className}>
-       <ContentWrapper>
-         <StyledImage
-           src={src}
-           alt={alt}
-           initial={{ opacity: 0, y: 0 }}
-           animate={{
-             opacity: isLoading ? 0 : 1,
-             y: startSlideAnimation ? -210 : 0
-           }}
-           transition={{
-             opacity: { duration: 0.5 },
-             y: { duration: 1.2, ease: "easeOut" }
-           }}
-         />
+	return (
+		<Container className={className}>
+			<ContentWrapper>
+				<StyledImage
+					src={src}
+					alt={alt}
+					initial={{ opacity: 0, y: 0 }}
+					animate={{
+						opacity: isLoading ? 0 : 1,
+						y: startSlideAnimation ? -210 : 0,
+					}}
+					transition={{
+						opacity: { duration: 0.5 },
+						y: { duration: 1.2, ease: "easeOut" },
+					}}
+				/>
 
-         <AnimatePresence>
-           {showPoem && (
-             <PoemOverlay
-               initial={{ opacity: 0, y: 20 }}
-               animate={{
-                 opacity: 1,
-                 y: startSlideAnimation ? 150 : 20
-               }}
-               exit={{ opacity: 0, y: -20 }}
-               transition={{
-                 opacity: { duration: 0.8 },
-                 y: { duration: 1.2, ease: "easeOut" }
-               }}
-             >
-               <PoemTitle>The Gentle Giant</PoemTitle>
-               <PoemText>
-                 Beneath the waves, a shadow glides,<br />
-                 In ocean's depths, where mystery hides.<br />
-                 Graceful giant of the deep,<br />
-                 Ancient secrets does it keep.<br />
-                 <br />
-                 Through timeless waters, calm and free,<br />
-                 Nature's guardian of the sea.
-               </PoemText>
-             </PoemOverlay>
-           )}
-         </AnimatePresence>
-       </ContentWrapper>
+				<AnimatePresence>
+					{showPoem && (
+						<PoemOverlay
+							initial={{ opacity: 0, y: 20 }}
+							animate={{
+								opacity: 1,
+								y: startSlideAnimation ? 150 : 20,
+							}}
+							exit={{ opacity: 0, y: -20 }}
+							transition={{
+								opacity: { duration: 0.8 },
+								y: { duration: 1.2, ease: "easeOut" },
+							}}
+						>
+							<PoemTitle>Guiding Song</PoemTitle>
+							<PoemText>
+								Beneath the waves, a whale does sing,
+								<br />
+								Of minds that learn and dreams that spring.
+								<br />
+								Its hums weave tales of AI’s might,
+								<br />A guiding song in endless night.
+							</PoemText>
+						</PoemOverlay>
+					)}
+				</AnimatePresence>
+			</ContentWrapper>
 
-       <PlayButton
-         onClick={handlePlayClick}
-         disabled={isPlaying}
-       >
-         {isPlaying ? '🔊 Playing...' : '🔈 Play Whale Sound'}
-       </PlayButton>
+			<PlayButton onClick={handlePlayClick} disabled={isPlaying}>
+				{isPlaying ? "🔊 Playing..." : "🔈 Play Whale Sound"}
+			</PlayButton>
 
-       {isLoading && (
-         <LoaderOverlay
-           $mode={mode}
-           initial={{ opacity: 0 }}
-           animate={{ opacity: 1 }}
-           exit={{ opacity: 0 }}
-           transition={{ duration: 0.3 }}
-         >
-           <div>Loading... {progress}%</div>
-         </LoaderOverlay>
-       )}
-     </Container>
-   );
- };
+			{isLoading && (
+				<LoaderOverlay $mode={mode} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }}>
+					<div>Loading... {progress}%</div>
+				</LoaderOverlay>
+			)}
+		</Container>
+	);
+};
 
- export default ImageLoader;
+export default ImageLoader;
 
 ```
 
@@ -2577,6 +2575,232 @@ export default Navbar;
 
 ```
 
+# src/components/Sound/AudioPlayer.tsx
+
+```tsx
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import styled from 'styled-components';
+
+interface AudioPlayerProps {
+  audioSrc: string;
+  autoPlayDelay?: number;
+  initialVolume?: number;
+  fadeInDuration?: number;
+  onPlayStart?: () => void;
+  onPlayEnd?: () => void;
+  onError?: (error: Error) => void;
+  controls?: boolean;
+  className?: string;
+}
+
+
+const PlayButton = styled.button`
+	position: fixed;
+	bottom: 20px;
+	right: 20px;
+	padding: 12px 24px;
+	background: rgba(0, 0, 0, 0.7);
+	color: white;
+	border: none;
+	border-radius: 8px;
+	cursor: pointer;
+	font-size: 1rem;
+	z-index: 1000;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	transition: background-color 0.3s ease;
+
+	&:hover {
+		background: rgba(0, 0, 0, 0.9);
+	}
+
+	&:disabled {
+		opacity: 0.5;
+		cursor: not-allowed;
+	}
+`;
+
+const AudioControlsContainer = styled.div`
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+`;
+
+const AudioPlayer: React.FC<AudioPlayerProps> = ({
+   audioSrc,
+   autoPlayDelay = 0,
+   initialVolume = 0.8,
+   fadeInDuration = 0.5,
+   onPlayStart,
+   onPlayEnd,
+   onError,
+   controls = true,
+   className
+ }) => {
+   const [isPlaying, setIsPlaying] = useState(false);
+   const [isLoaded, setIsLoaded] = useState(false);
+   const [hasAutoPlayed, setHasAutoPlayed] = useState(false);
+   const audioContextRef = useRef<AudioContext | null>(null);
+   const gainNodeRef = useRef<GainNode | null>(null);
+   const sourceRef = useRef<AudioBufferSourceNode | null>(null);
+   const audioBufferRef = useRef<AudioBuffer | null>(null);
+
+   const stopSound = useCallback(() => {
+     try {
+       if (sourceRef.current) {
+         sourceRef.current.stop();
+         sourceRef.current.disconnect();
+         sourceRef.current = null;
+       }
+       if (gainNodeRef.current) {
+         gainNodeRef.current.gain.value = 0;
+       }
+       setIsPlaying(false);
+       onPlayEnd?.();
+       console.log('Sound stopped');
+     } catch (error) {
+       console.error('Error stopping sound:', error);
+     }
+   }, [onPlayEnd]);
+
+   const initAudioContext = useCallback(async () => {
+     if (!audioContextRef.current || audioContextRef.current.state === 'closed') {
+       try {
+         console.log('Creating new AudioContext...');
+         const AudioContext = window.AudioContext || window.webkitAudioContext;
+         audioContextRef.current = new AudioContext();
+
+         console.log('Creating gain node...');
+         gainNodeRef.current = audioContextRef.current.createGain();
+         gainNodeRef.current.connect(audioContextRef.current.destination);
+         gainNodeRef.current.gain.value = 0;
+
+         console.log('Fetching audio file:', audioSrc);
+         const response = await fetch(audioSrc);
+         const arrayBuffer = await response.arrayBuffer();
+
+         console.log('Decoding audio data...');
+         audioBufferRef.current = await audioContextRef.current.decodeAudioData(arrayBuffer);
+
+         setIsLoaded(true);
+         console.log('Audio initialized successfully');
+         return true;
+       } catch (error) {
+         console.error('Audio initialization error:', error);
+         onError?.(error as Error);
+         return false;
+       }
+     }
+     return true;
+   }, [audioSrc, onError]);
+
+   const playSound = useCallback(async () => {
+     if (isPlaying) {
+       stopSound();
+       return;
+     }
+
+     try {
+       // Initialize if needed
+       if (!audioContextRef.current || !audioBufferRef.current) {
+         console.log('Initializing audio before playing...');
+         const initialized = await initAudioContext();
+         if (!initialized) return;
+       }
+
+       // Resume if suspended
+       if (audioContextRef.current.state === 'suspended') {
+         console.log('Resuming audio context...');
+         await audioContextRef.current.resume();
+       }
+
+       console.log('Setting up playback...');
+       // Create and setup source
+       sourceRef.current = audioContextRef.current.createBufferSource();
+       sourceRef.current.buffer = audioBufferRef.current;
+       sourceRef.current.connect(gainNodeRef.current!);
+
+       // Set up volume fade in
+       const currentTime = audioContextRef.current.currentTime;
+       gainNodeRef.current!.gain.setValueAtTime(0, currentTime);
+       gainNodeRef.current!.gain.linearRampToValueAtTime(
+         initialVolume,
+         currentTime + fadeInDuration
+       );
+
+       // Start playback
+       console.log('Starting playback with volume:', initialVolume);
+       sourceRef.current.start(0);
+       setIsPlaying(true);
+       onPlayStart?.();
+
+       sourceRef.current.onended = () => {
+         console.log('Playback ended naturally');
+         setIsPlaying(false);
+         onPlayEnd?.();
+         sourceRef.current = null;
+       };
+
+     } catch (error) {
+       console.error('Playback failed:', error);
+       onError?.(error as Error);
+       setIsPlaying(false);
+     }
+   }, [isPlaying, stopSound, initAudioContext, initialVolume, fadeInDuration, onPlayStart, onPlayEnd, onError]);
+
+   // Initialize audio on mount
+   useEffect(() => {
+     console.log('Initializing audio component...');
+     initAudioContext();
+
+     return () => {
+       console.log('Cleaning up audio component...');
+       stopSound();
+       if (audioContextRef.current && audioContextRef.current.state !== 'closed') {
+         audioContextRef.current.close().catch(console.error);
+       }
+     };
+   }, [initAudioContext, stopSound]);
+
+   // Handle autoplay
+   useEffect(() => {
+     if (autoPlayDelay > 0 && !hasAutoPlayed && isLoaded) {
+       console.log(`Setting up autoplay with ${autoPlayDelay}ms delay...`);
+       const autoPlayTimer = setTimeout(async () => {
+         console.log('Executing autoplay...');
+         await playSound();
+         setHasAutoPlayed(true);
+       }, autoPlayDelay);
+
+       return () => {
+         console.log('Cleaning up autoplay timer...');
+         clearTimeout(autoPlayTimer);
+       };
+     }
+   }, [autoPlayDelay, hasAutoPlayed, isLoaded, playSound]);
+
+   // Don't render anything if controls are disabled
+   if (!controls) return null;
+
+   // Render play/stop button
+   return (
+     <AudioControlsContainer>
+       <PlayButton
+         onClick={playSound}
+         disabled={!isLoaded}
+         className={className}
+       >
+         {isPlaying ? '🔊 Stop' : '🔈 Play'}
+       </PlayButton>
+     </AudioControlsContainer>
+   );
+ };
+
+ export default AudioPlayer;
+```
+
 # src/data/mockData.ts
 
 ```ts
@@ -2844,16 +3068,25 @@ export const ImageDiv = styled.div`
 import React from "react";
 import { HomeContainer, ImageDiv } from "./Home.styles";
 import whale from "@/assets/Loader/Whale.png";
-import ImageLoader from "@/components/Animations/ImageLoader";
 import whaleSound from "@/assets/sounds/whale-call-2.wav";
+// import ImageLoader from "@/components/Animations/ImageLoader";
+import CircularLoader from "@/components/Animations/CircularLoader";
 
 const Home: React.FC = () => {
 	console.log("Sound file path:", whaleSound);
 	return (
 		<HomeContainer>
 			<ImageDiv>
-				<ImageLoader src={whale} alt="Whale illustration" mode="light" soundSrc={whaleSound} />
+				{/* <ImageLoader src={whale} alt="Whale illustration" mode="light" soundSrc={whaleSound} /> */}
+
+            <CircularLoader
+               src={whale}
+               alt="Whale illustration"
+               soundSrc={whaleSound}
+            />
+
 			</ImageDiv>
+
 		</HomeContainer>
 	);
 };

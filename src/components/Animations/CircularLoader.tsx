@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import styled from "styled-components";
-import AudioPlayer from "../Sound/AudioPlayer";
+// import AudioPlayer from "../Sound/AudioPlayer";
+import AudioPlayer from "../AudioPlayer/AudioPlayer";
 import whaleSound from "@/assets/sounds/whale-call-2.wav";
 
 const Container = styled.div`
@@ -168,7 +169,7 @@ const CircularLoader: React.FC<ImageLoaderProps> = ({ src, alt, className }) => 
 			{/* <AudioPlayer audioSrc={whaleSound} /> */}
 
          {/* Advanced usage */}
-         <AudioPlayer
+         {/* <AudioPlayer
             audioSrc={whaleSound}
             autoPlayDelay={1000}
             initialVolume={0.5}
@@ -178,7 +179,23 @@ const CircularLoader: React.FC<ImageLoaderProps> = ({ src, alt, className }) => 
             onError={(error) => console.error('Audio error:', error)}
             controls={true}
             className="custom-audio-player"
-         />
+         /> */}
+
+         <AudioPlayer
+            src={whaleSound}
+            title="Simple Audio"
+            />
+
+         {/* <AudioPlayer
+               src={whaleSound}
+               title="My Audio Track"
+               autoPlay={true}
+               loop={false}
+               initialVolume={0.8}
+               onPlay={() => console.log('Playing')}
+               onPause={() => console.log('Paused')}
+               onEnded={() => console.log('Ended')}
+            /> */}
 
 		</Container>
 	);

@@ -5,8 +5,7 @@ export default {
      "./index.html",
      "./src/**/*.{js,ts,jsx,tsx}",
    ],
-   prefix: "tw-",
-   important: true, // Add this line
+   prefix: "tw-", // Optional: only if you need to avoid conflicts
    theme: {
      extend: {},
    },
