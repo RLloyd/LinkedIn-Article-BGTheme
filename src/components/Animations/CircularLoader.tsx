@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import styled from "styled-components";
+import AudioPlayer from "../Sound/AudioPlayer";
+import whaleSound from "@/assets/sounds/whale-call-2.wav";
 
 const Container = styled.div`
 	position: relative;
@@ -10,7 +12,7 @@ const Container = styled.div`
 	display: flex;
 	justify-content: center;
 	align-items: center;
-   // border: 1px solid yellowgreen;
+	// border: 1px solid yellowgreen;
 `;
 
 const LoaderContainer = styled.div`
@@ -21,7 +23,7 @@ const LoaderContainer = styled.div`
 	align-items: center;
 	width: 200px;
 	height: 200px;
-   // border: 1px solid red;
+	// border: 1px solid red;
 `;
 
 const CircularSVG = styled.div`
@@ -34,7 +36,7 @@ const CircularSVG = styled.div`
 	display: flex;
 	justify-content: center;
 	align-items: center;
-   // border: 1px solid cyan;
+	// border: 1px solid cyan;
 `;
 
 const Image = styled.img`
@@ -55,13 +57,13 @@ const CounterContainer = styled.div`
 	line-height: 1;
 	position: relative;
 	z-index: 101;
-   // border: 1px solid blue;
+	// border: 1px solid blue;
 `;
 
 const LoadingText = styled.p`
-	font-size: .6rem;
+	font-size: 0.6rem;
 	margin: 0;
-	color: #3F1F0B;
+	color: #3f1f0b;
 `;
 
 const CountdownText = styled.div`
@@ -70,7 +72,7 @@ const CountdownText = styled.div`
 	gap: 4px;
 	font-size: 2rem;
 	margin: 0;
-	color: #3F1F0B;
+	color: #3f1f0b;
 `;
 
 interface ImageLoaderProps {
@@ -79,8 +81,7 @@ interface ImageLoaderProps {
 	className?: string;
 }
 
-
-const ImageLoader: React.FC<ImageLoaderProps> = ({ src, alt, className }) => {
+const CircularLoader: React.FC<ImageLoaderProps> = ({ src, alt, className }) => {
 	const [loading, setLoading] = useState(true);
 	const [progress, setProgress] = useState(0);
 	const easing = [0.35, 0.27, 0.3, 0.83];
@@ -120,7 +121,6 @@ const ImageLoader: React.FC<ImageLoaderProps> = ({ src, alt, className }) => {
 	return (
 		<Container>
 			<Image src={src} alt={alt} className={`${className} ${!loading ? "loaded" : ""}`} />
-
 			<AnimatePresence>
 				{loading && (
 					<LoaderContainer>
@@ -134,11 +134,7 @@ const ImageLoader: React.FC<ImageLoaderProps> = ({ src, alt, className }) => {
 
 						<CircularSVG>
 							<motion.svg width="314" height="314" viewBox="0 0 314 314" fill="none" xmlns="http://www.w3.org/2000/svg">
-								<motion.path
-                           initial={{ rotate: 0 }}
-                           animate={{ rotate: 720 }}
-                           transition={{ duration: animationDuration, ease: easing, repeat: Infinity }}
-                           fill-rule="evenodd" clip-rule="evenodd" d="M156.699 33.1997C88.4921 33.1997 33.1992 88.4925 33.1992 156.7C33.1992 224.907 88.4921 280.2 156.699 280.2C224.906 280.2 280.199 224.907 280.199 156.7C280.199 88.4925 224.906 33.1997 156.699 33.1997ZM31.1992 156.7C31.1992 87.388 87.3875 31.1997 156.699 31.1997C226.011 31.1997 282.199 87.388 282.199 156.7C282.199 226.011 226.011 282.2 156.699 282.2C87.3875 282.2 31.1992 226.011 31.1992 156.7Z" fill="#85aab6" />
+								<motion.path initial={{ rotate: 0 }} animate={{ rotate: 720 }} transition={{ duration: animationDuration, ease: easing, repeat: Infinity }} fill-rule="evenodd" clip-rule="evenodd" d="M156.699 33.1997C88.4921 33.1997 33.1992 88.4925 33.1992 156.7C33.1992 224.907 88.4921 280.2 156.699 280.2C224.906 280.2 280.199 224.907 280.199 156.7C280.199 88.4925 224.906 33.1997 156.699 33.1997ZM31.1992 156.7C31.1992 87.388 87.3875 31.1997 156.699 31.1997C226.011 31.1997 282.199 87.388 282.199 156.7C282.199 226.011 226.011 282.2 156.699 282.2C87.3875 282.2 31.1992 226.011 31.1992 156.7Z" fill="#85aab6" />
 								<motion.path
 									initial={{ rotate: 0 }}
 									animate={{ rotate: 60 }}
@@ -163,15 +159,29 @@ const ImageLoader: React.FC<ImageLoaderProps> = ({ src, alt, className }) => {
 								<motion.path initial={{ rotate: 0 }} animate={{ rotate: 360 }} transition={{ duration: animationDuration, ease: easing, repeat: Infinity }} fill-rule="evenodd" clip-rule="evenodd" d="M156.7 95.2993C138.384 95.2993 121.907 103.312 110.707 116.059L101.692 108.139C115.092 92.8871 134.816 83.2993 156.7 83.2993C197.214 83.2993 230.1 116.186 230.1 156.699C230.1 197.213 197.214 230.099 156.7 230.099C116.186 230.099 83.2998 197.213 83.2998 156.699H95.2998C95.2998 190.586 122.814 218.099 156.7 218.099C190.586 218.099 218.1 190.586 218.1 156.699C218.1 122.813 190.586 95.2993 156.7 95.2993Z" fill="#ff6a00" />
 								<motion.path initial={{ rotate: 0 }} animate={{ rotate: -260 }} transition={{ duration: animationDuration, ease: easing, repeat: Infinity }} fill-rule="evenodd" clip-rule="evenodd" d="M166.383 101.654C136.009 96.339 106.97 116.654 101.655 147.014C98.807 163.443 103.365 179.476 113.039 191.521L108.361 195.278C97.6353 181.924 92.593 164.157 95.7439 145.987L95.7447 145.982C101.631 112.344 133.791 89.8598 167.417 95.7442C201.055 101.631 223.539 133.791 217.655 167.416C211.768 201.055 179.608 223.539 145.983 217.654L147.017 211.744C177.391 217.06 206.431 196.744 211.745 166.382C217.06 136.008 196.744 106.968 166.383 101.654Z" fill="#bad2d9" />
 							</motion.svg>
-
 						</CircularSVG>
 					</LoaderContainer>
 				)}
 			</AnimatePresence>
 
+         {/* Basic usage */}
+			{/* <AudioPlayer audioSrc={whaleSound} /> */}
+
+         {/* Advanced usage */}
+         <AudioPlayer
+            audioSrc={whaleSound}
+            autoPlayDelay={1000}
+            initialVolume={0.5}
+            fadeInDuration={2}
+            onPlayStart={() => console.log('Started playing')}
+            onPlayEnd={() => console.log('Finished playing')}
+            onError={(error) => console.error('Audio error:', error)}
+            controls={true}
+            className="custom-audio-player"
+         />
+
 		</Container>
 	);
 };
 
-export default ImageLoader;
-
+export default CircularLoader;

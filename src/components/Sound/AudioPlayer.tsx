@@ -14,26 +14,30 @@ interface AudioPlayerProps {
 }
 
 const PlayButton = styled.button`
-  padding: 12px 24px;
-  background: rgba(0, 0, 0, 0.7);
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 1rem;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  transition: background-color 0.3s ease;
+	position: fixed;
+	bottom: 20px;
+	right: 20px;
+	padding: 12px 24px;
+	background: rgba(0, 0, 0, 0.7);
+	color: white;
+	border: none;
+	border-radius: 8px;
+	cursor: pointer;
+	font-size: 1rem;
+	z-index: 1000;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	transition: background-color 0.3s ease;
 
-  &:hover {
-    background: rgba(0, 0, 0, 0.9);
-  }
+	&:hover {
+		background: rgba(0, 0, 0, 0.9);
+	}
 
-  &:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
+	&:disabled {
+		opacity: 0.5;
+		cursor: not-allowed;
+	}
 `;
 
 const AudioPlayer: React.FC<AudioPlayerProps> = ({

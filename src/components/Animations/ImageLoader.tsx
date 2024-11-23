@@ -119,7 +119,8 @@ const ImageLoader: React.FC<ImageLoaderProps> = ({ src, alt, mode = "light", cla
 	const [hasError, setHasError] = useState(false);
 	const [isPlaying, setIsPlaying] = useState(false);
 
-	const audioRef = useRef<HTMLAudioElement | null>(null);
+
+	// const audioRef = useRef<HTMLAudioElement | null>(null);
 	const audioContextRef = useRef<AudioContext | null>(null);
 	const sourceRef = useRef<AudioBufferSourceNode | null>(null);
 	const gainNodeRef = useRef<GainNode | null>(null);
