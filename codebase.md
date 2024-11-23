@@ -27,7 +27,6 @@ dist-ssr
 *.sw?
 
 src/assets/WIP-ignoreGit
-public/Notes
 
 ```
 
@@ -144,16 +143,25 @@ This is a binary file of the type: Image
 
 This is a binary file of the type: Image
 
-# public/Notes/Article-test.txt
+# public/component-description.md
 
-```txt
+```md
+<!-- src/components/Animations/ImageLoader.tsx | Loading & Audio: 11.23.2024•A -->
 
-```
+This is a React functional component named `ImageLoader`. It appears to be a complex animation component that loads an image, plays a whale sound, and displays a poem. Here's a succinct breakdown of its functionality:
 
-# public/Notes/ClaudeMiscellaneous.tsx
+1. **Image Loading**: The component loads an image from a specified `src` URL and displays a loading animation with a progress bar.
+2. **Animation Sequence**: After the image is loaded, the component triggers an animation sequence that:
+	* Waits for 500ms
+	* Displays a poem overlay
+	* Waits for 1000ms
+	* Triggers a slide animation
+	* Attempts to play a whale sound after the animation
+3. **Whale Sound Playback**: The component uses the Web Audio API to play a whale sound. It creates an audio context, fetches and decodes the audio file, and plays it with a fade-in effect.
+4. **Manual Play Button**: The component also includes a play button that allows the user to manually play the whale sound.
+5. **Error Handling**: If there's an error loading the image or playing the sound, the component displays an error message.
 
-```tsx
-
+Overall, this component seems to be designed to create an immersive experience with a loading animation, a poem, and a whale sound.
 ```
 
 # public/Notes/Create folder structures.txt
@@ -178,6 +186,8 @@ git remote add origin https://github.com/RLloyd/Portfolio2025.git
 git push -u origin main
 
 Use the source control to commit and push to GIT
+
+
 ```
 
 # public/Notes/Misc.tsx
@@ -189,271 +199,7 @@ Use the source control to commit and push to GIT
 # public/Notes/Misc2.ts
 
 ```ts
-// src/styles/theme.ts
 
-export interface ColorShades {
-   100: string;
-   200: string;
-   300: string;
-   400: string;
-   500: string; // Base color
-   600: string;
-   700: string;
-   800: string;
-   900: string;
- }
-
- export interface ColorPalette {
-   primary: ColorShades;
-   secondary: ColorShades;
-   accent: ColorShades;
-   success: ColorShades;
-   warning: ColorShades;
-   danger: ColorShades;
-   gray: ColorShades;
-   background: {
-     light: string;
-     dark: string;
-   };
-   text: {
-     light: {
-       primary: string;
-       secondary: string;
-       disabled: string;
-     };
-     dark: {
-       primary: string;
-       secondary: string;
-       disabled: string;
-     };
-   };
- }
-
- export interface Typography {
-   heading: {
-     fontFamily: string;
-     weights: {
-       regular: number;
-       medium: number;
-       bold: number;
-     };
-     sizes: {
-       h1: string;
-       h2: string;
-       h3: string;
-       h4: string;
-       h5: string;
-       h6: string;
-     };
-   };
-   body: {
-     fontFamily: string;
-     weights: {
-       regular: number;
-       medium: number;
-       bold: number;
-     };
-     sizes: {
-       xs: string;
-       sm: string;
-       base: string;
-       lg: string;
-       xl: string;
-     };
-   };
- }
-
- export type ThemeMode = 'light' | 'dark';
-
- export interface Theme {
-   colors: ColorPalette;
-   typography: Typography;
- }
-
- export const theme: Theme = {
-   colors: {
-     primary: {
-       100: '#EBE5F6',
-       200: '#D7CCED',
-       300: '#C3B2E3',
-       400: '#AF99DA',
-       500: '#8465C3', // Base color
-       600: '#6A51C0',
-       700: '#503DBD',
-       800: '#3629BA',
-       900: '#1C15B7'
-     },
-     secondary: {
-       100: '#E6FEFF',
-       200: '#CCFEFF',
-       300: '#B3FDFF',
-       400: '#99FCFF',
-       500: '#3AF1F9', // Base color
-       600: '#2ED8E0',
-       700: '#22BFC6',
-       800: '#16A6AD',
-       900: '#0A8D93'
-     },
-     accent: {
-       100: '#FFE9E3',
-       200: '#FFD3C8',
-       300: '#FFBDAC',
-       400: '#FFA791',
-       500: '#F46A47', // Base color
-       600: '#DB503D',
-       700: '#C23633',
-       800: '#A91C29',
-       900: '#90021F'
-     },
-     success: {
-       100: '#F0F7E6',
-       200: '#E1EFCC',
-       300: '#D2E7B3',
-       400: '#C3DF99',
-       500: '#A2C465', // Base color
-       600: '#88AB4B',
-       700: '#6F9231',
-       800: '#557917',
-       900: '#3C5F00'
-     },
-     warning: {
-       100: '#FFF5EB',
-       200: '#FFEBD7',
-       300: '#FFE1C3',
-       400: '#FFD7AF',
-       500: '#FAD8B4', // Base color
-       600: '#E1BF9A',
-       700: '#C8A680',
-       800: '#AF8D66',
-       900: '#96744C'
-     },
-     danger: {
-       100: '#FFE5E8',
-       200: '#FFCCD1',
-       300: '#FFB2BA',
-       400: '#FF99A3',
-       500: '#F5536A', // Base color
-       600: '#DC3950',
-       700: '#C21F36',
-       800: '#A9051C',
-       900: '#900002'
-     },
-     gray: {
-       100: '#F7F7F7',
-       200: '#E6E6E6',
-       300: '#D5D5D5',
-       400: '#C4C4C4',
-       500: '#676767', // Base color
-       600: '#525252',
-       700: '#3D3D3D',
-       800: '#282828',
-       900: '#131313'
-     },
-     background: {
-       light: '#FFFFFF',
-       dark: '#121212'
-     },
-     text: {
-       light: {
-         primary: '#676767',
-         secondary: '#8F8F8F',
-         disabled: '#CCCCCC'
-       },
-       dark: {
-         primary: '#FFFFFF',
-         secondary: '#E0E0E0',
-         disabled: '#6E6E6E'
-       }
-     }
-   },
-   typography: {
-     heading: {
-       fontFamily: '"Libre Baskerville", serif',
-       weights: {
-         regular: 400,
-         medium: 500,
-         bold: 700
-       },
-       sizes: {
-         h1: '2.5rem',
-         h2: '2rem',
-         h3: '1.75rem',
-         h4: '1.5rem',
-         h5: '1.25rem',
-         h6: '1rem'
-       }
-     },
-     body: {
-       fontFamily: '"Open Sans", sans-serif',
-       weights: {
-         regular: 400,
-         medium: 500,
-         bold: 700
-       },
-       sizes: {
-         xs: '0.75rem',
-         sm: '0.875rem',
-         base: '1rem',
-         lg: '1.125rem',
-         xl: '1.25rem'
-       }
-     }
-   }
- };
-
- // Utility functions for accessing theme values
- export const getColor = (
-   colorName: keyof Omit<ColorPalette, 'background' | 'text'>,
-   shade: keyof ColorShades = 500
- ): string => {
-   return theme.colors[colorName][shade];
- };
-
- export const getBackgroundColor = (mode: ThemeMode): string => {
-   return theme.colors.background[mode];
- };
-
- export const getTextColor = (mode: ThemeMode, variant: 'primary' | 'secondary' | 'disabled'): string => {
-   return theme.colors.text[mode][variant];
- };
-
- export const getFontFamily = (type: 'heading' | 'body'): string => {
-   return theme.typography[type].fontFamily;
- };
-
- export const getFontWeight = (
-   type: 'heading' | 'body',
-   weight: 'regular' | 'medium' | 'bold'
- ): number => {
-   return theme.typography[type].weights[weight];
- };
-
- export const getFontSize = (
-   type: 'heading' | 'body',
-   size: keyof Typography['heading']['sizes'] | keyof Typography['body']['sizes']
- ): string => {
-   return theme.typography[type].sizes[size];
- };
-
- // CSS helper for applying font styles
- export const applyFontStyle = (
-   type: 'heading' | 'body',
-   weight: 'regular' | 'medium' | 'bold',
-   size: keyof Typography['heading']['sizes'] | keyof Typography['body']['sizes']
- ): string => {
-   return `
-     font-family: ${getFontFamily(type)};
-     font-weight: ${getFontWeight(type, weight)};
-     font-size: ${getFontSize(type, size)};
-   `;
- };
-
- // Example usage:
- // const primaryColor = getColor('primary', 500); // Base color
- // const primaryLighter = getColor('primary', 300); // Lighter shade
- // const primaryDarker = getColor('primary', 700); // Darker shade
- // const bgColor = getBackgroundColor('dark');
- // const textColor = getTextColor('dark', 'primary');
 ```
 
 # public/sounds/whale-call-1.wav
@@ -1969,7 +1715,7 @@ export default ImageLoader;
 # src/components/Animations/ImageLoader.tsx
 
 ```tsx
-// src/components/Animations/ImageLoader.tsx
+// src/components/Animations/ImageLoader.tsx | Loading & Audio: 11.23.2024•A
 
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -1978,1209 +1724,339 @@ import { ThemeMode } from "@/styles/theme";
 import whaleSound from "@/assets/sounds/whale-call-2.wav";
 
 const Container = styled.div`
-	position: relative;
-	width: 100%;
-	height: 100%;
-	min-height: 200px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	background-color: transparent;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
 `;
 
 const LoaderOverlay = styled(motion.div)<{ $mode: ThemeMode }>`
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	background-color: ${({ $mode }) => ($mode === "light" ? "rgba(255, 255, 255, 0.9)" : "rgba(0, 0, 0, 0.9)")};
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	z-index: 10;
-`;
-
-const LoadingText = styled.div<{ $mode: ThemeMode }>`
-	font-size: 18px;
-	color: ${({ $mode }) => ($mode === "light" ? "#333333" : "#FFFFFF")};
-	margin-bottom: 1rem;
-`;
-
-const ProgressBar = styled(motion.div)`
-	width: 200px;
-	height: 4px;
-	background-color: #e5e7eb;
-	border-radius: 2px;
-	overflow: hidden;
-`;
-
-const ProgressFill = styled(motion.div)`
-	height: 100%;
-	background-color: #3b82f6;
-	border-radius: 2px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: ${({ $mode }) => ($mode === "light" ? "rgba(255, 255, 255, 0.9)" : "rgba(0, 0, 0, 0.9)")};
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
 `;
 
 const StyledImage = styled(motion.img)`
-	max-width: 100%;
-	width: 100%;
-	// height: auto;
-	height: 50%;
-	display: block;
-	object-fit: cover;
-	position: relative;
-	border-radius: 2rem;
-	border: 6px solid yellow;
+  max-width: 100%;
+  width: 100%;
+  height: 50%;
+  display: block;
+  object-fit: cover;
+  position: relative;
+  border-radius: 2rem;
+  border: 6px solid yellow;
 `;
 
 const PoemOverlay = styled(motion.div)`
-	position: absolute;
-	width: 90%;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	background: rgba(0, 0, 0, 0.5);
-	color: white;
-	padding: 2rem;
-	text-align: center;
-	pointer-events: none;
+  position: absolute;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  padding: 2rem;
+  text-align: center;
+  pointer-events: none;
 `;
 
 const PoemTitle = styled.h2`
-	font-size: 4rem;
-	margin-bottom: 1rem;
-	font-family: "Libre Baskerville", serif;
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  font-family: "Libre Baskerville", serif;
 `;
 
 const PoemText = styled.p`
-	font-size: 2rem;
-	line-height: 1.6;
-	// max-width: 600px;
-	font-family: "Libre Baskerville", serif;
-	font-style: italic;
+  font-size: 2rem;
+  line-height: 1.6;
+  font-family: "Libre Baskerville", serif;
+  font-style: italic;
 `;
 
 const ContentWrapper = styled(motion.div)`
-	position: relative;
-	width: 100%;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
-const SoundButton = styled.button`
-	position: fixed;
-	bottom: 20px;
-	right: 20px;
-	padding: 10px;
-	background: rgba(0, 0, 0, 0.5);
-	color: white;
-	border: none;
-	border-radius: 5px;
-	cursor: pointer;
+const PlayButton = styled.button`
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 12px 24px;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background-color 0.3s ease;
 
-	&:hover {
-		background: rgba(0, 0, 0, 0.7);
-	}
-`;
-
-type AudioContextType = typeof AudioContext;
-type WebkitAudioContextType = typeof webkitAudioContext;
-type SupportedAudioContext = AudioContextType | WebkitAudioContextType;
-
-interface ImageLoaderProps {
-	src: string;
-	alt: string;
-	mode?: ThemeMode;
-	className?: string;
-}
-
-const ImageLoader: React.FC<ImageLoaderProps> = ({
-  src,
-  alt,
-  mode = 'light',
-  className
-}) => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [progress, setProgress] = useState(0);
-  const [hasError, setHasError] = useState(false);
-  const [showPoem, setShowPoem] = useState(false);
-  const [startSlideAnimation, setStartSlideAnimation] = useState(false);
-
-  const VOLUME = 0.3;
-  const FADE_DURATION = 2000;
-
-  const fadeInVolume = (audio: HTMLAudioElement) => {
-    const startTime = Date.now();
-    const fadeInterval = setInterval(() => {
-      const elapsed = Date.now() - startTime;
-      const percentage = Math.min(elapsed / FADE_DURATION, 1);
-      const currentVolume = percentage * VOLUME;
-
-      audio.volume = currentVolume;
-
-      if (percentage >= 1) {
-        clearInterval(fadeInterval);
-      }
-    }, 50);
-
-    return () => clearInterval(fadeInterval);
-  };
-
-  const playWhaleSound = useCallback(async () => {
-    try {
-      // Create a new audio element each time
-      const audio = new Audio(whaleSound);
-      audio.volume = 0;
-
-      // Wait for the audio to be loaded
-      await new Promise((resolve) => {
-        audio.addEventListener('canplaythrough', resolve, { once: true });
-        audio.load();
-      });
-
-      // Play the sound
-      await audio.play();
-      fadeInVolume(audio);
-
-      // Cleanup when audio ends
-      audio.addEventListener('ended', () => {
-        audio.remove();
-      });
-    } catch (error) {
-      console.error('Audio playback failed:', error);
-    }
-  }, []);
-
-  const resetState = useCallback(() => {
-    setIsLoading(true);
-    setProgress(0);
-    setShowPoem(false);
-    setStartSlideAnimation(false);
-  }, []);
-
-  useEffect(() => {
-    resetState();
-
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', src, true);
-    xhr.responseType = 'blob';
-
-    xhr.onprogress = (event) => {
-      if (event.lengthComputable) {
-        const percentComplete = (event.loaded / event.total) * 100;
-        setProgress(Math.round(percentComplete));
-      }
-    };
-
-    xhr.onload = () => {
-      if (xhr.status === 200) {
-        setProgress(100);
-        const runAnimationSequence = async () => {
-          setIsLoading(false);
-
-          await new Promise(resolve => setTimeout(resolve, 500));
-          setShowPoem(true);
-
-          await new Promise(resolve => setTimeout(resolve, 1000));
-          setStartSlideAnimation(true);
-
-          // Play sound after animation starts
-          await new Promise(resolve => setTimeout(resolve, 800));
-          await playWhaleSound();
-        };
-
-        runAnimationSequence();
-      } else {
-        setHasError(true);
-      }
-    };
-
-    xhr.onerror = () => {
-      setHasError(true);
-    };
-
-    xhr.send();
-
-    return () => xhr.abort();
-  }, [src, playWhaleSound, resetState]);
-
-  // Initialize audio context on first user interaction
-  useEffect(() => {
-    const initAudioContext = () => {
-      const AudioContextClass: SupportedAudioContext =
-        window.AudioContext || window.webkitAudioContext;
-
-      const audioContext = new AudioContextClass();
-      audioContext.resume().then(() => {
-        audioContext.close();
-        document.removeEventListener('click', initAudioContext);
-      });
-    };
-
-    document.addEventListener('click', initAudioContext);
-    return () => document.removeEventListener('click', initAudioContext);
-  }, []);
-
-  if (hasError) {
-    return <div>Error loading image</div>;
+  &:hover {
+    background: rgba(0, 0, 0, 0.9);
   }
 
-  return (
-    <Container className={className}>
-      <AnimatePresence>
-        {isLoading && (
-          <LoaderOverlay
-            $mode={mode}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-          >
-            <LoadingText $mode={mode}>Loading...</LoadingText>
-            <ProgressBar>
-              <ProgressFill
-                initial={{ width: 0 }}
-                animate={{ width: `${progress}%` }}
-                transition={{ duration: 0.3 }}
-              />
-            </ProgressBar>
-          </LoaderOverlay>
-        )}
-      </AnimatePresence>
-
-      <ContentWrapper>
-        <StyledImage
-          src={src}
-          alt={alt}
-          initial={{ opacity: 0, y: 0 }}
-          animate={{
-            opacity: isLoading ? 0 : 1,
-            y: startSlideAnimation ? -210 : 0
-          }}
-          transition={{
-            opacity: { duration: 0.5 },
-            y: { duration: 1.2, ease: "easeOut" }
-          }}
-        />
-
-        <AnimatePresence>
-          {showPoem && (
-            <PoemOverlay
-              initial={{ opacity: 0, y: 20 }}
-              animate={{
-                opacity: 1,
-                y: startSlideAnimation ? 150 : 20
-              }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{
-                opacity: { duration: 0.8 },
-                y: { duration: 1.2, ease: "easeOut" }
-              }}
-            >
-              <PoemTitle>The Gentle Giant</PoemTitle>
-              <PoemText>
-                Beneath the waves, a shadow glides,<br />
-                In ocean's depths, where mystery hides.<br />
-                Graceful giant of the deep,<br />
-                Ancient secrets does it keep.<br />
-                <br />
-                Through timeless waters, calm and free,<br />
-                Nature's guardian of the sea.
-              </PoemText>
-            </PoemOverlay>
-          )}
-        </AnimatePresence>
-      </ContentWrapper>
-    </Container>
-  );
-};
-
-export default ImageLoader;
-
-// import React, { useCallback, useEffect, useRef, useState } from "react";
-// import { motion, AnimatePresence } from "framer-motion";
-// import styled from "styled-components";
-// import { ThemeMode } from "@/styles/theme";
-// import whaleSound from "@/assets/sounds/whale-call-2.wav";
-
-// const Container = styled.div`
-// 	position: relative;
-// 	width: 100%;
-// 	height: 100%;
-// 	min-height: 200px;
-// 	display: flex;
-// 	justify-content: center;
-// 	align-items: center;
-// 	background-color: transparent;
-// `;
-
-// const LoaderOverlay = styled(motion.div)<{ $mode: ThemeMode }>`
-// 	position: absolute;
-// 	top: 0;
-// 	left: 0;
-// 	width: 100%;
-// 	height: 100%;
-// 	background-color: ${({ $mode }) => ($mode === "light" ? "rgba(255, 255, 255, 0.9)" : "rgba(0, 0, 0, 0.9)")};
-// 	display: flex;
-// 	flex-direction: column;
-// 	align-items: center;
-// 	justify-content: center;
-// 	z-index: 10;
-// `;
-
-// const LoadingText = styled.div<{ $mode: ThemeMode }>`
-// 	font-size: 18px;
-// 	color: ${({ $mode }) => ($mode === "light" ? "#333333" : "#FFFFFF")};
-// 	margin-bottom: 1rem;
-// `;
-
-// const ProgressBar = styled(motion.div)`
-// 	width: 200px;
-// 	height: 4px;
-// 	background-color: #e5e7eb;
-// 	border-radius: 2px;
-// 	overflow: hidden;
-// `;
-
-// const ProgressFill = styled(motion.div)`
-// 	height: 100%;
-// 	background-color: #3b82f6;
-// 	border-radius: 2px;
-// `;
-
-// const StyledImage = styled(motion.img)`
-// 	max-width: 100%;
-// 	width: 100%;
-// 	// height: auto;
-// 	height: 50%;
-// 	display: block;
-// 	object-fit: cover;
-// 	position: relative;
-// 	border-radius: 2rem;
-// 	border: 6px solid yellow;
-// `;
-
-// const PoemOverlay = styled(motion.div)`
-// 	position: absolute;
-// 	width: 90%;
-// 	display: flex;
-// 	flex-direction: column;
-// 	justify-content: center;
-// 	align-items: center;
-// 	background: rgba(0, 0, 0, 0.5);
-// 	color: white;
-// 	padding: 2rem;
-// 	text-align: center;
-// 	pointer-events: none;
-// `;
-
-// const PoemTitle = styled.h2`
-// 	font-size: 4rem;
-// 	margin-bottom: 1rem;
-// 	font-family: "Libre Baskerville", serif;
-// `;
-
-// const PoemText = styled.p`
-// 	font-size: 2rem;
-// 	line-height: 1.6;
-// 	// max-width: 600px;
-// 	font-family: "Libre Baskerville", serif;
-// 	font-style: italic;
-// `;
-
-// const ContentWrapper = styled(motion.div)`
-// 	position: relative;
-// 	width: 100%;
-// 	display: flex;
-// 	flex-direction: column;
-// 	align-items: center;
-// `;
-
-// const SoundButton = styled.button`
-// 	position: fixed;
-// 	bottom: 20px;
-// 	right: 20px;
-// 	padding: 10px;
-// 	background: rgba(0, 0, 0, 0.5);
-// 	color: white;
-// 	border: none;
-// 	border-radius: 5px;
-// 	cursor: pointer;
-
-// 	&:hover {
-// 		background: rgba(0, 0, 0, 0.7);
-// 	}
-// `;
-
-// type AudioContextType = typeof AudioContext;
-// type WebkitAudioContextType = typeof webkitAudioContext;
-// type SupportedAudioContext = AudioContextType | WebkitAudioContextType;
-
-// interface ImageLoaderProps {
-// 	src: string;
-// 	alt: string;
-// 	mode?: ThemeMode;
-// 	className?: string;
-// }
-
-// const ImageLoader: React.FC<ImageLoaderProps> = ({
-//    src,
-//    alt,
-//    mode = 'light',
-//    className
-//  }) => {
-//    const [isLoading, setIsLoading] = useState(true);
-//    const [progress, setProgress] = useState(0);
-//    const [hasError, setHasError] = useState(false);
-//    const [showPoem, setShowPoem] = useState(false);
-//    const [startSlideAnimation, setStartSlideAnimation] = useState(false);
-//    const audioRef = useRef<HTMLAudioElement | null>(null);
-
-//    const VOLUME = 0.3;
-//    const FADE_DURATION = 2000;
-
-//    // Create new audio element for each playback
-//    const createAudio = () => {
-//      const audio = new Audio(whaleSound);
-//      audio.volume = 0;
-//      audio.preload = 'auto';
-//      return audio;
-//    };
-
-//    const fadeInVolume = (audio: HTMLAudioElement) => {
-//      const startTime = Date.now();
-//      const fadeInterval = setInterval(() => {
-//        const elapsed = Date.now() - startTime;
-//        const percentage = Math.min(elapsed / FADE_DURATION, 1);
-//        const currentVolume = percentage * VOLUME;
-
-//        if (audio) {
-//          audio.volume = currentVolume;
-//        }
-
-//        if (percentage >= 1) {
-//          clearInterval(fadeInterval);
-//        }
-//      }, 50);
-
-//      return () => clearInterval(fadeInterval);
-//    };
-
-//    const playWhaleSound = useCallback(async () => {
-//      try {
-//        const audio = createAudio();
-
-//        // Wait for audio to be loaded
-//        await new Promise((resolve) => {
-//          audio.addEventListener('canplaythrough', resolve, { once: true });
-//        });
-
-//        audioRef.current = audio;
-
-//        const playPromise = audio.play();
-//        if (playPromise !== undefined) {
-//          await playPromise;
-//          fadeInVolume(audio);
-//        }
-//      } catch (error) {
-//        console.error('Audio playback failed:', error);
-//        // Retry once after a short delay
-//        setTimeout(async () => {
-//          try {
-//            if (audioRef.current) {
-//              await audioRef.current.play();
-//              fadeInVolume(audioRef.current);
-//            }
-//          } catch (retryError) {
-//            console.error('Retry failed:', retryError);
-//          }
-//        }, 100);
-//      }
-//    }, []); // No dependencies needed as it only uses constants and refs
-
-//    // Reset component state for reload
-//    const resetState = useCallback(() => {
-//      setIsLoading(true);
-//      setProgress(0);
-//      setShowPoem(false);
-//      setStartSlideAnimation(false);
-//      if (audioRef.current) {
-//        audioRef.current.pause();
-//        audioRef.current.currentTime = 0;
-//      }
-//    }, []);
-
-//    useEffect(() => {
-//      resetState();
-
-//      const xhr = new XMLHttpRequest();
-//      xhr.open('GET', src, true);
-//      xhr.responseType = 'blob';
-
-//      xhr.onprogress = (event) => {
-//        if (event.lengthComputable) {
-//          const percentComplete = (event.loaded / event.total) * 100;
-//          setProgress(Math.round(percentComplete));
-//        }
-//      };
-
-//      xhr.onload = () => {
-//        if (xhr.status === 200) {
-//          setProgress(100);
-//          const animationSequence = async () => {
-//            setIsLoading(false);
-
-//            await new Promise(resolve => setTimeout(resolve, 500));
-//            setShowPoem(true);
-
-//            await new Promise(resolve => setTimeout(resolve, 1000));
-//            setStartSlideAnimation(true);
-
-//            await new Promise(resolve => setTimeout(resolve, 800));
-//            await playWhaleSound();
-//          };
-
-//          animationSequence();
-//        } else {
-//          setHasError(true);
-//        }
-//      };
-
-//      xhr.onerror = () => {
-//        setHasError(true);
-//      };
-
-//      xhr.send();
-
-//      return () => xhr.abort();
-//    }, [src, playWhaleSound, resetState]);
-
-//    // Add click handler to document for audio unlock
-//    useEffect(() => {
-//      const unlockAudio = () => {
-//        if (!audioRef.current) return;
-
-//        const AudioContextClass: SupportedAudioContext =
-//          window.AudioContext || window.webkitAudioContext;
-
-//        const audioContext = new AudioContextClass();
-//        audioContext.suspend();
-
-//        audioContext.resume().then(() => audioContext.close());
-
-//        document.removeEventListener('click', unlockAudio);
-//      };
-
-//      document.addEventListener('click', unlockAudio);
-//      return () => document.removeEventListener('click', unlockAudio);
-//    }, []);
-
-//    if (hasError) {
-//      return <div>Error loading image</div>;
-//    }
-
-//    return (
-//      <Container className={className}>
-// 			<AnimatePresence>
-// 				{isLoading && (
-// 					<LoaderOverlay $mode={mode} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }}>
-// 						<LoadingText $mode={mode}>Loading...</LoadingText>
-// 						<ProgressBar>
-// 							<ProgressFill initial={{ width: 0 }} animate={{ width: `${progress}%` }} transition={{ duration: 0.3 }} />
-// 						</ProgressBar>
-// 					</LoaderOverlay>
-// 				)}
-// 			</AnimatePresence>
-
-// 			<ContentWrapper>
-// 				<StyledImage
-// 					src={src}
-// 					alt={alt}
-// 					initial={{ opacity: 0, y: 0 }}
-// 					animate={{
-// 						opacity: isLoading ? 0 : 1,
-// 						y: startSlideAnimation ? -110 : 0, // Slide up after image is loaded
-// 					}}
-// 					transition={{
-// 						opacity: { duration: 0.5 },
-// 						y: { duration: 1.2, ease: "easeOut" },
-// 					}}
-// 				/>
-
-// 				<AnimatePresence>
-// 					{showPoem && (
-// 						<PoemOverlay
-// 							initial={{ opacity: 0, y: 20 }}
-// 							animate={{
-// 								opacity: 1,
-// 								y: startSlideAnimation ? 370 : 20, // Slide down after image is loaded
-// 							}}
-// 							exit={{ opacity: 0, y: -20 }}
-// 							transition={{
-// 								opacity: { duration: 0.8 },
-// 								y: { duration: 1.2, ease: "easeOut" },
-// 							}}
-// 						>
-// 							{/* <SoundButton onClick={handleSoundPlay}>🐋 Play Whale Sound</SoundButton> */}
-// 							<PoemTitle>Guiding Song</PoemTitle>
-// 							<PoemText>
-// 								Beneath the waves, a whale does sing,
-// 								<br />
-// 								Of minds that learn and dreams that spring.
-// 								<br />
-// 								Its hums weave tales of AI’s might,
-// 								<br />
-// 								A guiding song in endless night.
-// 								<br />
-// 							</PoemText>
-// 						</PoemOverlay>
-// 					)}
-// 				</AnimatePresence>
-// 			</ContentWrapper>
-// 		</Container>
-// 	);
-// };
-
-// export default ImageLoader;
-
-
-
-// // import React, { useEffect, useRef, useState } from "react";
-// // import { motion, AnimatePresence } from "framer-motion";
-// // import styled from "styled-components";
-// // import { ThemeMode } from "@/styles/theme";
-// // import whaleSound from "@/assets/sounds/whale-call-2.wav";
-
-// // const Container = styled.div`
-// // 	position: relative;
-// // 	width: 100%;
-// // 	height: 100%;
-// // 	min-height: 200px;
-// // 	display: flex;
-// // 	justify-content: center;
-// // 	align-items: center;
-// // 	background-color: transparent;
-// // `;
-
-// // const LoaderOverlay = styled(motion.div)<{ $mode: ThemeMode }>`
-// // 	position: absolute;
-// // 	top: 0;
-// // 	left: 0;
-// // 	width: 100%;
-// // 	height: 100%;
-// // 	background-color: ${({ $mode }) => ($mode === "light" ? "rgba(255, 255, 255, 0.9)" : "rgba(0, 0, 0, 0.9)")};
-// // 	display: flex;
-// // 	flex-direction: column;
-// // 	align-items: center;
-// // 	justify-content: center;
-// // 	z-index: 10;
-// // `;
-
-// // const LoadingText = styled.div<{ $mode: ThemeMode }>`
-// // 	font-size: 18px;
-// // 	color: ${({ $mode }) => ($mode === "light" ? "#333333" : "#FFFFFF")};
-// // 	margin-bottom: 1rem;
-// // `;
-
-// // const ProgressBar = styled(motion.div)`
-// // 	width: 200px;
-// // 	height: 4px;
-// // 	background-color: #e5e7eb;
-// // 	border-radius: 2px;
-// // 	overflow: hidden;
-// // `;
-
-// // const ProgressFill = styled(motion.div)`
-// // 	height: 100%;
-// // 	background-color: #3b82f6;
-// // 	border-radius: 2px;
-// // `;
-
-// // const StyledImage = styled(motion.img)`
-// // 	max-width: 100%;
-// // 	width: 100%;
-// // 	// height: auto;
-// // 	height: 50%;
-// // 	display: block;
-// // 	object-fit: cover;
-// // 	position: relative;
-// // 	border-radius: 2rem;
-// // 	border: 6px solid yellow;
-// // `;
-
-// // const PoemOverlay = styled(motion.div)`
-// // 	position: absolute;
-// // 	width: 90%;
-// // 	display: flex;
-// // 	flex-direction: column;
-// // 	justify-content: center;
-// // 	align-items: center;
-// // 	background: rgba(0, 0, 0, 0.5);
-// // 	color: white;
-// // 	padding: 2rem;
-// // 	text-align: center;
-// // 	pointer-events: none;
-// // `;
-
-// // const PoemTitle = styled.h2`
-// // 	font-size: 4rem;
-// // 	margin-bottom: 1rem;
-// // 	font-family: "Libre Baskerville", serif;
-// // `;
-
-// // const PoemText = styled.p`
-// // 	font-size: 2rem;
-// // 	line-height: 1.6;
-// // 	// max-width: 600px;
-// // 	font-family: "Libre Baskerville", serif;
-// // 	font-style: italic;
-// // `;
-
-// // const ContentWrapper = styled(motion.div)`
-// // 	position: relative;
-// // 	width: 100%;
-// // 	display: flex;
-// // 	flex-direction: column;
-// // 	align-items: center;
-// // `;
-
-// // const SoundButton = styled.button`
-// // 	position: fixed;
-// // 	bottom: 20px;
-// // 	right: 20px;
-// // 	padding: 10px;
-// // 	background: rgba(0, 0, 0, 0.5);
-// // 	color: white;
-// // 	border: none;
-// // 	border-radius: 5px;
-// // 	cursor: pointer;
-
-// // 	&:hover {
-// // 		background: rgba(0, 0, 0, 0.7);
-// // 	}
-// // `;
-
-// // type AudioContextType = typeof AudioContext;
-// // type WebkitAudioContextType = typeof webkitAudioContext;
-// // type SupportedAudioContext = AudioContextType | WebkitAudioContextType;
-
-// // interface ImageLoaderProps {
-// // 	src: string;
-// // 	alt: string;
-// // 	mode?: ThemeMode;
-// // 	className?: string;
-// // }
-
-// // const ImageLoader: React.FC<ImageLoaderProps> = ({ src, alt, mode = "light", className }) => {
-// // 	const [isLoading, setIsLoading] = useState(true);
-// // 	const [progress, setProgress] = useState(0);
-// // 	const [hasError, setHasError] = useState(false);
-// // 	const [showPoem, setShowPoem] = useState(false);
-// // 	const [startSlideAnimation, setStartSlideAnimation] = useState(false);
-// // 	const audioRef = useRef<HTMLAudioElement | null>(null);
-// // 	const [isAudioLoaded, setIsAudioLoaded] = useState(false);
-
-// // 	// Sound configuration
-// // 	const VOLUME = 0.5; // Adjust this value between 0.0 and 1.0
-// // 	const FADE_DURATION = 2000; // Duration for volume fade in milliseconds
-
-// // 	// Initialize audio on component mount
-// // 	useEffect(() => {
-// // 		const initializeAudio = async () => {
-// // 			try {
-// // 				// Create new audio context
-// // 				const audio = new Audio();
-// // 				// audio.src = "/sounds/whale-call-2.wav";
-// // 				audio.src = whaleSound;
-// // 				audio.volume = 0;
-// // 				audio.preload = "auto";
-
-// // 				// Wait for audio to be loaded
-// // 				await new Promise((resolve) => {
-// // 					audio.addEventListener("canplaythrough", resolve, { once: true });
-// // 					audio.load();
-// // 				});
-
-// // 				audioRef.current = audio;
-// // 				setIsAudioLoaded(true);
-// // 			} catch (error) {
-// // 				console.error("Audio initialization failed:", error);
-// // 			}
-// // 		};
-
-// // 		initializeAudio();
-
-// // 		// Cleanup
-// // 		return () => {
-// // 			if (audioRef.current) {
-// // 				audioRef.current.pause();
-// // 				audioRef.current.src = "";
-// // 				audioRef.current = null;
-// // 			}
-// // 		};
-// // 	}, []);
-
-// // 	// Function to fade in the volume
-// // 	const fadeInVolume = (audio: HTMLAudioElement) => {
-// // 		const startTime = Date.now();
-// // 		const fadeInterval = setInterval(() => {
-// // 			const elapsed = Date.now() - startTime;
-// // 			const percentage = Math.min(elapsed / FADE_DURATION, 1);
-// // 			const currentVolume = percentage * VOLUME;
-
-// // 			if (audio) {
-// // 				audio.volume = currentVolume;
-// // 			}
-
-// // 			if (percentage >= 1) {
-// // 				clearInterval(fadeInterval);
-// // 			}
-// // 		}, 50);
-
-// // 		return () => clearInterval(fadeInterval);
-// // 	};
-
-// // 	// Function to play sound with volume fade
-// // 	const playWhaleSound = async () => {
-// // 		if (audioRef.current && isAudioLoaded) {
-// // 			try {
-// // 				audioRef.current.currentTime = 0;
-// // 				audioRef.current.volume = 0;
-
-// // 				// Try to play with user interaction simulation
-// // 				const playPromise = audioRef.current.play();
-
-// // 				if (playPromise !== undefined) {
-// // 					await playPromise;
-// // 					fadeInVolume(audioRef.current);
-// // 				}
-// // 			} catch (error) {
-// // 				console.error("Audio playback failed:", error);
-// // 				// Optionally try to play again after a short delay
-// // 				setTimeout(() => {
-// // 					if (audioRef.current) {
-// // 						audioRef.current
-// // 							.play()
-// // 							.then(() => fadeInVolume(audioRef.current!))
-// // 							.catch((e) => console.error("Retry failed:", e));
-// // 					}
-// // 				}, 100);
-// // 			}
-// // 		}
-// // 	};
-
-// // 	useEffect(() => {
-// // 		const xhr = new XMLHttpRequest();
-// // 		xhr.open("GET", src, true);
-// // 		xhr.responseType = "blob";
-
-// // 		xhr.onprogress = (event) => {
-// // 			if (event.lengthComputable) {
-// // 				const percentComplete = (event.loaded / event.total) * 100;
-// // 				setProgress(Math.round(percentComplete));
-// // 			}
-// // 		};
-// // 		xhr.onload = () => {
-// // 			if (xhr.status === 200) {
-// // 				setProgress(100);
-// // 				const animationSequence = async () => {
-// // 					// Image loaded
-// // 					setIsLoading(false);
-
-// // 					// Show poem after 500ms
-// // 					await new Promise((resolve) => setTimeout(resolve, 500));
-// // 					setShowPoem(true);
-
-// // 					// Start slide animation after 1000ms
-// // 					await new Promise((resolve) => setTimeout(resolve, 1000));
-// // 					setStartSlideAnimation(true);
-
-// // 					// Play whale sound after animation starts (1000ms delay)
-// // 					// Add a user interaction simulation before playing
-// // 					await new Promise((resolve) => setTimeout(resolve, 800));
-// // 					const userInteractionEvent = new MouseEvent("click");
-// // 					document.dispatchEvent(userInteractionEvent);
-// // 					playWhaleSound();
-// // 				};
-
-// // 				animationSequence();
-// // 			} else {
-// // 				setHasError(true);
-// // 			}
-// // 		};
-
-// // 		xhr.onerror = () => {
-// // 			setHasError(true);
-// // 		};
-
-// // 		xhr.send();
-
-// // 		return () => xhr.abort();
-// // 	}, [src]);
-
-// // 	// const handleSoundPlay = () => {
-// // 	// 	if (audioRef.current) {
-// // 	// 		audioRef.current.play().catch((error) => {
-// // 	// 			console.log("Audio playback failed:", error);
-// // 	// 		});
-// // 	// 	}
-// // 	// };
-
-// // 	// Add click handler to document for audio unlock
-// // 	useEffect(() => {
-// // 		const unlockAudio = () => {
-// // 			if (audioRef.current) {
-// // 				// Properly typed AudioContext
-// // 				const AudioContextClass: SupportedAudioContext = window.AudioContext || window.webkitAudioContext;
-
-// // 				const audioContext = new AudioContextClass();
-// // 				audioContext.suspend();
-
-// // 				// Resume and close
-// // 				audioContext.resume().then(() => audioContext.close());
-
-// // 				// Remove the listener after first interaction
-// // 				document.removeEventListener("click", unlockAudio);
-// // 			}
-// // 		};
-
-// // 		document.addEventListener("click", unlockAudio);
-// // 		return () => document.removeEventListener("click", unlockAudio);
-// // 	}, []);
-
-// // 	if (hasError) {
-// // 		return <div>Error loading image</div>;
-// // 	}
-
-// // 	return (
-// // 		<Container className={className}>
-// // 			<AnimatePresence>
-// // 				{isLoading && (
-// // 					<LoaderOverlay $mode={mode} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }}>
-// // 						<LoadingText $mode={mode}>Loading...</LoadingText>
-// // 						<ProgressBar>
-// // 							<ProgressFill initial={{ width: 0 }} animate={{ width: `${progress}%` }} transition={{ duration: 0.3 }} />
-// // 						</ProgressBar>
-// // 					</LoaderOverlay>
-// // 				)}
-// // 			</AnimatePresence>
-
-// // 			<ContentWrapper>
-// // 				<StyledImage
-// // 					src={src}
-// // 					alt={alt}
-// // 					initial={{ opacity: 0, y: 0 }}
-// // 					animate={{
-// // 						opacity: isLoading ? 0 : 1,
-// // 						y: startSlideAnimation ? -110 : 0, // Slide up after image is loaded
-// // 					}}
-// // 					transition={{
-// // 						opacity: { duration: 0.5 },
-// // 						y: { duration: 1.2, ease: "easeOut" },
-// // 					}}
-// // 				/>
-
-// // 				<AnimatePresence>
-// // 					{showPoem && (
-// // 						<PoemOverlay
-// // 							initial={{ opacity: 0, y: 20 }}
-// // 							animate={{
-// // 								opacity: 1,
-// // 								y: startSlideAnimation ? 370 : 20, // Slide down after image is loaded
-// // 							}}
-// // 							exit={{ opacity: 0, y: -20 }}
-// // 							transition={{
-// // 								opacity: { duration: 0.8 },
-// // 								y: { duration: 1.2, ease: "easeOut" },
-// // 							}}
-// // 						>
-// // 							{/* <SoundButton onClick={handleSoundPlay}>🐋 Play Whale Sound</SoundButton> */}
-// // 							<PoemTitle>Guiding Song</PoemTitle>
-// // 							<PoemText>
-// // 								Beneath the waves, a whale does sing,
-// // 								<br />
-// // 								Of minds that learn and dreams that spring.
-// // 								<br />
-// // 								Its hums weave tales of AI’s might,
-// // 								<br />
-// // 								A guiding song in endless night.
-// // 								<br />
-// // 							</PoemText>
-// // 						</PoemOverlay>
-// // 					)}
-// // 				</AnimatePresence>
-// // 			</ContentWrapper>
-// // 		</Container>
-// // 	);
-// // };
-
-// // export default ImageLoader;
-
-
-// // const StyledImage = styled(motion.img)`
-// //   max-width: 100%;
-// //   width: 100%;
-// //   height: auto;
-// //   display: block;
-// //   object-fit: cover;
-// // `;
-
-// // // Poem overlay
-// // const PoemOverlay = styled(motion.div)`
-// //   position: absolute;
-// //   top: 0;
-// //   left: 0;
-// //   width: 100%;
-// //   height: 100%;
-// //   display: flex;
-// //   flex-direction: column;
-// //   justify-content: center;
-// //   align-items: center;
-// // //   background: rgba(0, 0, 0, 0.5);
-// //   color: white;
-// //   padding: 2rem;
-// //   text-align: center;
-// //   pointer-events: none;
-// // `;
-
-// // const PoemTitle = styled.h2`
-// //   font-size: 4rem;
-// //   font-weight: 800;
-// //   margin-bottom: 1rem;
-// //   font-family: 'Libre Baskerville', serif;
-// // `;
-
-// // const PoemText = styled.p`
-// //   font-size: 2rem;
-// //   font-weight: 200;
-// //   line-height: 1.6;
-// // //   max-width: 600px;
-// // //   font-family: 'Open Sans', sans-serif;
-// //   font-family: 'Libre Baskerville', serif;
-// //   font-style: italic;
-// // `;
-
-// // interface ImageLoaderProps {
-// //   src: string;
-// //   alt: string;
-// //   mode?: ThemeMode;
-// //   className?: string;
-// // }
-
-// // const ImageLoader: React.FC<ImageLoaderProps> = ({
-// //    src,
-// //    alt,
-// //    mode = 'light',
-// //    className
-// //  }) => {
-// //    const [isLoading, setIsLoading] = useState(true);
-// //    const [progress, setProgress] = useState(0);
-// //    const [hasError, setHasError] = useState(false);
-// //    const [showPoem, setShowPoem] = useState(false);
-
-// //    useEffect(() => {
-// //      const xhr = new XMLHttpRequest();
-// //      xhr.open('GET', src, true);
-// //      xhr.responseType = 'blob';
-
-// //      xhr.onprogress = (event) => {
-// //        if (event.lengthComputable) {
-// //          const percentComplete = (event.loaded / event.total) * 100;
-// //          setProgress(Math.round(percentComplete));
-// //        }
-// //      };
-
-// //      xhr.onload = () => {
-// //        if (xhr.status === 200) {
-// //          setProgress(100);
-// //          setTimeout(() => {
-// //            setIsLoading(false);
-// //            // Show poem after a slight delay once image is loaded
-// //            setTimeout(() => setShowPoem(true), 500);
-// //          }, 300);
-// //        } else {
-// //          setHasError(true);
-// //        }
-// //      };
-
-// //      xhr.onerror = () => {
-// //        setHasError(true);
-// //      };
-
-// //      xhr.send();
-
-// //      return () => xhr.abort();
-// //    }, [src]);
-
-// //    if (hasError) {
-// //      return <div>Error loading image</div>;
-// //    }
-
-// //    return (
-// //      <Container className={className}>
-// //        <AnimatePresence>
-// //          {isLoading && (
-// //            <LoaderOverlay
-// //              $mode={mode}
-// //              initial={{ opacity: 0 }}
-// //              animate={{ opacity: 1 }}
-// //              exit={{ opacity: 0 }}
-// //              transition={{ duration: 0.3 }}
-// //            >
-// //              <LoadingText $mode={mode}>Loading...</LoadingText>
-// //              <ProgressBar>
-// //                <ProgressFill
-// //                  initial={{ width: 0 }}
-// //                  animate={{ width: `${progress}%` }}
-// //                  transition={{ duration: 0.3 }}
-// //                />
-// //              </ProgressBar>
-// //            </LoaderOverlay>
-// //          )}
-// //        </AnimatePresence>
-
-// //        <StyledImage
-// //          src={src}
-// //          alt={alt}
-// //          initial={{ opacity: 0 }}
-// //          animate={{ opacity: isLoading ? 0 : 1 }}
-// //          transition={{ duration: 0.5 }}
-// //        />
-
-// //        <AnimatePresence>
-// //          {showPoem && (
-// //            <PoemOverlay
-// //              initial={{ opacity: 0, y: 20 }}
-// //              animate={{ opacity: 1, y: 0 }}
-// //              exit={{ opacity: 0, y: -20 }}
-// //              transition={{ duration: 0.8, ease: "easeOut" }}
-// //            >
-// //              <PoemTitle>Guiding Song</PoemTitle>
-// //              <PoemText>
-// //              Beneath the waves, a whale does sing,<br />
-// //             Of minds that learn and dreams that spring.<br />
-// //             Its hums weave tales of AI’s might,<br />
-// //             A guiding song in endless night.<br />
-// //             <br />
-// //                {/* Beneath the waves, a shadow glides,<br />
-// //                In ocean's depths, where mystery hides.<br />
-// //                Graceful giant of the deep,<br />
-// //                Ancient secrets does it keep.<br />
-// //                <br />
-// //                Through timeless waters, calm and free,<br />
-// //                Nature's guardian of the sea. */}
-// //              </PoemText>
-// //            </PoemOverlay>
-// //          )}
-// //        </AnimatePresence>
-// //      </Container>
-// //    );
-// //  };
-
-// // export default ImageLoader;
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+`;
+
+interface ImageLoaderProps {
+   src: string;
+   alt: string;
+   mode?: ThemeMode;
+   className?: string;
+ }
+
+ const ImageLoader: React.FC<ImageLoaderProps> = ({
+   src,
+   alt,
+   mode = "light",
+   className
+ }) => {
+   const [isLoading, setIsLoading] = useState(true);
+   const [progress, setProgress] = useState(0);
+   const [showPoem, setShowPoem] = useState(false);
+   const [startSlideAnimation, setStartSlideAnimation] = useState(false);
+   const [hasError, setHasError] = useState(false);
+   const [isPlaying, setIsPlaying] = useState(false);
+
+   const audioRef = useRef<HTMLAudioElement | null>(null);
+   const audioContextRef = useRef<AudioContext | null>(null);
+   const sourceRef = useRef<AudioBufferSourceNode | null>(null);
+   const gainNodeRef = useRef<GainNode | null>(null);
+   const [audioBuffer, setAudioBuffer] = useState<AudioBuffer | null>(null);
+
+   // Initialize WebAudio context
+   useEffect(() => {
+     const initAudioContext = async () => {
+       try {
+         const AudioContext = window.AudioContext || window.webkitAudioContext;
+         audioContextRef.current = new AudioContext();
+
+         // Fetch and decode audio file
+         const response = await fetch(whaleSound);
+         const arrayBuffer = await response.arrayBuffer();
+         const decodedBuffer = await audioContextRef.current.decodeAudioData(arrayBuffer);
+         setAudioBuffer(decodedBuffer);
+
+         // Create gain node
+         gainNodeRef.current = audioContextRef.current.createGain();
+         gainNodeRef.current.connect(audioContextRef.current.destination);
+         gainNodeRef.current.gain.value = 0;
+       } catch (error) {
+         console.error("Audio initialization error:", error);
+       }
+     };
+
+     initAudioContext();
+
+     return () => {
+       if (audioContextRef.current) {
+         audioContextRef.current.close();
+       }
+     };
+   }, []);
+
+   const playSound = useCallback(async (isAutoplay = false) => {
+     if (!audioContextRef.current || !audioBuffer || !gainNodeRef.current) return;
+
+     try {
+       // Resume context if suspended
+       if (audioContextRef.current.state === 'suspended') {
+         await audioContextRef.current.resume();
+       }
+
+       // Stop any currently playing sound
+       if (sourceRef.current) {
+         sourceRef.current.stop();
+         sourceRef.current.disconnect();
+       }
+
+       // Create and configure new source
+       sourceRef.current = audioContextRef.current.createBufferSource();
+       sourceRef.current.buffer = audioBuffer;
+       sourceRef.current.connect(gainNodeRef.current);
+
+       // Reset gain and start fade in
+       gainNodeRef.current.gain.setValueAtTime(0, audioContextRef.current.currentTime);
+       gainNodeRef.current.gain.linearRampToValueAtTime(
+         0.3,
+         audioContextRef.current.currentTime + 1
+       );
+
+       // Start playback
+       sourceRef.current.start();
+       setIsPlaying(true);
+
+       // Handle ending
+       sourceRef.current.onended = () => {
+         setIsPlaying(false);
+       };
+
+     } catch (error) {
+       console.error("Playback failed:", error);
+       setIsPlaying(false);
+     }
+   }, [audioBuffer]);
+
+   // Initialize animation and try autoplay
+   useEffect(() => {
+     const xhr = new XMLHttpRequest();
+     xhr.open("GET", src, true);
+     xhr.responseType = "blob";
+
+     xhr.onprogress = (event) => {
+       if (event.lengthComputable) {
+         const percentComplete = (event.loaded / event.total) * 100;
+         setProgress(Math.round(percentComplete));
+       }
+     };
+
+     xhr.onload = () => {
+       if (xhr.status === 200) {
+         setProgress(100);
+         const runAnimationSequence = async () => {
+           setIsLoading(false);
+
+           await new Promise(resolve => setTimeout(resolve, 500));
+           setShowPoem(true);
+
+           await new Promise(resolve => setTimeout(resolve, 1000));
+           setStartSlideAnimation(true);
+
+           // Attempt to play sound after animation
+           await new Promise(resolve => setTimeout(resolve, 800));
+
+           // Create a temporary button and simulate click
+           const tempButton = document.createElement('button');
+           tempButton.style.display = 'none';
+           document.body.appendChild(tempButton);
+           tempButton.addEventListener('click', () => {
+             playSound(true);
+             tempButton.remove();
+           });
+           tempButton.click();
+         };
+
+         runAnimationSequence();
+       } else {
+         setHasError(true);
+       }
+     };
+
+     xhr.onerror = () => {
+       setHasError(true);
+     };
+
+     xhr.send();
+
+     return () => {
+       xhr.abort();
+       if (sourceRef.current) {
+         sourceRef.current.stop();
+       }
+     };
+   }, [src, playSound]);
+
+   // Handle manual play button click
+   const handlePlayClick = () => {
+     playSound(false);
+   };
+
+   if (hasError) {
+     return <div>Error loading image</div>;
+   }
+
+   return (
+     <Container className={className}>
+       <ContentWrapper>
+         <StyledImage
+           src={src}
+           alt={alt}
+           initial={{ opacity: 0, y: 0 }}
+           animate={{
+             opacity: isLoading ? 0 : 1,
+             y: startSlideAnimation ? -210 : 0
+           }}
+           transition={{
+             opacity: { duration: 0.5 },
+             y: { duration: 1.2, ease: "easeOut" }
+           }}
+         />
+
+         <AnimatePresence>
+           {showPoem && (
+             <PoemOverlay
+               initial={{ opacity: 0, y: 20 }}
+               animate={{
+                 opacity: 1,
+                 y: startSlideAnimation ? 150 : 20
+               }}
+               exit={{ opacity: 0, y: -20 }}
+               transition={{
+                 opacity: { duration: 0.8 },
+                 y: { duration: 1.2, ease: "easeOut" }
+               }}
+             >
+               <PoemTitle>The Gentle Giant</PoemTitle>
+               <PoemText>
+                 Beneath the waves, a shadow glides,<br />
+                 In ocean's depths, where mystery hides.<br />
+                 Graceful giant of the deep,<br />
+                 Ancient secrets does it keep.<br />
+                 <br />
+                 Through timeless waters, calm and free,<br />
+                 Nature's guardian of the sea.
+               </PoemText>
+             </PoemOverlay>
+           )}
+         </AnimatePresence>
+       </ContentWrapper>
+
+       <PlayButton
+         onClick={handlePlayClick}
+         disabled={isPlaying}
+       >
+         {isPlaying ? '🔊 Playing...' : '🔈 Play Whale Sound'}
+       </PlayButton>
+
+       {isLoading && (
+         <LoaderOverlay
+           $mode={mode}
+           initial={{ opacity: 0 }}
+           animate={{ opacity: 1 }}
+           exit={{ opacity: 0 }}
+           transition={{ duration: 0.3 }}
+         >
+           <div>Loading... {progress}%</div>
+         </LoaderOverlay>
+       )}
+     </Container>
+   );
+ };
+
+ export default ImageLoader;
 
 ```
 
@@ -3969,19 +2845,17 @@ import React from "react";
 import { HomeContainer, ImageDiv } from "./Home.styles";
 import whale from "@/assets/Loader/Whale.png";
 import ImageLoader from "@/components/Animations/ImageLoader";
+import whaleSound from "@/assets/sounds/whale-call-2.wav";
 
 const Home: React.FC = () => {
-  return (
-    <HomeContainer>
-      <ImageDiv>
-        <ImageLoader
-          src={whale}
-          alt="Whale illustration"
-          mode="light"
-        />
-      </ImageDiv>
-    </HomeContainer>
-  );
+	console.log("Sound file path:", whaleSound);
+	return (
+		<HomeContainer>
+			<ImageDiv>
+				<ImageLoader src={whale} alt="Whale illustration" mode="light" soundSrc={whaleSound} />
+			</ImageDiv>
+		</HomeContainer>
+	);
 };
 
 export default Home;
@@ -4197,36 +3071,6 @@ export const GlobalStyles = createGlobalStyle`
   }
 `;
 
-// import { createGlobalStyle } from 'styled-components';
-
-// export const GlobalStyles = createGlobalStyle`
-//   * {
-//     margin: 0;
-//     padding: 0;
-//     box-sizing: border-box;
-//   }
-
-//   // Set the height of the body to 1020px
-//   html, body, #root {
-//     height: 1020px;
-//     overflow: hidden;
-//   }
-
-//   body {
-//     font-family: 'Open Sans', sans-serif;
-//     color: ${({ theme }) => theme.colors.text};
-//     transition: all 1.3s ease;
-//   }
-
-//   #root {
-//     position: relative;
-//     z-index: 1;
-//   }
-
-//   h1 { font-size: 40px; }
-//   h2 { font-size: 24px; }
-//   p { font-size: 20px; }
-// `;
 ```
 
 # src/styles/theme.ts
