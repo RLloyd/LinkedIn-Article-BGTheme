@@ -5,3 +5,7 @@ declare module '*.png';
 declare module '*.gif';
 declare module '*.svg';
 declare module '*.webp';
+declare module '*.wav' {
+   const content: string;
+   export default content;
+ }

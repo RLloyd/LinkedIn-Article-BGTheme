@@ -115,6 +115,7 @@ export default tseslint.config(
     "@types/react-dom": "^18.3.1",
     "@types/styled-components": "^5.1.34",
     "@vitejs/plugin-react": "^4.3.3",
+    "babel-plugin-styled-components": "^2.1.4",
     "eslint": "^9.13.0",
     "eslint-plugin-react-hooks": "^5.0.0",
     "eslint-plugin-react-refresh": "^0.4.14",
@@ -182,180 +183,7 @@ Use the source control to commit and push to GIT
 # public/Notes/Misc.tsx
 
 ```tsx
-// src/styles/theme.ts
 
-// ... previous interfaces and types remain the same ...
-
-// Base theme with common values
-const baseTheme = {
-   typography: {
-     heading: {
-       fontFamily: '"Libre Baskerville", serif',
-       weights: {
-         regular: 400,
-         medium: 500,
-         bold: 700
-       },
-       sizes: {
-         h1: '2.5rem',
-         h2: '2rem',
-         h3: '1.75rem',
-         h4: '1.5rem',
-         h5: '1.25rem',
-         h6: '1rem'
-       }
-     },
-     body: {
-       fontFamily: '"Open Sans", sans-serif',
-       weights: {
-         regular: 400,
-         medium: 500,
-         bold: 700
-       },
-       sizes: {
-         xs: '0.75rem',
-         sm: '0.875rem',
-         base: '1rem',
-         lg: '1.125rem',
-         xl: '1.25rem'
-       }
-     }
-   }
- };
-
- // Common colors
- const colors = {
-   primary: {
-     100: '#EBE5F6',
-     200: '#D7CCED',
-     300: '#C3B2E3',
-     400: '#AF99DA',
-     500: '#8465C3',
-     600: '#6A51C0',
-     700: '#503DBD',
-     800: '#3629BA',
-     900: '#1C15B7'
-   },
-   secondary: {
-     100: '#E6FEFF',
-     200: '#CCFEFF',
-     300: '#B3FDFF',
-     400: '#99FCFF',
-     500: '#3AF1F9',
-     600: '#2ED8E0',
-     700: '#22BFC6',
-     800: '#16A6AD',
-     900: '#0A8D93'
-   },
-   accent: {
-     100: '#FFE9E3',
-     200: '#FFD3C8',
-     300: '#FFBDAC',
-     400: '#FFA791',
-     500: '#F46A47',
-     600: '#DB503D',
-     700: '#C23633',
-     800: '#A91C29',
-     900: '#90021F'
-   },
-   success: {
-     100: '#F0F7E6',
-     200: '#E1EFCC',
-     300: '#D2E7B3',
-     400: '#C3DF99',
-     500: '#A2C465',
-     600: '#88AB4B',
-     700: '#6F9231',
-     800: '#557917',
-     900: '#3C5F00'
-   },
-   warning: {
-     100: '#FFF5EB',
-     200: '#FFEBD7',
-     300: '#FFE1C3',
-     400: '#FFD7AF',
-     500: '#FAD8B4',
-     600: '#E1BF9A',
-     700: '#C8A680',
-     800: '#AF8D66',
-     900: '#96744C'
-   },
-   danger: {
-     100: '#FFE5E8',
-     200: '#FFCCD1',
-     300: '#FFB2BA',
-     400: '#FF99A3',
-     500: '#F5536A',
-     600: '#DC3950',
-     700: '#C21F36',
-     800: '#A9051C',
-     900: '#900002'
-   },
-   gray: {
-     100: '#F7F7F7',
-     200: '#E6E6E6',
-     300: '#D5D5D5',
-     400: '#C4C4C4',
-     500: '#676767',
-     600: '#525252',
-     700: '#3D3D3D',
-     800: '#282828',
-     900: '#131313'
-   }
- };
-
- // Light theme
- export const lightTheme: Theme = {
-   colors: {
-     ...colors,
-     background: {
-       light: '#FFFFFF',
-       dark: '#121212'
-     },
-     text: {
-       light: {
-         primary: '#676767',
-         secondary: '#8F8F8F',
-         disabled: '#CCCCCC'
-       },
-       dark: {
-         primary: '#FFFFFF',
-         secondary: '#E0E0E0',
-         disabled: '#6E6E6E'
-       }
-     }
-   },
-   typography: baseTheme.typography
- };
-
- // Dark theme
- export const darkTheme: Theme = {
-   colors: {
-     ...colors,
-     background: {
-       light: '#121212',
-       dark: '#000000'
-     },
-     text: {
-       light: {
-         primary: '#FFFFFF',
-         secondary: '#E0E0E0',
-         disabled: '#6E6E6E'
-       },
-       dark: {
-         primary: '#FFFFFF',
-         secondary: '#E0E0E0',
-         disabled: '#6E6E6E'
-       }
-     }
-   },
-   typography: baseTheme.typography
- };
-
- // Default theme (for utilities to use)
- export const theme = lightTheme;
-
- // ... rest of the utility functions remain the same ...
 ```
 
 # public/Notes/Misc2.ts
@@ -628,6 +456,14 @@ export interface ColorShades {
  // const textColor = getTextColor('dark', 'primary');
 ```
 
+# public/sounds/whale-call-1.wav
+
+This is a binary file of the type: Binary
+
+# public/sounds/whale-call-2.wav
+
+This is a binary file of the type: Binary
+
 # public/vite.svg
 
 This is a file of the type: SVG Image
@@ -835,6 +671,18 @@ This is a binary file of the type: Image
 # src/assets/react.svg
 
 This is a file of the type: SVG Image
+
+# src/assets/sounds/whale-call-1.wav
+
+This is a binary file of the type: Binary
+
+# src/assets/sounds/whale-call-2.wav
+
+This is a binary file of the type: Binary
+
+# src/assets/sounds/whale-call.wav
+
+This is a binary file of the type: Binary
 
 # src/assets/veil.png
 
@@ -2123,311 +1971,949 @@ export default ImageLoader;
 ```tsx
 // src/components/Animations/ImageLoader.tsx
 
-import { ThemeMode, getBackgroundColor, getTextColor } from '@/styles/theme';
-import React, { useEffect, useState } from 'react';
-// import { motion } from 'framer-motion';
-// import { ThemeMode, getBackgroundColor, getTextColor, getColor } from '@/styles/theme';
-// import { getColor, getBackgroundColor, getTextColor, ThemeMode } from '../styles/theme';
-// import {
-//    theme,
-//    getColor,
-//    getBackgroundColor,
-//    getTextColor,
-//    type ThemeMode
-//  } from '../styles/theme';
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import styled from "styled-components";
+import { ThemeMode } from "@/styles/theme";
+import whaleSound from "@/assets/sounds/whale-call-2.wav";
+
+const Container = styled.div`
+	position: relative;
+	width: 100%;
+	height: 100%;
+	min-height: 200px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: transparent;
+`;
+
+const LoaderOverlay = styled(motion.div)<{ $mode: ThemeMode }>`
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: ${({ $mode }) => ($mode === "light" ? "rgba(255, 255, 255, 0.9)" : "rgba(0, 0, 0, 0.9)")};
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	z-index: 10;
+`;
+
+const LoadingText = styled.div<{ $mode: ThemeMode }>`
+	font-size: 18px;
+	color: ${({ $mode }) => ($mode === "light" ? "#333333" : "#FFFFFF")};
+	margin-bottom: 1rem;
+`;
+
+const ProgressBar = styled(motion.div)`
+	width: 200px;
+	height: 4px;
+	background-color: #e5e7eb;
+	border-radius: 2px;
+	overflow: hidden;
+`;
+
+const ProgressFill = styled(motion.div)`
+	height: 100%;
+	background-color: #3b82f6;
+	border-radius: 2px;
+`;
+
+const StyledImage = styled(motion.img)`
+	max-width: 100%;
+	width: 100%;
+	// height: auto;
+	height: 50%;
+	display: block;
+	object-fit: cover;
+	position: relative;
+	border-radius: 2rem;
+	border: 6px solid yellow;
+`;
+
+const PoemOverlay = styled(motion.div)`
+	position: absolute;
+	width: 90%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	background: rgba(0, 0, 0, 0.5);
+	color: white;
+	padding: 2rem;
+	text-align: center;
+	pointer-events: none;
+`;
+
+const PoemTitle = styled.h2`
+	font-size: 4rem;
+	margin-bottom: 1rem;
+	font-family: "Libre Baskerville", serif;
+`;
+
+const PoemText = styled.p`
+	font-size: 2rem;
+	line-height: 1.6;
+	// max-width: 600px;
+	font-family: "Libre Baskerville", serif;
+	font-style: italic;
+`;
+
+const ContentWrapper = styled(motion.div)`
+	position: relative;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+`;
+
+const SoundButton = styled.button`
+	position: fixed;
+	bottom: 20px;
+	right: 20px;
+	padding: 10px;
+	background: rgba(0, 0, 0, 0.5);
+	color: white;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+
+	&:hover {
+		background: rgba(0, 0, 0, 0.7);
+	}
+`;
+
+type AudioContextType = typeof AudioContext;
+type WebkitAudioContextType = typeof webkitAudioContext;
+type SupportedAudioContext = AudioContextType | WebkitAudioContextType;
 
 interface ImageLoaderProps {
-  src: string;
-  alt: string;
-  className?: string;
-  mode?: ThemeMode;
+	src: string;
+	alt: string;
+	mode?: ThemeMode;
+	className?: string;
 }
 
 const ImageLoader: React.FC<ImageLoaderProps> = ({
   src,
   alt,
-  mode = 'light'
+  mode = 'light',
+  className
 }) => {
-  const [isLoading] = useState(true);
-//   const [progress, setProgress] = useState(0);
-//   const [hasError, setHasError] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [progress, setProgress] = useState(0);
+  const [hasError, setHasError] = useState(false);
+  const [showPoem, setShowPoem] = useState(false);
+  const [startSlideAnimation, setStartSlideAnimation] = useState(false);
 
-  // Get colors based on theme mode
-  const backgroundColor = getBackgroundColor(mode);
-  const textColor = getTextColor(mode, 'primary');
+  const VOLUME = 0.3;
+  const FADE_DURATION = 2000;
 
+  const fadeInVolume = (audio: HTMLAudioElement) => {
+    const startTime = Date.now();
+    const fadeInterval = setInterval(() => {
+      const elapsed = Date.now() - startTime;
+      const percentage = Math.min(elapsed / FADE_DURATION, 1);
+      const currentVolume = percentage * VOLUME;
 
-   function setHasError(arg0: boolean): void {
-      throw new Error('Function not implemented.');
-   }
+      audio.volume = currentVolume;
 
-  // Rest of the implementation remains same but using theme colors
+      if (percentage >= 1) {
+        clearInterval(fadeInterval);
+      }
+    }, 50);
+
+    return () => clearInterval(fadeInterval);
+  };
+
+  const playWhaleSound = useCallback(async () => {
+    try {
+      // Create a new audio element each time
+      const audio = new Audio(whaleSound);
+      audio.volume = 0;
+
+      // Wait for the audio to be loaded
+      await new Promise((resolve) => {
+        audio.addEventListener('canplaythrough', resolve, { once: true });
+        audio.load();
+      });
+
+      // Play the sound
+      await audio.play();
+      fadeInVolume(audio);
+
+      // Cleanup when audio ends
+      audio.addEventListener('ended', () => {
+        audio.remove();
+      });
+    } catch (error) {
+      console.error('Audio playback failed:', error);
+    }
+  }, []);
+
+  const resetState = useCallback(() => {
+    setIsLoading(true);
+    setProgress(0);
+    setShowPoem(false);
+    setStartSlideAnimation(false);
+  }, []);
+
+  useEffect(() => {
+    resetState();
+
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', src, true);
+    xhr.responseType = 'blob';
+
+    xhr.onprogress = (event) => {
+      if (event.lengthComputable) {
+        const percentComplete = (event.loaded / event.total) * 100;
+        setProgress(Math.round(percentComplete));
+      }
+    };
+
+    xhr.onload = () => {
+      if (xhr.status === 200) {
+        setProgress(100);
+        const runAnimationSequence = async () => {
+          setIsLoading(false);
+
+          await new Promise(resolve => setTimeout(resolve, 500));
+          setShowPoem(true);
+
+          await new Promise(resolve => setTimeout(resolve, 1000));
+          setStartSlideAnimation(true);
+
+          // Play sound after animation starts
+          await new Promise(resolve => setTimeout(resolve, 800));
+          await playWhaleSound();
+        };
+
+        runAnimationSequence();
+      } else {
+        setHasError(true);
+      }
+    };
+
+    xhr.onerror = () => {
+      setHasError(true);
+    };
+
+    xhr.send();
+
+    return () => xhr.abort();
+  }, [src, playWhaleSound, resetState]);
+
+  // Initialize audio context on first user interaction
+  useEffect(() => {
+    const initAudioContext = () => {
+      const AudioContextClass: SupportedAudioContext =
+        window.AudioContext || window.webkitAudioContext;
+
+      const audioContext = new AudioContextClass();
+      audioContext.resume().then(() => {
+        audioContext.close();
+        document.removeEventListener('click', initAudioContext);
+      });
+    };
+
+    document.addEventListener('click', initAudioContext);
+    return () => document.removeEventListener('click', initAudioContext);
+  }, []);
+
+  if (hasError) {
+    return <div>Error loading image</div>;
+  }
+
   return (
-    <div style={{ position: 'relative', width: '100%', minHeight: '200px' }}>
-      {isLoading && (
-        <div style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          backgroundColor: backgroundColor,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          zIndex: 10
-        }}>
-          {/* ... rest of the JSX, using theme colors ... */}
-          <div style={{
-            fontSize: '18px',
-            color: textColor,
-            // ... other styles
-          }}>
-            Loading...
-          </div>
-        </div>
-      )}
+    <Container className={className}>
+      <AnimatePresence>
+        {isLoading && (
+          <LoaderOverlay
+            $mode={mode}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <LoadingText $mode={mode}>Loading...</LoadingText>
+            <ProgressBar>
+              <ProgressFill
+                initial={{ width: 0 }}
+                animate={{ width: `${progress}%` }}
+                transition={{ duration: 0.3 }}
+              />
+            </ProgressBar>
+          </LoaderOverlay>
+        )}
+      </AnimatePresence>
 
-      <img
-        src={src}
-        alt={alt}
-        style={{
-          width: '100%',
-          height: 'auto',
-          opacity: isLoading ? 0 : 1,
-          transition: 'opacity 0.3s'
-        }}
-        onError={() => setHasError(true)}
-      />
-    </div>
+      <ContentWrapper>
+        <StyledImage
+          src={src}
+          alt={alt}
+          initial={{ opacity: 0, y: 0 }}
+          animate={{
+            opacity: isLoading ? 0 : 1,
+            y: startSlideAnimation ? -210 : 0
+          }}
+          transition={{
+            opacity: { duration: 0.5 },
+            y: { duration: 1.2, ease: "easeOut" }
+          }}
+        />
+
+        <AnimatePresence>
+          {showPoem && (
+            <PoemOverlay
+              initial={{ opacity: 0, y: 20 }}
+              animate={{
+                opacity: 1,
+                y: startSlideAnimation ? 150 : 20
+              }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{
+                opacity: { duration: 0.8 },
+                y: { duration: 1.2, ease: "easeOut" }
+              }}
+            >
+              <PoemTitle>The Gentle Giant</PoemTitle>
+              <PoemText>
+                Beneath the waves, a shadow glides,<br />
+                In ocean's depths, where mystery hides.<br />
+                Graceful giant of the deep,<br />
+                Ancient secrets does it keep.<br />
+                <br />
+                Through timeless waters, calm and free,<br />
+                Nature's guardian of the sea.
+              </PoemText>
+            </PoemOverlay>
+          )}
+        </AnimatePresence>
+      </ContentWrapper>
+    </Container>
   );
 };
 
 export default ImageLoader;
 
-// import React, { useEffect, useState } from 'react';
-// import { motion } from 'framer-motion';
+// import React, { useCallback, useEffect, useRef, useState } from "react";
+// import { motion, AnimatePresence } from "framer-motion";
+// import styled from "styled-components";
+// import { ThemeMode } from "@/styles/theme";
+// import whaleSound from "@/assets/sounds/whale-call-2.wav";
+
+// const Container = styled.div`
+// 	position: relative;
+// 	width: 100%;
+// 	height: 100%;
+// 	min-height: 200px;
+// 	display: flex;
+// 	justify-content: center;
+// 	align-items: center;
+// 	background-color: transparent;
+// `;
+
+// const LoaderOverlay = styled(motion.div)<{ $mode: ThemeMode }>`
+// 	position: absolute;
+// 	top: 0;
+// 	left: 0;
+// 	width: 100%;
+// 	height: 100%;
+// 	background-color: ${({ $mode }) => ($mode === "light" ? "rgba(255, 255, 255, 0.9)" : "rgba(0, 0, 0, 0.9)")};
+// 	display: flex;
+// 	flex-direction: column;
+// 	align-items: center;
+// 	justify-content: center;
+// 	z-index: 10;
+// `;
+
+// const LoadingText = styled.div<{ $mode: ThemeMode }>`
+// 	font-size: 18px;
+// 	color: ${({ $mode }) => ($mode === "light" ? "#333333" : "#FFFFFF")};
+// 	margin-bottom: 1rem;
+// `;
+
+// const ProgressBar = styled(motion.div)`
+// 	width: 200px;
+// 	height: 4px;
+// 	background-color: #e5e7eb;
+// 	border-radius: 2px;
+// 	overflow: hidden;
+// `;
+
+// const ProgressFill = styled(motion.div)`
+// 	height: 100%;
+// 	background-color: #3b82f6;
+// 	border-radius: 2px;
+// `;
+
+// const StyledImage = styled(motion.img)`
+// 	max-width: 100%;
+// 	width: 100%;
+// 	// height: auto;
+// 	height: 50%;
+// 	display: block;
+// 	object-fit: cover;
+// 	position: relative;
+// 	border-radius: 2rem;
+// 	border: 6px solid yellow;
+// `;
+
+// const PoemOverlay = styled(motion.div)`
+// 	position: absolute;
+// 	width: 90%;
+// 	display: flex;
+// 	flex-direction: column;
+// 	justify-content: center;
+// 	align-items: center;
+// 	background: rgba(0, 0, 0, 0.5);
+// 	color: white;
+// 	padding: 2rem;
+// 	text-align: center;
+// 	pointer-events: none;
+// `;
+
+// const PoemTitle = styled.h2`
+// 	font-size: 4rem;
+// 	margin-bottom: 1rem;
+// 	font-family: "Libre Baskerville", serif;
+// `;
+
+// const PoemText = styled.p`
+// 	font-size: 2rem;
+// 	line-height: 1.6;
+// 	// max-width: 600px;
+// 	font-family: "Libre Baskerville", serif;
+// 	font-style: italic;
+// `;
+
+// const ContentWrapper = styled(motion.div)`
+// 	position: relative;
+// 	width: 100%;
+// 	display: flex;
+// 	flex-direction: column;
+// 	align-items: center;
+// `;
+
+// const SoundButton = styled.button`
+// 	position: fixed;
+// 	bottom: 20px;
+// 	right: 20px;
+// 	padding: 10px;
+// 	background: rgba(0, 0, 0, 0.5);
+// 	color: white;
+// 	border: none;
+// 	border-radius: 5px;
+// 	cursor: pointer;
+
+// 	&:hover {
+// 		background: rgba(0, 0, 0, 0.7);
+// 	}
+// `;
+
+// type AudioContextType = typeof AudioContext;
+// type WebkitAudioContextType = typeof webkitAudioContext;
+// type SupportedAudioContext = AudioContextType | WebkitAudioContextType;
 
 // interface ImageLoaderProps {
-//   src: string;
-//   alt: string;
-//   className?: string;
+// 	src: string;
+// 	alt: string;
+// 	mode?: ThemeMode;
+// 	className?: string;
 // }
 
-// const ImageLoader: React.FC<ImageLoaderProps> = ({ src, alt, className }) => {
-//   const [isLoading, setIsLoading] = useState(true);
-//   const [progress, setProgress] = useState(0);
+// const ImageLoader: React.FC<ImageLoaderProps> = ({
+//    src,
+//    alt,
+//    mode = 'light',
+//    className
+//  }) => {
+//    const [isLoading, setIsLoading] = useState(true);
+//    const [progress, setProgress] = useState(0);
+//    const [hasError, setHasError] = useState(false);
+//    const [showPoem, setShowPoem] = useState(false);
+//    const [startSlideAnimation, setStartSlideAnimation] = useState(false);
+//    const audioRef = useRef<HTMLAudioElement | null>(null);
 
-//   useEffect(() => {
-//     setIsLoading(true);
-//     setProgress(0);
+//    const VOLUME = 0.3;
+//    const FADE_DURATION = 2000;
 
-//     const xhr = new XMLHttpRequest();
-//     xhr.open('GET', src);
+//    // Create new audio element for each playback
+//    const createAudio = () => {
+//      const audio = new Audio(whaleSound);
+//      audio.volume = 0;
+//      audio.preload = 'auto';
+//      return audio;
+//    };
 
-//     xhr.onprogress = (event) => {
-//       if (event.lengthComputable) {
-//         const percent = (event.loaded / event.total) * 100;
-//         setProgress(Math.round(percent));
-//       }
-//     };
+//    const fadeInVolume = (audio: HTMLAudioElement) => {
+//      const startTime = Date.now();
+//      const fadeInterval = setInterval(() => {
+//        const elapsed = Date.now() - startTime;
+//        const percentage = Math.min(elapsed / FADE_DURATION, 1);
+//        const currentVolume = percentage * VOLUME;
 
-//     xhr.onload = () => {
-//       setProgress(100);
-//       setTimeout(() => setIsLoading(false), 300);
-//     };
+//        if (audio) {
+//          audio.volume = currentVolume;
+//        }
 
-//     xhr.send();
+//        if (percentage >= 1) {
+//          clearInterval(fadeInterval);
+//        }
+//      }, 50);
 
-//     return () => xhr.abort();
-//   }, [src]);
+//      return () => clearInterval(fadeInterval);
+//    };
 
-//   const createGearPath = (radius: number, teeth: number, innerRadius: number): string => {
-//     const points: string[] = [];
-//     const angleStep = (2 * Math.PI) / (teeth * 2);
+//    const playWhaleSound = useCallback(async () => {
+//      try {
+//        const audio = createAudio();
 
-//     for (let i = 0; i < teeth * 2; i++) {
-//       const angle = i * angleStep;
-//       const r = i % 2 === 0 ? radius : innerRadius;
-//       const x = Math.cos(angle) * r;
-//       const y = Math.sin(angle) * r;
-//       points.push(`${x},${y}`);
-//     }
+//        // Wait for audio to be loaded
+//        await new Promise((resolve) => {
+//          audio.addEventListener('canplaythrough', resolve, { once: true });
+//        });
 
-//     return `M ${points.join(' L ')} Z`;
-//   };
+//        audioRef.current = audio;
 
-//   return (
-//     <div style={{ position: 'relative', width: '100%', minHeight: '200px' }}>
-//       {/* Loading overlay */}
-//       {isLoading && (
-//         <div
-//           style={{
-//             position: 'absolute',
-//             top: 0,
-//             left: 0,
-//             width: '100%',
-//             height: '100%',
-//             backgroundColor: 'white',
-//             display: 'flex',
-//             alignItems: 'center',
-//             justifyContent: 'center',
-//             zIndex: 10
-//           }}
-//         >
-//           <div style={{
-//             display: 'flex',
-//             flexDirection: 'column',
-//             alignItems: 'center',
-//             gap: '20px'
-//           }}>
-//             {/* Gears and text container */}
-//             <div style={{ position: 'relative', width: '128px', height: '128px' }}>
-//               {/* Outer gear */}
-//               <svg
-//                 viewBox="-100 -100 200 200"
-//                 style={{ position: 'absolute', width: '100%', height: '100%' }}
-//               >
-//                 <motion.path
-//                   d={createGearPath(80, 32, 60)}
-//                   // d={createGearPath(80, 12, 60)}
-//                   animate={{ rotate: 360 }}
-//                   transition={{
-//                     duration: 3,
-//                     repeat: Infinity,
-//                     ease: "linear"
-//                   }}
-//                   fill="none"
-//                   stroke="#4F46E5"
-//                   strokeWidth="4"
-//                   style={{ transformOrigin: 'center' }}
-//                 />
-//               </svg>
+//        const playPromise = audio.play();
+//        if (playPromise !== undefined) {
+//          await playPromise;
+//          fadeInVolume(audio);
+//        }
+//      } catch (error) {
+//        console.error('Audio playback failed:', error);
+//        // Retry once after a short delay
+//        setTimeout(async () => {
+//          try {
+//            if (audioRef.current) {
+//              await audioRef.current.play();
+//              fadeInVolume(audioRef.current);
+//            }
+//          } catch (retryError) {
+//            console.error('Retry failed:', retryError);
+//          }
+//        }, 100);
+//      }
+//    }, []); // No dependencies needed as it only uses constants and refs
 
-//               {/* Inner gear */}
-//               <svg
-//                 viewBox="-100 -100 200 200"
-//                 style={{ position: 'absolute', width: '100%', height: '100%' }}
-//               >
-//                 <motion.path
-//                   d={createGearPath(40, 16, 30)}
-//                   // d={createGearPath(40, 8, 30)}
-//                   animate={{ rotate: -360 }}
-//                   transition={{
-//                     duration: 2,
-//                     repeat: Infinity,
-//                     ease: "linear"
-//                   }}
-//                   fill="none"
-//                   stroke="#818CF8"
-//                   strokeWidth="4"
-//                   style={{ transformOrigin: 'center' }}
-//                 />
-//               </svg>
+//    // Reset component state for reload
+//    const resetState = useCallback(() => {
+//      setIsLoading(true);
+//      setProgress(0);
+//      setShowPoem(false);
+//      setStartSlideAnimation(false);
+//      if (audioRef.current) {
+//        audioRef.current.pause();
+//        audioRef.current.currentTime = 0;
+//      }
+//    }, []);
 
-//               {/* Text overlay */}
-//               <div style={{
-//                 position: 'absolute',
-//                 top: 0,
-//                 left: 0,
-//                 right: 0,
-//                 bottom: 0,
-//                 display: 'flex',
-//                 flexDirection: 'column',
-//                 alignItems: 'center',
-//                 justifyContent: 'center',
-//                 backgroundColor: 'rgba(255, 255, 255, 0.8)',
-//                 zIndex: 20
-//               }}>
-//                 <div style={{
-//                   fontSize: '18px',
-//                   fontWeight: 500,
-//                   color: '#4F46E5',
-//                   marginBottom: '4px'
-//                 }}>
-//                   Loading...
-//                 </div>
-//                 <div style={{
-//                   fontSize: '24px',
-//                   fontWeight: 700,
-//                   color: '#4F46E5'
-//                 }}>
-//                   {progress}%
-//                 </div>
-//               </div>
-//             </div>
+//    useEffect(() => {
+//      resetState();
 
-//             {/* Progress bar */}
-//             <div style={{
-//               width: '200px',
-//               height: '4px',
-//               backgroundColor: '#E0E7FF',
-//               borderRadius: '4px',
-//               overflow: 'hidden'
-//             }}>
-//               <motion.div
-//                 style={{
-//                   height: '100%',
-//                   backgroundColor: '#4F46E5',
-//                   borderRadius: '4px'
-//                 }}
-//                 initial={{ width: 0 }}
-//                 animate={{ width: `${progress}%` }}
-//                 transition={{ duration: 0.3 }}
-//               />
-//             </div>
-//           </div>
-//         </div>
-//       )}
+//      const xhr = new XMLHttpRequest();
+//      xhr.open('GET', src, true);
+//      xhr.responseType = 'blob';
 
-//       {/* Image */}
-//       <img
-//         src={src}
-//         alt={alt}
-//         style={{
-//           width: '100%',
-//           height: 'auto',
-//           opacity: isLoading ? 0 : 1,
-//           transition: 'opacity 0.3s'
-//         }}
-//       />
-//     </div>
-//   );
+//      xhr.onprogress = (event) => {
+//        if (event.lengthComputable) {
+//          const percentComplete = (event.loaded / event.total) * 100;
+//          setProgress(Math.round(percentComplete));
+//        }
+//      };
+
+//      xhr.onload = () => {
+//        if (xhr.status === 200) {
+//          setProgress(100);
+//          const animationSequence = async () => {
+//            setIsLoading(false);
+
+//            await new Promise(resolve => setTimeout(resolve, 500));
+//            setShowPoem(true);
+
+//            await new Promise(resolve => setTimeout(resolve, 1000));
+//            setStartSlideAnimation(true);
+
+//            await new Promise(resolve => setTimeout(resolve, 800));
+//            await playWhaleSound();
+//          };
+
+//          animationSequence();
+//        } else {
+//          setHasError(true);
+//        }
+//      };
+
+//      xhr.onerror = () => {
+//        setHasError(true);
+//      };
+
+//      xhr.send();
+
+//      return () => xhr.abort();
+//    }, [src, playWhaleSound, resetState]);
+
+//    // Add click handler to document for audio unlock
+//    useEffect(() => {
+//      const unlockAudio = () => {
+//        if (!audioRef.current) return;
+
+//        const AudioContextClass: SupportedAudioContext =
+//          window.AudioContext || window.webkitAudioContext;
+
+//        const audioContext = new AudioContextClass();
+//        audioContext.suspend();
+
+//        audioContext.resume().then(() => audioContext.close());
+
+//        document.removeEventListener('click', unlockAudio);
+//      };
+
+//      document.addEventListener('click', unlockAudio);
+//      return () => document.removeEventListener('click', unlockAudio);
+//    }, []);
+
+//    if (hasError) {
+//      return <div>Error loading image</div>;
+//    }
+
+//    return (
+//      <Container className={className}>
+// 			<AnimatePresence>
+// 				{isLoading && (
+// 					<LoaderOverlay $mode={mode} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }}>
+// 						<LoadingText $mode={mode}>Loading...</LoadingText>
+// 						<ProgressBar>
+// 							<ProgressFill initial={{ width: 0 }} animate={{ width: `${progress}%` }} transition={{ duration: 0.3 }} />
+// 						</ProgressBar>
+// 					</LoaderOverlay>
+// 				)}
+// 			</AnimatePresence>
+
+// 			<ContentWrapper>
+// 				<StyledImage
+// 					src={src}
+// 					alt={alt}
+// 					initial={{ opacity: 0, y: 0 }}
+// 					animate={{
+// 						opacity: isLoading ? 0 : 1,
+// 						y: startSlideAnimation ? -110 : 0, // Slide up after image is loaded
+// 					}}
+// 					transition={{
+// 						opacity: { duration: 0.5 },
+// 						y: { duration: 1.2, ease: "easeOut" },
+// 					}}
+// 				/>
+
+// 				<AnimatePresence>
+// 					{showPoem && (
+// 						<PoemOverlay
+// 							initial={{ opacity: 0, y: 20 }}
+// 							animate={{
+// 								opacity: 1,
+// 								y: startSlideAnimation ? 370 : 20, // Slide down after image is loaded
+// 							}}
+// 							exit={{ opacity: 0, y: -20 }}
+// 							transition={{
+// 								opacity: { duration: 0.8 },
+// 								y: { duration: 1.2, ease: "easeOut" },
+// 							}}
+// 						>
+// 							{/* <SoundButton onClick={handleSoundPlay}>🐋 Play Whale Sound</SoundButton> */}
+// 							<PoemTitle>Guiding Song</PoemTitle>
+// 							<PoemText>
+// 								Beneath the waves, a whale does sing,
+// 								<br />
+// 								Of minds that learn and dreams that spring.
+// 								<br />
+// 								Its hums weave tales of AI’s might,
+// 								<br />
+// 								A guiding song in endless night.
+// 								<br />
+// 							</PoemText>
+// 						</PoemOverlay>
+// 					)}
+// 				</AnimatePresence>
+// 			</ContentWrapper>
+// 		</Container>
+// 	);
 // };
 
 // export default ImageLoader;
 
-// // import React, { useEffect, useState } from "react";
-// // import { motion } from "framer-motion";
+
+
+// // import React, { useEffect, useRef, useState } from "react";
+// // import { motion, AnimatePresence } from "framer-motion";
+// // import styled from "styled-components";
+// // import { ThemeMode } from "@/styles/theme";
+// // import whaleSound from "@/assets/sounds/whale-call-2.wav";
+
+// // const Container = styled.div`
+// // 	position: relative;
+// // 	width: 100%;
+// // 	height: 100%;
+// // 	min-height: 200px;
+// // 	display: flex;
+// // 	justify-content: center;
+// // 	align-items: center;
+// // 	background-color: transparent;
+// // `;
+
+// // const LoaderOverlay = styled(motion.div)<{ $mode: ThemeMode }>`
+// // 	position: absolute;
+// // 	top: 0;
+// // 	left: 0;
+// // 	width: 100%;
+// // 	height: 100%;
+// // 	background-color: ${({ $mode }) => ($mode === "light" ? "rgba(255, 255, 255, 0.9)" : "rgba(0, 0, 0, 0.9)")};
+// // 	display: flex;
+// // 	flex-direction: column;
+// // 	align-items: center;
+// // 	justify-content: center;
+// // 	z-index: 10;
+// // `;
+
+// // const LoadingText = styled.div<{ $mode: ThemeMode }>`
+// // 	font-size: 18px;
+// // 	color: ${({ $mode }) => ($mode === "light" ? "#333333" : "#FFFFFF")};
+// // 	margin-bottom: 1rem;
+// // `;
+
+// // const ProgressBar = styled(motion.div)`
+// // 	width: 200px;
+// // 	height: 4px;
+// // 	background-color: #e5e7eb;
+// // 	border-radius: 2px;
+// // 	overflow: hidden;
+// // `;
+
+// // const ProgressFill = styled(motion.div)`
+// // 	height: 100%;
+// // 	background-color: #3b82f6;
+// // 	border-radius: 2px;
+// // `;
+
+// // const StyledImage = styled(motion.img)`
+// // 	max-width: 100%;
+// // 	width: 100%;
+// // 	// height: auto;
+// // 	height: 50%;
+// // 	display: block;
+// // 	object-fit: cover;
+// // 	position: relative;
+// // 	border-radius: 2rem;
+// // 	border: 6px solid yellow;
+// // `;
+
+// // const PoemOverlay = styled(motion.div)`
+// // 	position: absolute;
+// // 	width: 90%;
+// // 	display: flex;
+// // 	flex-direction: column;
+// // 	justify-content: center;
+// // 	align-items: center;
+// // 	background: rgba(0, 0, 0, 0.5);
+// // 	color: white;
+// // 	padding: 2rem;
+// // 	text-align: center;
+// // 	pointer-events: none;
+// // `;
+
+// // const PoemTitle = styled.h2`
+// // 	font-size: 4rem;
+// // 	margin-bottom: 1rem;
+// // 	font-family: "Libre Baskerville", serif;
+// // `;
+
+// // const PoemText = styled.p`
+// // 	font-size: 2rem;
+// // 	line-height: 1.6;
+// // 	// max-width: 600px;
+// // 	font-family: "Libre Baskerville", serif;
+// // 	font-style: italic;
+// // `;
+
+// // const ContentWrapper = styled(motion.div)`
+// // 	position: relative;
+// // 	width: 100%;
+// // 	display: flex;
+// // 	flex-direction: column;
+// // 	align-items: center;
+// // `;
+
+// // const SoundButton = styled.button`
+// // 	position: fixed;
+// // 	bottom: 20px;
+// // 	right: 20px;
+// // 	padding: 10px;
+// // 	background: rgba(0, 0, 0, 0.5);
+// // 	color: white;
+// // 	border: none;
+// // 	border-radius: 5px;
+// // 	cursor: pointer;
+
+// // 	&:hover {
+// // 		background: rgba(0, 0, 0, 0.7);
+// // 	}
+// // `;
+
+// // type AudioContextType = typeof AudioContext;
+// // type WebkitAudioContextType = typeof webkitAudioContext;
+// // type SupportedAudioContext = AudioContextType | WebkitAudioContextType;
 
 // // interface ImageLoaderProps {
 // // 	src: string;
 // // 	alt: string;
+// // 	mode?: ThemeMode;
 // // 	className?: string;
 // // }
 
-// // const ImageLoader: React.FC<ImageLoaderProps> = ({ src, alt, className }) => {
+// // const ImageLoader: React.FC<ImageLoaderProps> = ({ src, alt, mode = "light", className }) => {
 // // 	const [isLoading, setIsLoading] = useState(true);
 // // 	const [progress, setProgress] = useState(0);
+// // 	const [hasError, setHasError] = useState(false);
+// // 	const [showPoem, setShowPoem] = useState(false);
+// // 	const [startSlideAnimation, setStartSlideAnimation] = useState(false);
+// // 	const audioRef = useRef<HTMLAudioElement | null>(null);
+// // 	const [isAudioLoaded, setIsAudioLoaded] = useState(false);
 
+// // 	// Sound configuration
+// // 	const VOLUME = 0.5; // Adjust this value between 0.0 and 1.0
+// // 	const FADE_DURATION = 2000; // Duration for volume fade in milliseconds
+
+// // 	// Initialize audio on component mount
 // // 	useEffect(() => {
-// // 		setIsLoading(true);
-// // 		setProgress(0);
+// // 		const initializeAudio = async () => {
+// // 			try {
+// // 				// Create new audio context
+// // 				const audio = new Audio();
+// // 				// audio.src = "/sounds/whale-call-2.wav";
+// // 				audio.src = whaleSound;
+// // 				audio.volume = 0;
+// // 				audio.preload = "auto";
 
-// // 		const xhr = new XMLHttpRequest();
-// // 		xhr.open("GET", src);
+// // 				// Wait for audio to be loaded
+// // 				await new Promise((resolve) => {
+// // 					audio.addEventListener("canplaythrough", resolve, { once: true });
+// // 					audio.load();
+// // 				});
 
-// // 		xhr.onprogress = (event) => {
-// // 			if (event.lengthComputable) {
-// // 				const percent = (event.loaded / event.total) * 100;
-// // 				setProgress(Math.round(percent));
+// // 				audioRef.current = audio;
+// // 				setIsAudioLoaded(true);
+// // 			} catch (error) {
+// // 				console.error("Audio initialization failed:", error);
 // // 			}
 // // 		};
 
+// // 		initializeAudio();
+
+// // 		// Cleanup
+// // 		return () => {
+// // 			if (audioRef.current) {
+// // 				audioRef.current.pause();
+// // 				audioRef.current.src = "";
+// // 				audioRef.current = null;
+// // 			}
+// // 		};
+// // 	}, []);
+
+// // 	// Function to fade in the volume
+// // 	const fadeInVolume = (audio: HTMLAudioElement) => {
+// // 		const startTime = Date.now();
+// // 		const fadeInterval = setInterval(() => {
+// // 			const elapsed = Date.now() - startTime;
+// // 			const percentage = Math.min(elapsed / FADE_DURATION, 1);
+// // 			const currentVolume = percentage * VOLUME;
+
+// // 			if (audio) {
+// // 				audio.volume = currentVolume;
+// // 			}
+
+// // 			if (percentage >= 1) {
+// // 				clearInterval(fadeInterval);
+// // 			}
+// // 		}, 50);
+
+// // 		return () => clearInterval(fadeInterval);
+// // 	};
+
+// // 	// Function to play sound with volume fade
+// // 	const playWhaleSound = async () => {
+// // 		if (audioRef.current && isAudioLoaded) {
+// // 			try {
+// // 				audioRef.current.currentTime = 0;
+// // 				audioRef.current.volume = 0;
+
+// // 				// Try to play with user interaction simulation
+// // 				const playPromise = audioRef.current.play();
+
+// // 				if (playPromise !== undefined) {
+// // 					await playPromise;
+// // 					fadeInVolume(audioRef.current);
+// // 				}
+// // 			} catch (error) {
+// // 				console.error("Audio playback failed:", error);
+// // 				// Optionally try to play again after a short delay
+// // 				setTimeout(() => {
+// // 					if (audioRef.current) {
+// // 						audioRef.current
+// // 							.play()
+// // 							.then(() => fadeInVolume(audioRef.current!))
+// // 							.catch((e) => console.error("Retry failed:", e));
+// // 					}
+// // 				}, 100);
+// // 			}
+// // 		}
+// // 	};
+
+// // 	useEffect(() => {
+// // 		const xhr = new XMLHttpRequest();
+// // 		xhr.open("GET", src, true);
+// // 		xhr.responseType = "blob";
+
+// // 		xhr.onprogress = (event) => {
+// // 			if (event.lengthComputable) {
+// // 				const percentComplete = (event.loaded / event.total) * 100;
+// // 				setProgress(Math.round(percentComplete));
+// // 			}
+// // 		};
 // // 		xhr.onload = () => {
-// // 			setProgress(100);
-// // 			// Small delay before hiding loader to show 100%
-// // 			setTimeout(() => setIsLoading(false), 300);
+// // 			if (xhr.status === 200) {
+// // 				setProgress(100);
+// // 				const animationSequence = async () => {
+// // 					// Image loaded
+// // 					setIsLoading(false);
+
+// // 					// Show poem after 500ms
+// // 					await new Promise((resolve) => setTimeout(resolve, 500));
+// // 					setShowPoem(true);
+
+// // 					// Start slide animation after 1000ms
+// // 					await new Promise((resolve) => setTimeout(resolve, 1000));
+// // 					setStartSlideAnimation(true);
+
+// // 					// Play whale sound after animation starts (1000ms delay)
+// // 					// Add a user interaction simulation before playing
+// // 					await new Promise((resolve) => setTimeout(resolve, 800));
+// // 					const userInteractionEvent = new MouseEvent("click");
+// // 					document.dispatchEvent(userInteractionEvent);
+// // 					playWhaleSound();
+// // 				};
+
+// // 				animationSequence();
+// // 			} else {
+// // 				setHasError(true);
+// // 			}
+// // 		};
+
+// // 		xhr.onerror = () => {
+// // 			setHasError(true);
 // // 		};
 
 // // 		xhr.send();
@@ -2435,94 +2921,264 @@ export default ImageLoader;
 // // 		return () => xhr.abort();
 // // 	}, [src]);
 
-// // 	// Helper function to create gear path
-// // 	const createGearPath = (radius: number, teeth: number, innerRadius: number): string => {
-// // 		const points: string[] = [];
-// // 		const angleStep = (2 * Math.PI) / (teeth * 2);
+// // 	// const handleSoundPlay = () => {
+// // 	// 	if (audioRef.current) {
+// // 	// 		audioRef.current.play().catch((error) => {
+// // 	// 			console.log("Audio playback failed:", error);
+// // 	// 		});
+// // 	// 	}
+// // 	// };
 
-// // 		for (let i = 0; i < teeth * 2; i++) {
-// // 			const angle = i * angleStep;
-// // 			const r = i % 2 === 0 ? radius : innerRadius;
-// // 			const x = Math.cos(angle) * r;
-// // 			const y = Math.sin(angle) * r;
-// // 			points.push(`${x},${y}`);
-// // 		}
+// // 	// Add click handler to document for audio unlock
+// // 	useEffect(() => {
+// // 		const unlockAudio = () => {
+// // 			if (audioRef.current) {
+// // 				// Properly typed AudioContext
+// // 				const AudioContextClass: SupportedAudioContext = window.AudioContext || window.webkitAudioContext;
 
-// // 		return `M ${points.join(" L ")} Z`;
-// // 	};
+// // 				const audioContext = new AudioContextClass();
+// // 				audioContext.suspend();
+
+// // 				// Resume and close
+// // 				audioContext.resume().then(() => audioContext.close());
+
+// // 				// Remove the listener after first interaction
+// // 				document.removeEventListener("click", unlockAudio);
+// // 			}
+// // 		};
+
+// // 		document.addEventListener("click", unlockAudio);
+// // 		return () => document.removeEventListener("click", unlockAudio);
+// // 	}, []);
+
+// // 	if (hasError) {
+// // 		return <div>Error loading image</div>;
+// // 	}
 
 // // 	return (
-// // 		<div className="relative inline-block">
-// // 			{isLoading && (
-// // 				// <div className="absolute inset-0 flex items-center justify-center bg-white/90">
-// //             <div className="absolute inset-0 z-10 flex items-center justify-center bg-white/90">
-// // 					<div className="flex flex-col items-center gap-6">
-// // 						{/* Loading text */}
-// // 						<div className="text-lg font-medium text-indigo-600">Loading...</div>
+// // 		<Container className={className}>
+// // 			<AnimatePresence>
+// // 				{isLoading && (
+// // 					<LoaderOverlay $mode={mode} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }}>
+// // 						<LoadingText $mode={mode}>Loading...</LoadingText>
+// // 						<ProgressBar>
+// // 							<ProgressFill initial={{ width: 0 }} animate={{ width: `${progress}%` }} transition={{ duration: 0.3 }} />
+// // 						</ProgressBar>
+// // 					</LoaderOverlay>
+// // 				)}
+// // 			</AnimatePresence>
 
-// // 						{/* Gears and percentage container */}
-// // 						<div className="relative w-32 h-32">
-// // 							{/* Outer gear */}
-// // 							<svg viewBox="-100 -100 200 200" className="absolute w-full h-full">
-// // 								<motion.path
-// // 									d={createGearPath(80, 12, 60)}
-// // 									animate={{ rotate: 360 }}
-// // 									transition={{
-// // 										duration: 3,
-// // 										repeat: Infinity,
-// // 										ease: "linear",
-// // 									}}
-// // 								/>
-// // 								{/* <motion.path
-// //                   d={createGearPath(80, 12, 60)}
-// //                   animate={{ rotate: 360 }}
-// //                   transition={{
-// //                     duration: 3,
-// //                     repeat: Infinity,
-// //                     ease: "linear"
-// //                   }}
-// //                   fill="none"
-// //                   stroke="#4F46E5"
-// //                   strokeWidth="4"
-// //                   className="origin-center"
-// //                 /> */}
-// // 							</svg>
+// // 			<ContentWrapper>
+// // 				<StyledImage
+// // 					src={src}
+// // 					alt={alt}
+// // 					initial={{ opacity: 0, y: 0 }}
+// // 					animate={{
+// // 						opacity: isLoading ? 0 : 1,
+// // 						y: startSlideAnimation ? -110 : 0, // Slide up after image is loaded
+// // 					}}
+// // 					transition={{
+// // 						opacity: { duration: 0.5 },
+// // 						y: { duration: 1.2, ease: "easeOut" },
+// // 					}}
+// // 				/>
 
-// // 							{/* Inner gear */}
-// // 							<svg viewBox="-100 -100 200 200" className="absolute w-full h-full">
-// // 								<motion.path
-// // 									d={createGearPath(40, 8, 30)}
-// // 									animate={{ rotate: -360 }}
-// // 									transition={{
-// // 										duration: 2,
-// // 										repeat: Infinity,
-// // 										ease: "linear",
-// // 									}}
-// // 									fill="none"
-// // 									stroke="#818CF8"
-// // 									strokeWidth="4"
-// // 									className="origin-center"
-// // 								/>
-// // 							</svg>
-
-// // 							{/* Percentage text */}
-// // 							<div className="absolute inset-0 flex items-center justify-center">
-// // 								<div className="text-3xl font-bold text-indigo-600">{progress}%</div>
-// // 							</div>
-// // 						</div>
-
-// // 						{/* Progress bar */}
-// // 						<div className="w-48 h-2 bg-indigo-100 rounded-full overflow-hidden">
-// // 							<motion.div className="h-full bg-indigo-600 rounded-full" initial={{ width: 0 }} animate={{ width: `${progress}%` }} transition={{ duration: 0.3 }} />
-// // 						</div>
-// // 					</div>
-// // 				</div>
-// // 			)}
-
-// // 			<img src={src} alt={alt} className={`transition-opacity duration-300 ${isLoading ? "opacity-0" : "opacity-100"} ${className || ""}`} onLoad={() => setIsLoading(false)} onError={() => setIsLoading(false)} />
-// // 		</div>
+// // 				<AnimatePresence>
+// // 					{showPoem && (
+// // 						<PoemOverlay
+// // 							initial={{ opacity: 0, y: 20 }}
+// // 							animate={{
+// // 								opacity: 1,
+// // 								y: startSlideAnimation ? 370 : 20, // Slide down after image is loaded
+// // 							}}
+// // 							exit={{ opacity: 0, y: -20 }}
+// // 							transition={{
+// // 								opacity: { duration: 0.8 },
+// // 								y: { duration: 1.2, ease: "easeOut" },
+// // 							}}
+// // 						>
+// // 							{/* <SoundButton onClick={handleSoundPlay}>🐋 Play Whale Sound</SoundButton> */}
+// // 							<PoemTitle>Guiding Song</PoemTitle>
+// // 							<PoemText>
+// // 								Beneath the waves, a whale does sing,
+// // 								<br />
+// // 								Of minds that learn and dreams that spring.
+// // 								<br />
+// // 								Its hums weave tales of AI’s might,
+// // 								<br />
+// // 								A guiding song in endless night.
+// // 								<br />
+// // 							</PoemText>
+// // 						</PoemOverlay>
+// // 					)}
+// // 				</AnimatePresence>
+// // 			</ContentWrapper>
+// // 		</Container>
 // // 	);
 // // };
+
+// // export default ImageLoader;
+
+
+// // const StyledImage = styled(motion.img)`
+// //   max-width: 100%;
+// //   width: 100%;
+// //   height: auto;
+// //   display: block;
+// //   object-fit: cover;
+// // `;
+
+// // // Poem overlay
+// // const PoemOverlay = styled(motion.div)`
+// //   position: absolute;
+// //   top: 0;
+// //   left: 0;
+// //   width: 100%;
+// //   height: 100%;
+// //   display: flex;
+// //   flex-direction: column;
+// //   justify-content: center;
+// //   align-items: center;
+// // //   background: rgba(0, 0, 0, 0.5);
+// //   color: white;
+// //   padding: 2rem;
+// //   text-align: center;
+// //   pointer-events: none;
+// // `;
+
+// // const PoemTitle = styled.h2`
+// //   font-size: 4rem;
+// //   font-weight: 800;
+// //   margin-bottom: 1rem;
+// //   font-family: 'Libre Baskerville', serif;
+// // `;
+
+// // const PoemText = styled.p`
+// //   font-size: 2rem;
+// //   font-weight: 200;
+// //   line-height: 1.6;
+// // //   max-width: 600px;
+// // //   font-family: 'Open Sans', sans-serif;
+// //   font-family: 'Libre Baskerville', serif;
+// //   font-style: italic;
+// // `;
+
+// // interface ImageLoaderProps {
+// //   src: string;
+// //   alt: string;
+// //   mode?: ThemeMode;
+// //   className?: string;
+// // }
+
+// // const ImageLoader: React.FC<ImageLoaderProps> = ({
+// //    src,
+// //    alt,
+// //    mode = 'light',
+// //    className
+// //  }) => {
+// //    const [isLoading, setIsLoading] = useState(true);
+// //    const [progress, setProgress] = useState(0);
+// //    const [hasError, setHasError] = useState(false);
+// //    const [showPoem, setShowPoem] = useState(false);
+
+// //    useEffect(() => {
+// //      const xhr = new XMLHttpRequest();
+// //      xhr.open('GET', src, true);
+// //      xhr.responseType = 'blob';
+
+// //      xhr.onprogress = (event) => {
+// //        if (event.lengthComputable) {
+// //          const percentComplete = (event.loaded / event.total) * 100;
+// //          setProgress(Math.round(percentComplete));
+// //        }
+// //      };
+
+// //      xhr.onload = () => {
+// //        if (xhr.status === 200) {
+// //          setProgress(100);
+// //          setTimeout(() => {
+// //            setIsLoading(false);
+// //            // Show poem after a slight delay once image is loaded
+// //            setTimeout(() => setShowPoem(true), 500);
+// //          }, 300);
+// //        } else {
+// //          setHasError(true);
+// //        }
+// //      };
+
+// //      xhr.onerror = () => {
+// //        setHasError(true);
+// //      };
+
+// //      xhr.send();
+
+// //      return () => xhr.abort();
+// //    }, [src]);
+
+// //    if (hasError) {
+// //      return <div>Error loading image</div>;
+// //    }
+
+// //    return (
+// //      <Container className={className}>
+// //        <AnimatePresence>
+// //          {isLoading && (
+// //            <LoaderOverlay
+// //              $mode={mode}
+// //              initial={{ opacity: 0 }}
+// //              animate={{ opacity: 1 }}
+// //              exit={{ opacity: 0 }}
+// //              transition={{ duration: 0.3 }}
+// //            >
+// //              <LoadingText $mode={mode}>Loading...</LoadingText>
+// //              <ProgressBar>
+// //                <ProgressFill
+// //                  initial={{ width: 0 }}
+// //                  animate={{ width: `${progress}%` }}
+// //                  transition={{ duration: 0.3 }}
+// //                />
+// //              </ProgressBar>
+// //            </LoaderOverlay>
+// //          )}
+// //        </AnimatePresence>
+
+// //        <StyledImage
+// //          src={src}
+// //          alt={alt}
+// //          initial={{ opacity: 0 }}
+// //          animate={{ opacity: isLoading ? 0 : 1 }}
+// //          transition={{ duration: 0.5 }}
+// //        />
+
+// //        <AnimatePresence>
+// //          {showPoem && (
+// //            <PoemOverlay
+// //              initial={{ opacity: 0, y: 20 }}
+// //              animate={{ opacity: 1, y: 0 }}
+// //              exit={{ opacity: 0, y: -20 }}
+// //              transition={{ duration: 0.8, ease: "easeOut" }}
+// //            >
+// //              <PoemTitle>Guiding Song</PoemTitle>
+// //              <PoemText>
+// //              Beneath the waves, a whale does sing,<br />
+// //             Of minds that learn and dreams that spring.<br />
+// //             Its hums weave tales of AI’s might,<br />
+// //             A guiding song in endless night.<br />
+// //             <br />
+// //                {/* Beneath the waves, a shadow glides,<br />
+// //                In ocean's depths, where mystery hides.<br />
+// //                Graceful giant of the deep,<br />
+// //                Ancient secrets does it keep.<br />
+// //                <br />
+// //                Through timeless waters, calm and free,<br />
+// //                Nature's guardian of the sea. */}
+// //              </PoemText>
+// //            </PoemOverlay>
+// //          )}
+// //        </AnimatePresence>
+// //      </Container>
+// //    );
+// //  };
 
 // // export default ImageLoader;
 
@@ -3278,37 +3934,30 @@ export default BulkLoading;
 import styled from 'styled-components';
 
 export const HomeContainer = styled.div`
-   display: flex;
-   flex-direction: column;
-   justify-content: center;
-   align-items: center;
-   height: 1020px;
-   padding-top: ${({ theme }) => theme.sizes.navHeight};
-   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding-top: ${({ theme }) => theme.sizes.navHeight};
+  background: transparent;
+  position: relative;
+  border: 6px solid red;
 `;
 
 export const ImageDiv = styled.div`
-   position: fixed;
-   // top: 50px;
-   // bottom: 50px;
-   display: flex;
-   justify-content: center;
-   align-items: center;
-   width: 90%;
-   overflow: hidden;
-   border-radius: 1rem;
-   border: 6px solid white;
-
-   img {
-      // width: 900px;
-      object-fit: contain;
-
-      @media (max-width: 768px) {
-         width: 110vw;
-      }
-   }
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+  max-width: 1020px;
+  margin: 0 auto;
+//   overflow: hidden;
+  border-radius: 1rem;
+  background: transparent;
+  border: 6px solid white;
 `;
-
 ```
 
 # src/pages/Home/Home.tsx
@@ -3318,41 +3967,21 @@ export const ImageDiv = styled.div`
 
 import React from "react";
 import { HomeContainer, ImageDiv } from "./Home.styles";
-// import bonsai from "@/assets/bonsai.png";
 import whale from "@/assets/Loader/Whale.png";
-// import CircularLoader from "@/components/Animations/CircularLoader";
-// import AnimatedText from "@/components/Animations/AnimatedText";
-// import GearLoader from "@/components/Animations/GearLoader";
-// import ImageLoader from "@/components/Animations/CircularLoader";
 import ImageLoader from "@/components/Animations/ImageLoader";
 
-/**
- * The Home component is the root component of the application's home page.
- * It simply displays a centered bonsai tree image and the text "BONSAI" in
- * an animated font.
- */
 const Home: React.FC = () => {
-	return (
-		<HomeContainer>
-			{/* <CircularLoader timer={3000} /> // Will animate for 3 seconds */}
-			{/* <AnimatedText>WHALE</AnimatedText> */}
-			<ImageDiv>
-				{/* Light theme example */}
-				<ImageLoader
-               src={whale}
-               alt="Description"
-               mode="light"
-            />
-
-				{/* Dark theme example */}
-				<ImageLoader
-               src={whale}
-               alt="Description"
-               mode="dark"
-            />
-			</ImageDiv>
-		</HomeContainer>
-	);
+  return (
+    <HomeContainer>
+      <ImageDiv>
+        <ImageLoader
+          src={whale}
+          alt="Whale illustration"
+          mode="light"
+        />
+      </ImageDiv>
+    </HomeContainer>
+  );
 };
 
 export default Home;
@@ -3550,36 +4179,54 @@ export default MashMediaStudio;
 
 ```ts
 // src/styles/GlobalStyles.ts
+// In App.tsx or GlobalStyles.ts
 import { createGlobalStyle } from 'styled-components';
 
 export const GlobalStyles = createGlobalStyle`
-  * {
+  body {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
-  }
-
-  // Set the height of the body to 1020px
-  html, body, #root {
-    height: 1020px;
-    overflow: hidden;
-  }
-
-  body {
-    font-family: 'Open Sans', sans-serif;
-    color: ${({ theme }) => theme.colors.text};
-    transition: all 1.3s ease;
+    background: transparent;
+    min-height: 100vh;
+    color: ${({ theme }) => theme.colors.text.light.primary};
   }
 
   #root {
-    position: relative;
-    z-index: 1;
+    min-height: 100vh;
+    background: transparent;
   }
-
-  h1 { font-size: 40px; }
-  h2 { font-size: 24px; }
-  p { font-size: 20px; }
 `;
+
+// import { createGlobalStyle } from 'styled-components';
+
+// export const GlobalStyles = createGlobalStyle`
+//   * {
+//     margin: 0;
+//     padding: 0;
+//     box-sizing: border-box;
+//   }
+
+//   // Set the height of the body to 1020px
+//   html, body, #root {
+//     height: 1020px;
+//     overflow: hidden;
+//   }
+
+//   body {
+//     font-family: 'Open Sans', sans-serif;
+//     color: ${({ theme }) => theme.colors.text};
+//     transition: all 1.3s ease;
+//   }
+
+//   #root {
+//     position: relative;
+//     z-index: 1;
+//   }
+
+//   h1 { font-size: 40px; }
+//   h2 { font-size: 24px; }
+//   p { font-size: 20px; }
+// `;
 ```
 
 # src/styles/theme.ts
@@ -3587,6 +4234,20 @@ export const GlobalStyles = createGlobalStyle`
 ```ts
 // src/styles/theme.ts
 
+export interface Theme {
+   colors: ColorPalette;
+   typography: Typography;
+   // Add these new properties to match our theme implementation
+   sizes: {
+     navHeight: string;
+   };
+   navBackground: string;
+   textSecondary: string;
+   border: string;
+   error: string;
+   backgroundColor?: string;  // Optional property for background color
+   backgroundBlendMode?: string;  // Optional property for blend mode
+ }
 
 export interface ColorShades {
    100: string;
@@ -3662,10 +4323,10 @@ export interface Typography {
 
 export type ThemeMode = 'light' | 'dark';
 
-export interface Theme {
-   colors: ColorPalette;
-   typography: Typography;
-}
+// export interface Theme {
+//    colors: ColorPalette;
+//    typography: Typography;
+// }
 
 // Define specific heading and body font sizes to fix type issues
 type HeadingSizes = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
@@ -3792,353 +4453,67 @@ const colors = {
 // Light theme
 export const lightTheme: Theme = {
    colors: {
-     ...colors,
-     background: {
-       light: '#FFFFFF',
-       dark: '#121212'
-     },
-     text: {
-       light: {
-         primary: '#676767',
-         secondary: '#8F8F8F',
-         disabled: '#CCCCCC'
-       },
-       dark: {
-         primary: '#FFFFFF',
-         secondary: '#E0E0E0',
-         disabled: '#6E6E6E'
-       }
-     }
+      ...colors,
+      background: {
+         light: '#FFFFFF',
+         dark: '#121212'
+      },
+      text: {
+         light: {
+            primary: '#676767',
+            secondary: '#8F8F8F',
+            disabled: '#CCCCCC'
+         },
+         dark: {
+            primary: '#FFFFFF',
+            secondary: '#E0E0E0',
+            disabled: '#6E6E6E'
+         }
+      }
    },
-   typography: baseTheme.typography
- };
+   typography: baseTheme.typography,
+   sizes: {
+      navHeight: '80px'
+   },
+   navBackground: 'rgba(255, 255, 255, 0.8)',
+   textSecondary: '#8F8F8F',
+   border: '#E5E7EB',
+   error: '#DC2626'
+};
 
- // Dark theme
- export const darkTheme: Theme = {
+// Dark theme
+export const darkTheme: Theme = {
    colors: {
-     ...colors,
-     background: {
-       light: '#121212',
-       dark: '#000000'
-     },
-     text: {
-       light: {
-         primary: '#FFFFFF',
-         secondary: '#E0E0E0',
-         disabled: '#6E6E6E'
-       },
-       dark: {
-         primary: '#FFFFFF',
-         secondary: '#E0E0E0',
-         disabled: '#6E6E6E'
-       }
-     }
+      ...colors,
+      background: {
+         light: '#121212',
+         dark: '#000000'
+      },
+      text: {
+         light: {
+            primary: '#FFFFFF',
+            secondary: '#E0E0E0',
+            disabled: '#6E6E6E'
+         },
+         dark: {
+            primary: '#FFFFFF',
+            secondary: '#E0E0E0',
+            disabled: '#6E6E6E'
+         }
+      }
    },
-   typography: baseTheme.typography
- };
+   typography: baseTheme.typography,
+   sizes: {
+      navHeight: '80px'
+   },
+   navBackground: 'rgba(18, 18, 18, 0.8)',
+   textSecondary: '#E0E0E0',
+   border: '#374151',
+   error: '#EF4444'
+};
 
- // Default theme (for utilities to use)
- export const theme = lightTheme;
-
-// // Create light theme
-// export const lightTheme: Theme = {
-//    colors: {
-//       primary: {
-//          100: '#EBE5F6',
-//          200: '#D7CCED',
-//          300: '#C3B2E3',
-//          400: '#AF99DA',
-//          500: '#8465C3', // Base color
-//          600: '#6A51C0',
-//          700: '#503DBD',
-//          800: '#3629BA',
-//          900: '#1C15B7'
-//       },
-//       secondary: {
-//          100: '#E6FEFF',
-//          200: '#CCFEFF',
-//          300: '#B3FDFF',
-//          400: '#99FCFF',
-//          500: '#3AF1F9', // Base color
-//          600: '#2ED8E0',
-//          700: '#22BFC6',
-//          800: '#16A6AD',
-//          900: '#0A8D93'
-//       },
-//       accent: {
-//          100: '#FFE9E3',
-//          200: '#FFD3C8',
-//          300: '#FFBDAC',
-//          400: '#FFA791',
-//          500: '#F46A47', // Base color
-//          600: '#DB503D',
-//          700: '#C23633',
-//          800: '#A91C29',
-//          900: '#90021F'
-//       },
-//       success: {
-//          100: '#F0F7E6',
-//          200: '#E1EFCC',
-//          300: '#D2E7B3',
-//          400: '#C3DF99',
-//          500: '#A2C465', // Base color
-//          600: '#88AB4B',
-//          700: '#6F9231',
-//          800: '#557917',
-//          900: '#3C5F00'
-//       },
-//       warning: {
-//          100: '#FFF5EB',
-//          200: '#FFEBD7',
-//          300: '#FFE1C3',
-//          400: '#FFD7AF',
-//          500: '#FAD8B4', // Base color
-//          600: '#E1BF9A',
-//          700: '#C8A680',
-//          800: '#AF8D66',
-//          900: '#96744C'
-//       },
-//       danger: {
-//          100: '#FFE5E8',
-//          200: '#FFCCD1',
-//          300: '#FFB2BA',
-//          400: '#FF99A3',
-//          500: '#F5536A', // Base color
-//          600: '#DC3950',
-//          700: '#C21F36',
-//          800: '#A9051C',
-//          900: '#900002'
-//       },
-//       gray: {
-//          100: '#F7F7F7',
-//          200: '#E6E6E6',
-//          300: '#D5D5D5',
-//          400: '#C4C4C4',
-//          500: '#676767', // Base color
-//          600: '#525252',
-//          700: '#3D3D3D',
-//          800: '#282828',
-//          900: '#131313'
-//       },
-//       background: {
-//          light: '#FFFFFF',
-//          dark: '#121212'
-//       },
-//       text: {
-//          light: {
-//             primary: '#676767',
-//             secondary: '#8F8F8F',
-//             disabled: '#CCCCCC'
-//          },
-//          dark: {
-//             primary: '#FFFFFF',
-//             secondary: '#E0E0E0',
-//             disabled: '#6E6E6E'
-//          }
-//       }
-//    },
-//    typography: baseTheme.typography
-// };
-
-// // Create dark theme
-// export const darkTheme: Theme = {
-//    colors: {
-//       primary: {
-//          100: '#EBE5F6',
-//          200: '#D7CCED',
-//          300: '#C3B2E3',
-//          400: '#AF99DA',
-//          500: '#8465C3', // Base color
-//          600: '#6A51C0',
-//          700: '#503DBD',
-//          800: '#3629BA',
-//          900: '#1C15B7'
-//       },
-//       secondary: {
-//          100: '#E6FEFF',
-//          200: '#CCFEFF',
-//          300: '#B3FDFF',
-//          400: '#99FCFF',
-//          500: '#3AF1F9', // Base color
-//          600: '#2ED8E0',
-//          700: '#22BFC6',
-//          800: '#16A6AD',
-//          900: '#0A8D93'
-//       },
-//       accent: {
-//          100: '#FFE9E3',
-//          200: '#FFD3C8',
-//          300: '#FFBDAC',
-//          400: '#FFA791',
-//          500: '#F46A47', // Base color
-//          600: '#DB503D',
-//          700: '#C23633',
-//          800: '#A91C29',
-//          900: '#90021F'
-//       },
-//       success: {
-//          100: '#F0F7E6',
-//          200: '#E1EFCC',
-//          300: '#D2E7B3',
-//          400: '#C3DF99',
-//          500: '#A2C465', // Base color
-//          600: '#88AB4B',
-//          700: '#6F9231',
-//          800: '#557917',
-//          900: '#3C5F00'
-//       },
-//       warning: {
-//          100: '#FFF5EB',
-//          200: '#FFEBD7',
-//          300: '#FFE1C3',
-//          400: '#FFD7AF',
-//          500: '#FAD8B4', // Base color
-//          600: '#E1BF9A',
-//          700: '#C8A680',
-//          800: '#AF8D66',
-//          900: '#96744C'
-//       },
-//       danger: {
-//          100: '#FFE5E8',
-//          200: '#FFCCD1',
-//          300: '#FFB2BA',
-//          400: '#FF99A3',
-//          500: '#F5536A', // Base color
-//          600: '#DC3950',
-//          700: '#C21F36',
-//          800: '#A9051C',
-//          900: '#900002'
-//       },
-//       gray: {
-//          100: '#F7F7F7',
-//          200: '#E6E6E6',
-//          300: '#D5D5D5',
-//          400: '#C4C4C4',
-//          500: '#676767', // Base color
-//          600: '#525252',
-//          700: '#3D3D3D',
-//          800: '#282828',
-//          900: '#131313'
-//       },
-//       background: {
-//          light: '#FFFFFF',
-//          dark: '#121212'
-//       },
-//       text: {
-//          light: {
-//             primary: '#676767',
-//             secondary: '#8F8F8F',
-//             disabled: '#CCCCCC'
-//          },
-//          dark: {
-//             primary: '#FFFFFF',
-//             secondary: '#E0E0E0',
-//             disabled: '#6E6E6E'
-//          }
-//       }
-//    },
-//    typography: baseTheme.typography
-// };
-
-// Theme configuration
-// export const theme = {
-//    colors: {
-//       primary: {
-//          100: "#EBE5F6",
-//          200: "#D7CCED",
-//          300: "#C3B2E3",
-//          400: "#AF99DA",
-//          500: "#8465C3", // Base color
-//          600: "#6A51C0",
-//          700: "#503DBD",
-//          800: "#3629BA",
-//          900: "#1C15B7",
-//       },
-//       secondary: {
-//          100: "#E6FEFF",
-//          200: "#CCFEFF",
-//          300: "#B3FDFF",
-//          400: "#99FCFF",
-//          500: "#3AF1F9", // Base color
-//          600: "#2ED8E0",
-//          700: "#22BFC6",
-//          800: "#16A6AD",
-//          900: "#0A8D93",
-//       },
-//       accent: {
-//          100: "#FFE9E3",
-//          200: "#FFD3C8",
-//          300: "#FFBDAC",
-//          400: "#FFA791",
-//          500: "#F46A47", // Base color
-//          600: "#DB503D",
-//          700: "#C23633",
-//          800: "#A91C29",
-//          900: "#90021F",
-//       },
-//       success: {
-//          100: "#F0F7E6",
-//          200: "#E1EFCC",
-//          300: "#D2E7B3",
-//          400: "#C3DF99",
-//          500: "#A2C465", // Base color
-//          600: "#88AB4B",
-//          700: "#6F9231",
-//          800: "#557917",
-//          900: "#3C5F00",
-//       },
-//       warning: {
-//          100: "#FFF5EB",
-//          200: "#FFEBD7",
-//          300: "#FFE1C3",
-//          400: "#FFD7AF",
-//          500: "#FAD8B4", // Base color
-//          600: "#E1BF9A",
-//          700: "#C8A680",
-//          800: "#AF8D66",
-//          900: "#96744C",
-//       },
-//       danger: {
-//          100: "#FFE5E8",
-//          200: "#FFCCD1",
-//          300: "#FFB2BA",
-//          400: "#FF99A3",
-//          500: "#F5536A", // Base color
-//          600: "#DC3950",
-//          700: "#C21F36",
-//          800: "#A9051C",
-//          900: "#900002",
-//       },
-//       gray: {
-//          100: "#F7F7F7",
-//          200: "#E6E6E6",
-//          300: "#D5D5D5",
-//          400: "#C4C4C4",
-//          500: "#676767", // Base color
-//          600: "#525252",
-//          700: "#3D3D3D",
-//          800: "#282828",
-//          900: "#131313",
-//       },
-//       background: {
-//          light: "#FFFFFF",
-//          dark: "#121212",
-//       },
-//       text: {
-//          light: {
-//             primary: "#676767",
-//             secondary: "#8F8F8F",
-//             disabled: "#CCCCCC",
-//          },
-//          dark: {
-//             primary: "#FFFFFF",
-//             secondary: "#E0E0E0",
-//             disabled: "#6E6E6E",
-//          },
-//       },
-//    },
-//    typography: baseTheme.typography,
-// };
+// Default theme (for utilities to use)
+export const theme = lightTheme;
 
 // Utility functions
 export const getColor = (colorName: keyof Omit<ColorPalette, "background" | "text">, shade: keyof ColorShades = 500): string => {
@@ -4189,56 +4564,18 @@ export const applyFontStyle = (type: "heading" | "body", weight: "regular" | "me
   `;
 };
 
-// Export everything needed
-export type { ColorShades, ColorPalette, Typography, Theme, HeadingSizes, BodySizes };
+```
 
+# src/types/global.d.ts
 
-// // Update utility functions with proper typing
-// export const getFontSize = (
-//    type: 'heading' | 'body',
-//    size: HeadingSizes | BodySizes
-// ): string => {
-//    if (type === 'heading' && isHeadingSize(size)) {
-//       return baseTheme.typography.heading.sizes[size];
-//    }
-//    if (type === 'body' && isBodySize(size)) {
-//       return baseTheme.typography.body.sizes[size];
-//    }
-//    throw new Error(`Invalid size ${size} for type ${type}`);
-// };
+```ts
+interface Window {
+   webkitAudioContext: typeof AudioContext;
+ }
 
-// // Type guards
-// function isHeadingSize(size: HeadingSizes | BodySizes): size is HeadingSizes {
-//    return ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].includes(size);
-// }
-
-// function isBodySize(size: HeadingSizes | BodySizes): size is BodySizes {
-//    return ['xs', 'sm', 'base', 'lg', 'xl'].includes(size);
-// }
-
-// export const getFontFamily = (type: 'heading' | 'body'): string => {
-//    return theme.typography[type].fontFamily;
-// };
-
-// export const getFontWeight = (
-//    type: 'heading' | 'body',
-//    weight: 'regular' | 'medium' | 'bold'
-// ): number => {
-//    return theme.typography[type].weights[weight];
-// };
-
-
-// export const applyFontStyle = (
-//    type: 'heading' | 'body',
-//    weight: 'regular' | 'medium' | 'bold',
-//    size: HeadingSizes | BodySizes
-// ): string => {
-//    return `
-//      font-family: ${getFontFamily(type)};
-//      font-weight: ${getFontWeight(type, weight)};
-//      font-size: ${getFontSize(type, size)};
-//    `;
-// };
+ declare class webkitAudioContext extends AudioContext {
+   constructor();
+ }
 ```
 
 # src/types/images.d.ts
@@ -4251,6 +4588,10 @@ declare module '*.png';
 declare module '*.gif';
 declare module '*.svg';
 declare module '*.webp';
+declare module '*.wav' {
+   const content: string;
+   export default content;
+ }
 ```
 
 # src/types/navigation.ts
@@ -4333,25 +4674,21 @@ declare module '@/*' {
 ```ts
 // src/styles/styled.d.ts
 import 'styled-components';
+import { Theme as CustomTheme } from '../styles/theme';
 
 declare module 'styled-components' {
-  export interface DefaultTheme {
-    colors: {
-      primary: string;
-      background: string;
-      text: string;
-      navBackground: string;
-      textSecondary: string;
-      border: string;
-      error: string;
-    };
+  export interface DefaultTheme extends CustomTheme {
+    // Additional properties specific to styled-components
     sizes: {
       navHeight: string;
     };
-    backgroundColor: string;
-    backgroundBlendMode: string;
+    navBackground: string;
+    textSecondary: string;
+    border: string;
+    error: string;
   }
 }
+
 ```
 
 # src/vite-env.d.ts
@@ -4503,16 +4840,32 @@ import react from '@vitejs/plugin-react';
 import path from 'path';
 
 export default defineConfig({
-  plugins: [react()],
-  resolve: {
-    alias: {
-      '@':           path.resolve(__dirname, './src'),
-      '@components': path.resolve(__dirname, './src/components'),
-      '@pages':      path.resolve(__dirname, './src/pages'),
-      '@styles':     path.resolve(__dirname, './src/styles'),
-      '@data':       path.resolve(__dirname, './src/data'),
-    },
-  },
+   plugins: [
+      react({
+         babel: {
+            plugins: [
+               [
+                  "babel-plugin-styled-components",
+                  {
+                     displayName: true,
+                     fileName: true,
+                     meaninglessFileNames: ["index", "styles"],
+                     ssr: false
+                  }
+               ]
+            ]
+         }
+      })
+   ],
+   resolve: {
+      alias: {
+         '@': path.resolve(__dirname, './src'),
+         '@components': path.resolve(__dirname, './src/components'),
+         '@pages': path.resolve(__dirname, './src/pages'),
+         '@styles': path.resolve(__dirname, './src/styles'),
+         '@data': path.resolve(__dirname, './src/data'),
+      },
+   },
 });
 ```
 

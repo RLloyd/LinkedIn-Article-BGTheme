@@ -11,6 +11,7 @@ export const HomeContainer = styled.div`
   padding-top: ${({ theme }) => theme.sizes.navHeight};
   background: transparent;
   position: relative;
+  border: 6px solid red;
 `;
 
 export const ImageDiv = styled.div`
@@ -18,10 +19,11 @@ export const ImageDiv = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 90%;
-  max-width: 800px;
+  width: 80%;
+  max-width: 1020px;
   margin: 0 auto;
-  overflow: hidden;
+//   overflow: hidden;
   border-radius: 1rem;
   background: transparent;
+  border: 6px solid white;
 `;
