@@ -1,5 +1,5 @@
 // src/components/ExampleComponent.tsx
-import React from 'react'
+// import React from 'react'
 import styled from 'styled-components'
 
 const StyledContainer = styled.div`
@@ -11,7 +11,7 @@ const StyledContainer = styled.div`
     content: '';
     position: absolute;
     inset: 0;
-    background: ${props => props.theme.colors.background.light};
+    background: ${props => props.theme.colors.backgrounds.light};
     opacity: 0.8;
   }
 `

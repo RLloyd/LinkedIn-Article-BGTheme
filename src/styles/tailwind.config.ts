@@ -83,8 +83,8 @@ export const tailwindTheme = {
         900: lightTheme.colors.gray[900],
       },
       background: {
-        light: lightTheme.colors.background.light,
-        dark: lightTheme.colors.background.dark
+        light: lightTheme.colors.backgrounds.light,
+        dark: lightTheme.colors.backgrounds.dark
       },
       text: {
         light: {

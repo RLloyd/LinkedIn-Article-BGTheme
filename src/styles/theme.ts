@@ -23,9 +23,10 @@ export interface ColorPalette {
   warning: ColorShades;
   danger: ColorShades;
   gray: ColorShades;
-  background: {
+  backgrounds: {  // Changed from 'background' to 'backgrounds'
     light: string;
     dark: string;
+    nav: string; // Add this for navBackground
   };
   text: {
     light: {
@@ -214,9 +215,10 @@ export const colors = {
 export const lightTheme: Theme = {
   colors: {
     ...colors,
-    background: {
+    backgrounds: {  // Changed from 'background' to 'backgrounds'
       light: '#FFFFFF',
-      dark: '#121212'
+      dark: '#121212',
+      nav: 'rgba(255, 255, 255, 0.8)' // Add nav background here
     },
     text: {
       light: {
@@ -244,9 +246,10 @@ export const lightTheme: Theme = {
 export const darkTheme: Theme = {
   colors: {
     ...colors,
-    background: {
+    backgrounds: {  // Changed from 'background' to 'backgrounds'
       light: '#121212',
-      dark: '#000000'
+      dark: '#000000',
+      nav: 'rgba(18, 18, 18, 0.8)' // Add nav background here
     },
     text: {
       light: {
@@ -280,7 +283,7 @@ export const getColor = (colorName: keyof Omit<ColorPalette, "background" | "tex
 };
 
 export const getBackgroundColor = (mode: ThemeMode): string => {
-  return theme.colors.background[mode];
+  return theme.colors.backgrounds[mode];
 };
 
 export const getTextColor = (mode: ThemeMode, variant: "primary" | "secondary" | "disabled"): string => {

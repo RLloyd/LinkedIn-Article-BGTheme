@@ -25,7 +25,7 @@ export const NavbarContainer = styled.nav`
    justify-content: space-between;
    align-items: center;
    padding: 0 24px;
-   background-color: ${({ theme }) => theme.colors.navBackground};
+   background-color: ${({ theme }) => theme.colors.backgrounds.nav};
    z-index: 1000;
    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.1);
    transition: background-color 1s ease;
@@ -81,7 +81,7 @@ export const FadeOverlay = styled.div`
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: ${({ theme }) => theme.colors.background};
+  background-color: ${({ theme }) => theme.colors.backgrounds};
   z-index: 9999;
   animation: ${fadeIn} 0.5s ease-in forwards;
 `;
@@ -169,7 +169,7 @@ export const MobileMenu = styled.div`
   top: ${({ theme }) => theme.sizes.navHeight};
   left: 0;
   right: 0;
-  background-color: ${({ theme }) => theme.colors.navBackground};
+  background-color: ${({ theme }) => theme.colors.backgrounds.nav};
   padding: 20px;
   display: flex;
   flex-direction: column;
