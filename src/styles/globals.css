@@ -1,11 +1,13 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* 3. Create or update src/styles/globals.css */
+ @tailwind base;
+ @tailwind components;
+ @tailwind utilities;
 
-@layer base {
-  :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-    /* ... rest of your CSS variables ... */
-  }
-}
+ @layer base {
+   :root {
+     --background: 0 0% 100%;
+     --foreground: 222.2 84% 4.9%;
+     --radius: 0.5rem;
+   }
+ }
+

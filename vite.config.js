@@ -1,8 +1,25 @@
+// 2. Update vite.config.ts
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
 export default defineConfig({
-    plugins: [react()],
+    plugins: [
+        react({
+            babel: {
+                plugins: [
+                    [
+                        'styled-components',
+                        {
+                            displayName: true,
+                            fileName: true,
+                            pure: true,
+                            ssr: false
+                        }
+                    ]
+                ]
+            }
+        })
+    ],
     resolve: {
         alias: {
             '@': path.resolve(__dirname, './src'),
@@ -11,5 +28,5 @@ export default defineConfig({
             '@styles': path.resolve(__dirname, './src/styles'),
             '@data': path.resolve(__dirname, './src/data'),
         },
-    },
+    }
 });

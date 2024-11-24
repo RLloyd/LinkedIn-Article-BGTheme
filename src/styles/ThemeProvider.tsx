@@ -1,7 +1,7 @@
 // src/styles/ThemeProvider.tsx
 import React, { createContext, useContext, useState } from 'react';
 import { ThemeProvider as StyledThemeProvider } from 'styled-components';
-import { lightTheme, darkTheme, ThemeInterface } from './theme';
+import { lightTheme, darkTheme } from './theme';
 import { GlobalStyles } from './GlobalStyles';
 
 interface ThemeContextType {

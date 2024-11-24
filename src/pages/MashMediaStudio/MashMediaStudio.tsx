@@ -89,62 +89,62 @@
 
 // export default MashMediaStudio;
 
-
 // src/pages/MashMediaStudio/MashMediaStudio.tsx
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 // import BulkImageLoader, { ImageInfo } from '@/components/Animations/BulkImageLoader';
 
 // Import images directly
-import image1 from '@/assets/mashmedia/image1.jpg';
-import image2 from '@/assets/mashmedia/image2.jpg';
-import image3 from '@/assets/mashmedia/landscape1.jpg';
-import image4 from '@/assets/mashmedia/landscape2.jpg';
+import image1 from "@/assets/mashmedia/image1.jpg";
+import image2 from "@/assets/mashmedia/image2.jpg";
+import image3 from "@/assets/mashmedia/landscape1.jpg";
+import image4 from "@/assets/mashmedia/landscape2.jpg";
 
 const Container = styled.div`
-  width: 100%;
-  min-height: 100vh;
-  padding: 2rem;
-  position: relative;
-  z-index: 1;
+	width: 100%;
+	min-height: 100vh;
+	padding: 2rem;
+	position: relative;
+	z-index: 1;
 `;
 
 const Title = styled.h1`
-  font-size: 2rem;
-  color: red;
-//   color: ${props => props.theme.text};
-  margin-bottom: 2rem;
+	font-size: 2rem;
+	color: red;
+	//   color: ${(props) => props.theme.text};
+	margin-bottom: 2rem;
 `;
 
 const MashMediaStudio: React.FC = () => {
-  const mashMediaImages: ImageInfo[] = [
-    {
-      src: image1,
-      alt: "MashMedia Project 1"
-    },
-    {
-      src: image2,
-      alt: "MashMedia Project 2"
-    },
-    {
-      src: image3,
-      alt: "MashMedia Project 3"
-    },{
-      src: image4,
-      alt: "MashMedia Project 4"
-    }
-  ];
+	// const mashMediaImages: ImageInfo[] = [
+	// 	{
+	// 		src: image1,
+	// 		alt: "MashMedia Project 1",
+	// 	},
+	// 	{
+	// 		src: image2,
+	// 		alt: "MashMedia Project 2",
+	// 	},
+	// 	{
+	// 		src: image3,
+	// 		alt: "MashMedia Project 3",
+	// 	},
+	// 	{
+	// 		src: image4,
+	// 		alt: "MashMedia Project 4",
+	// 	},
+	// ];
 
-  return (
-    <Container>
-      <Title>MashMedia Studio</Title>
-      Test page
-      {/* <BulkImageLoader
+	return (
+		<Container>
+			<Title>MashMedia Studio</Title>
+			Test page
+			{/* <BulkImageLoader
         images={mashMediaImages}
         className="media-image"
       /> */}
-    </Container>
-  );
+		</Container>
+	);
 };
 
 export default MashMediaStudio;
