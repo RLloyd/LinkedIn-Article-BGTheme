@@ -24,3 +24,12 @@ dist-ssr
 *.sw?
 
 src/assets/WIP-ignoreGit
+
+# During ImageLoader development ignore the following components
+# Turn them back on when needed
+src/components/CircularLoader
+
+src/components/BulkImagesLoader
+src/pages/BulkLoading
+src/pages/BulkLoading/BulkLoading.tsx
+

@@ -93,7 +93,7 @@
 // src/pages/MashMediaStudio/MashMediaStudio.tsx
 import React from 'react';
 import styled from 'styled-components';
-import BulkImageLoader, { ImageInfo } from '@/components/Animations/BulkImageLoader';
+// import BulkImageLoader, { ImageInfo } from '@/components/Animations/BulkImageLoader';
 
 // Import images directly
 import image1 from '@/assets/mashmedia/image1.jpg';
@@ -138,10 +138,11 @@ const MashMediaStudio: React.FC = () => {
   return (
     <Container>
       <Title>MashMedia Studio</Title>
-      <BulkImageLoader
+      Test page
+      {/* <BulkImageLoader
         images={mashMediaImages}
         className="media-image"
-      />
+      /> */}
     </Container>
   );
 };
