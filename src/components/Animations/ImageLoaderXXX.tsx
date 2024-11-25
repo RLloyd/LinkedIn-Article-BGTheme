@@ -130,7 +130,6 @@ const ImageLoader: React.FC<ImageLoaderProps> = ({ src, alt, mode = "light", cla
 	const [progress, setProgress] = useState(0);
 	const [showPoem, setShowPoem] = useState(false);
 	const [startSlideAnimation, setStartSlideAnimation] = useState(false);
-   const [startAnimation, setStartAnimation] = useState(false);
 	const [hasError, setHasError] = useState(false);
 	const [isPlaying, setIsPlaying] = useState(false);
 

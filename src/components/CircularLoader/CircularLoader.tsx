@@ -161,6 +161,7 @@ const CircularLoader: React.FC<ImageLoaderProps> = ({ src, alt, className }) => 
 								<motion.path initial={{ rotate: 0 }} animate={{ rotate: -260 }} transition={{ duration: animationDuration, ease: easing, repeat: Infinity }} fill-rule="evenodd" clip-rule="evenodd" d="M166.383 101.654C136.009 96.339 106.97 116.654 101.655 147.014C98.807 163.443 103.365 179.476 113.039 191.521L108.361 195.278C97.6353 181.924 92.593 164.157 95.7439 145.987L95.7447 145.982C101.631 112.344 133.791 89.8598 167.417 95.7442C201.055 101.631 223.539 133.791 217.655 167.416C211.768 201.055 179.608 223.539 145.983 217.654L147.017 211.744C177.391 217.06 206.431 196.744 211.745 166.382C217.06 136.008 196.744 106.968 166.383 101.654Z" fill="#bad2d9" />
 							</motion.svg>
 						</CircularSVG>
+
 					</LoaderContainer>
 				)}
 			</AnimatePresence>
