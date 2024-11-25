@@ -30,6 +30,6 @@ src/assets/WIP-ignoreGit
 src/components/CircularLoader
 
 src/components/BulkImagesLoader
-src/pages/BulkLoading
-src/pages/BulkLoading/BulkLoading.tsx
+# src/pages/BulkLoading
+# src/pages/BulkLoading/BulkLoading.tsx
 

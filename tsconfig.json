@@ -33,6 +33,6 @@
      "src/**/*.ts",
      "src/**/*.tsx",
      "src/**/*.d.ts"
-   ],
+, "src/components/Sound/SoundPlayer.tsx.bak", "src/components/Sound/AudioPlayer.tsx.bak", "src/components/BulkImagesLoader/BulkImageLoader-b4Logo.tsx.bak", "src/components/BulkImagesLoader/BulkImageLoader.tsx.bak"   ],
    "references": [{ "path": "./tsconfig.node.json" }]
  }

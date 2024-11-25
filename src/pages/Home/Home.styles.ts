@@ -11,7 +11,7 @@ export const HomeContainer = styled.div`
   padding-top: ${({ theme }) => theme.sizes.navHeight};
   background: transparent;
   position: relative;
-  border: 6px solid red;
+//   border: 6px solid red;
 `;
 
 export const ImageDiv = styled.div`

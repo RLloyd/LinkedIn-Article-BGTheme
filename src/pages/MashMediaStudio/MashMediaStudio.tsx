@@ -95,10 +95,10 @@ import styled from "styled-components";
 // import BulkImageLoader, { ImageInfo } from '@/components/Animations/BulkImageLoader';
 
 // Import images directly
-import image1 from "@/assets/mashmedia/image1.jpg";
-import image2 from "@/assets/mashmedia/image2.jpg";
-import image3 from "@/assets/mashmedia/landscape1.jpg";
-import image4 from "@/assets/mashmedia/landscape2.jpg";
+// import image1 from "@/assets/mashmedia/image1.jpg";
+// import image2 from "@/assets/mashmedia/image2.jpg";
+// import image3 from "@/assets/mashmedia/landscape1.jpg";
+// import image4 from "@/assets/mashmedia/landscape2.jpg";
 
 const Container = styled.div`
 	width: 100%;

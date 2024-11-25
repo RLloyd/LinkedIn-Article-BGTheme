@@ -33,8 +33,8 @@ src/assets/WIP-ignoreGit
 src/components/CircularLoader
 
 src/components/BulkImagesLoader
-src/pages/BulkLoading
-src/pages/BulkLoading/BulkLoading.tsx
+# src/pages/BulkLoading
+# src/pages/BulkLoading/BulkLoading.tsx
 
 
 ```
@@ -246,12 +246,232 @@ Use the source control to commit and push to GIT
 # public/Notes/Misc.tsx
 
 ```tsx
+// src/styles/GlobalStyles.ts
+import { createGlobalStyle } from 'styled-components';
 
+export const GlobalStyles = createGlobalStyle`
+  * {
+    transition: color 0.3s ease, background-color 0.3s ease;
+  }
+
+  body {
+    color: ${({ theme }) => theme.colors.text[theme.isDarkTheme ? 'dark' : 'light'].primary};
+    background-color: ${({ theme }) => theme.colors.backgrounds[theme.isDarkTheme ? 'dark' : 'light']};
+  }
+`;
 ```
 
 # public/Notes/Misc2.ts
 
 ```ts
+
+```
+
+# public/Notes/To-Do.md
+
+```md
+# To Do
+
+
+## Section: NavBar
+#### Date: Nov. 24, 2024
+- Fix the Mobile menu: hide mobile menu when screen goes larger than mobile size
+- Home button menu open _blank page. Shouldn't!
+-
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap');
+
+/* Base styles */
+body {
+  font-family: 'Libre Baskerville', serif;
+  line-height: 1.8;
+  color: #2D3748;
+  max-width: 50rem;
+  margin: 0 auto;
+  padding: 2rem;
+  background-color: #FFFDF7;
+}
+
+/* Typography scale */
+h1 {
+  font-size: 2.5rem;
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
+  color: #1A202C;
+  letter-spacing: -0.02em;
+  border-bottom: 2px solid #E2E8F0;
+  padding-bottom: 0.5rem;
+}
+
+h2 {
+  font-size: 1.875rem;
+  line-height: 1.3;
+  margin-top: 3rem;
+  margin-bottom: 1rem;
+  color: #2D3748;
+  letter-spacing: -0.01em;
+}
+
+h3 {
+  font-size: 1.5rem;
+  line-height: 1.4;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+  color: #4A5568;
+}
+
+/* Paragraphs and lists */
+p {
+  margin-bottom: 1.5rem;
+  font-size: 1.125rem;
+}
+
+ul, ol {
+  margin-bottom: 1.5rem;
+  padding-left: 1.5rem;
+}
+
+li {
+  margin-bottom: 0.5rem;
+}
+
+/* Code blocks */
+code {
+  font-family: 'JetBrains Mono', Consolas, Monaco, 'Andale Mono', monospace;
+  font-size: 0.9em;
+  background-color: #F7FAFC;
+  padding: 0.2em 0.4em;
+  border-radius: 3px;
+  border: 1px solid #E2E8F0;
+}
+
+pre {
+  background-color: #F7FAFC;
+  padding: 1.5rem;
+  border-radius: 6px;
+  overflow-x: auto;
+  border: 1px solid #E2E8F0;
+  margin: 1.5rem 0;
+}
+
+pre code {
+  border: none;
+  padding: 0;
+}
+
+/* Links */
+a {
+  color: #4A90E2;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s ease;
+}
+
+a:hover {
+  border-bottom-color: currentColor;
+}
+
+/* Blockquotes */
+blockquote {
+  font-style: italic;
+  margin: 1.5rem 0;
+  padding-left: 1.5rem;
+  border-left: 3px solid #CBD5E0;
+  color: #4A5568;
+}
+
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+}
+
+th, td {
+  padding: 0.75rem;
+  border: 1px solid #E2E8F0;
+  text-align: left;
+}
+
+th {
+  background-color: #F7FAFC;
+  font-weight: 700;
+}
+
+/* Emphasis and strong */
+em {
+  font-style: italic;
+}
+
+strong {
+  font-weight: 700;
+  color: #1A202C;
+}
+
+/* Meta information */
+.meta {
+  font-size: 0.875rem;
+  color: #718096;
+  margin-bottom: 2rem;
+}
+
+/* Feature list checkmarks */
+.features li::before {
+  content: "✓";
+  color: #48BB78;
+  font-weight: bold;
+  display: inline-block;
+  width: 1.5em;
+  margin-left: -1.5em;
+}
+
+/* Command line prompts */
+.command {
+  display: block;
+  margin: 1rem 0;
+  padding: 1rem;
+  background-color: #2D3748;
+  color: #FFFFFF;
+  border-radius: 6px;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.command::before {
+  content: "$ ";
+  color: #A0AEC0;
+}
+</style>
+
 
 ```
 
@@ -830,7 +1050,7 @@ export default ImageLoader;
 // src/components/AudioPlayer/AudioPlayer.tsx
 
 import React, { useEffect, useRef, useState } from "react";
-import { Play, Pause, SkipBack, SkipForward, Volume2, Volume1, VolumeX, Download, Settings } from "lucide-react";
+import { Play, Pause, SkipBack, SkipForward, Volume2, Volume1, VolumeX, Download } from "lucide-react";
 
 interface AudioPlayerProps {
 	src: string;
@@ -850,7 +1070,7 @@ const formatTime = (seconds: number): string => {
 	return `${mins}:${secs.toString().padStart(2, "0")}`;
 };
 
-const AudioPlayer = ({ src, title = "Audio Track", autoPlay = false, loop = false, initialVolume = 1, className = "", onPlay, onPause, onEnded }: AudioPlayerProps) => {
+const AudioPlayer: React.FC<AudioPlayerProps> = ({ src, title = "Audio Track", autoPlay = false, loop = false, initialVolume = 1, className = "", onPlay, onPause, onEnded }) => {
 	const audioRef = useRef<HTMLAudioElement>(null);
 	const [isPlaying, setIsPlaying] = useState(false);
 	const [currentTime, setCurrentTime] = useState(0);
@@ -884,7 +1104,7 @@ const AudioPlayer = ({ src, title = "Audio Track", autoPlay = false, loop = fals
 				audioRef.current.pause();
 				onPause?.();
 			} else {
-				audioRef.current.play().catch((err) => {
+				audioRef.current.play().catch(() => {
 					setError("Failed to play audio");
 				});
 				onPlay?.();
@@ -899,6 +1119,13 @@ const AudioPlayer = ({ src, title = "Audio Track", autoPlay = false, loop = fals
 		}
 	};
 
+	/*---========  ✨ handleLoadedMetadata ⭐  =========---//
+      This function updates the audio player's state when
+      the audio file's metadata is loaded. It sets the
+      duration state to the audio file's duration and
+      sets isLoading to false, indicating that the
+      audio is ready to play.
+	//--===============================================---*/
 	const handleLoadedMetadata = () => {
 		if (audioRef.current) {
 			setDuration(audioRef.current.duration);
@@ -953,16 +1180,8 @@ const AudioPlayer = ({ src, title = "Audio Track", autoPlay = false, loop = fals
 		document.body.removeChild(link);
 	};
 
-	// Update the className assignments to include tw- prefix
 	return (
-		<div
-			className={`
-     tw-fixed tw-bottom-4 tw-right-4 tw-w-96
-     tw-bg-white tw-rounded-lg tw-shadow-lg tw-p-4 ${className}
-     `}
-			role="region"
-			aria-label="Audio player"
-		>
+		<div className={`tw-fixed tw-bottom-4 tw-right-4 tw-w-96 tw-bg-white tw-rounded-lg tw-shadow-lg tw-p-4 ${className}`} role="region" aria-label="Audio player">
 			<audio ref={audioRef} src={src} loop={loop} onTimeUpdate={handleTimeUpdate} onLoadedMetadata={handleLoadedMetadata} onEnded={onEnded} onError={() => setError("Error loading audio")} />
 
 			{error && (
@@ -1013,132 +1232,6 @@ const AudioPlayer = ({ src, title = "Audio Track", autoPlay = false, loop = fals
 			</div>
 		</div>
 	);
-
-	//   return (
-	//     <div className={`
-	//       tw-fixed tw-bottom-4 tw-right-4 tw-w-96
-	//       tw-bg-white  tw-rounded-lg
-	//       shadow-lg p-4 ${className}
-	//       border-2 border-red-500
-	//       audioPlayer
-	//       `}
-
-	//       role="region"
-	//       aria-label="Audio player"
-
-	//       >
-	//       <audio
-	//         ref={audioRef}
-	//         src={src}
-	//         loop={loop}
-	//         onTimeUpdate={handleTimeUpdate}
-	//         onLoadedMetadata={handleLoadedMetadata}
-	//         onEnded={onEnded}
-	//         onError={() => setError('Error loading audio')}
-	//       />
-
-	//       {error && (
-	//         <div className="text-red-500 text-sm mb-2" role="alert">
-	//           {error}
-	//         </div>
-	//       )}
-
-	//       <div className="flex items-center justify-between mb-2">
-	//         <h2 className="text-lg font-semibold truncate">{title}</h2>
-	//         <div className="flex items-center space-x-2">
-	//           <button
-	//             onClick={() => handleSpeedChange(playbackRate === 2 ? 0.5 : playbackRate + 0.5)}
-	//             className="text-gray-600 hover:text-gray-800"
-	//             aria-label="Change playback speed"
-	//           >
-	//             {playbackRate}x
-	//           </button>
-	//           <button
-	//             onClick={handleDownload}
-	//             className="text-gray-600 hover:text-gray-800"
-	//             aria-label="Download audio"
-	//           >
-	//             <Download size={20} />
-	//           </button>
-	//         </div>
-	//       </div>
-
-	//       <div className="flex items-center space-x-4 mb-2">
-	//         <span className="text-sm">{formatTime(currentTime)}</span>
-	//         <input
-	//           type="range"
-	//           value={currentTime}
-	//           min={0}
-	//           max={duration}
-	//           step={0.1}
-	//           onChange={handleSeek}
-	//           className="flex-grow h-2 rounded-lg appearance-none bg-gray-200"
-	//           aria-label="Seek"
-	//         />
-	//         <span className="text-sm">{formatTime(duration)}</span>
-	//       </div>
-
-	//       <div className="flex items-center justify-between">
-	//         <div className="flex items-center space-x-4">
-	//           <button
-	//             onClick={() => handleSkip(-10)}
-	//             className="text-gray-600 hover:text-gray-800"
-	//             aria-label="Skip backward 10 seconds"
-	//           >
-	//             <SkipBack size={24} />
-	//           </button>
-
-	//           <button
-	//             onClick={handlePlayPause}
-	//             className="w-12 h-12 flex items-center justify-center rounded-full bg-blue-500 hover:bg-blue-600 text-white"
-	//             aria-label={isPlaying ? 'Pause' : 'Play'}
-	//           >
-	//             {isLoading ? (
-	//               <div className="animate-spin rounded-full h-6 w-6 border-2 border-white border-t-transparent" />
-	//             ) : isPlaying ? (
-	//               <Pause size={24} />
-	//             ) : (
-	//               <Play size={24} />
-	//             )}
-	//           </button>
-
-	//           <button
-	//             onClick={() => handleSkip(10)}
-	//             className="text-gray-600 hover:text-gray-800"
-	//             aria-label="Skip forward 10 seconds"
-	//           >
-	//             <SkipForward size={24} />
-	//           </button>
-	//         </div>
-
-	//         <div className="flex items-center space-x-2">
-	//           <button
-	//             onClick={toggleMute}
-	//             className="text-gray-600 hover:text-gray-800"
-	//             aria-label={isMuted ? 'Unmute' : 'Mute'}
-	//           >
-	//             {isMuted ? (
-	//               <VolumeX size={20} />
-	//             ) : volume > 0.5 ? (
-	//               <Volume2 size={20} />
-	//             ) : (
-	//               <Volume1 size={20} />
-	//             )}
-	//           </button>
-	//           <input
-	//             type="range"
-	//             min={0}
-	//             max={1}
-	//             step={0.1}
-	//             value={isMuted ? 0 : volume}
-	//             onChange={handleVolumeChange}
-	//             className="w-20 h-2 rounded-lg appearance-none bg-gray-200"
-	//             aria-label="Volume"
-	//           />
-	//         </div>
-	//       </div>
-	//     </div>
-	//   );
 };
 
 export default AudioPlayer;
@@ -1658,9 +1751,9 @@ const Background: React.FC<BackgroundProps> = ({ isDarkTheme }) => {
 export default Background;
 ```
 
-# src/components/BulkImagesLoader/BulkImageLoader-b4Logo.tsx
+# src/components/BulkImagesLoader/BulkImageLoader-b4Logo.tsx.bak
 
-```tsx
+```bak
 // src/components/Animations/BulkImageLoader.tsx
 
 // import React, { useEffect, useState, useCallback, useRef } from "react";
@@ -2037,9 +2130,9 @@ export default BulkImageLoader;
 
 ```
 
-# src/components/BulkImagesLoader/BulkImageLoader.tsx
+# src/components/BulkImagesLoader/BulkImageLoader.tsx.bak
 
-```tsx
+```bak
 // src/components/Animations/BulkImageLoader.tsx
 
 // import React, { useEffect, useState, useCallback, useRef } from "react";
@@ -2629,7 +2722,7 @@ export default CircularLoader;
 # src/components/ImageLoader/ImageLoader.tsx
 
 ```tsx
-// src/components/Animations/ImageLoader.tsx | Loading & Audio & Replaced Poem : 11.23.2024•B
+// src/components/ImageLoader/ImageLoader.tsx
 
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -2646,6 +2739,7 @@ const Container = styled.div`
 	justify-content: center;
 	align-items: center;
 	background-color: transparent;
+	border: 6px solid green;
 `;
 
 const LoaderOverlay = styled(motion.div)<{ $mode: ThemeMode }>`
@@ -2660,15 +2754,17 @@ const LoaderOverlay = styled(motion.div)<{ $mode: ThemeMode }>`
 	align-items: center;
 	justify-content: center;
 	z-index: 10;
+	border: 6px solid cyan;
 `;
 
 const StyledImage = styled(motion.img)`
+   position: relative;
 	max-width: 100%;
 	width: 100%;
-	height: 50%;
+	//   height: 50%;
+	  height: 550px;
 	display: block;
 	object-fit: cover;
-	position: relative;
 	border-radius: 2rem;
 	border: 6px solid yellow;
 `;
@@ -2680,11 +2776,12 @@ const PoemOverlay = styled(motion.div)`
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	background: rgba(0, 0, 0, 0.5);
+	background: rgba(0, 0, 0, 0.1);
 	color: white;
 	padding: 2rem;
 	text-align: center;
 	pointer-events: none;
+	border: 1px solid magenta;
 `;
 
 const PoemTitle = styled.h2`
@@ -2750,27 +2847,22 @@ const ImageLoader: React.FC<ImageLoaderProps> = ({ src, alt, mode = "light", cla
 	const [hasError, setHasError] = useState(false);
 	const [isPlaying, setIsPlaying] = useState(false);
 
-
-	// const audioRef = useRef<HTMLAudioElement | null>(null);
 	const audioContextRef = useRef<AudioContext | null>(null);
 	const sourceRef = useRef<AudioBufferSourceNode | null>(null);
 	const gainNodeRef = useRef<GainNode | null>(null);
 	const [audioBuffer, setAudioBuffer] = useState<AudioBuffer | null>(null);
 
-	// Initialize WebAudio context
 	useEffect(() => {
 		const initAudioContext = async () => {
 			try {
 				const AudioContext = window.AudioContext || window.webkitAudioContext;
 				audioContextRef.current = new AudioContext();
 
-				// Fetch and decode audio file
 				const response = await fetch(whaleSound);
 				const arrayBuffer = await response.arrayBuffer();
 				const decodedBuffer = await audioContextRef.current.decodeAudioData(arrayBuffer);
 				setAudioBuffer(decodedBuffer);
 
-				// Create gain node
 				gainNodeRef.current = audioContextRef.current.createGain();
 				gainNodeRef.current.connect(audioContextRef.current.destination);
 				gainNodeRef.current.gain.value = 0;
@@ -2788,48 +2880,38 @@ const ImageLoader: React.FC<ImageLoaderProps> = ({ src, alt, mode = "light", cla
 		};
 	}, []);
 
-	const playSound = useCallback(
-		async (isAutoplay = false) => {
-			if (!audioContextRef.current || !audioBuffer || !gainNodeRef.current) return;
+	const playSound = useCallback(async () => {
+		if (!audioContextRef.current || !audioBuffer || !gainNodeRef.current) return;
 
-			try {
-				// Resume context if suspended
-				if (audioContextRef.current.state === "suspended") {
-					await audioContextRef.current.resume();
-				}
-
-				// Stop any currently playing sound
-				if (sourceRef.current) {
-					sourceRef.current.stop();
-					sourceRef.current.disconnect();
-				}
-
-				// Create and configure new source
-				sourceRef.current = audioContextRef.current.createBufferSource();
-				sourceRef.current.buffer = audioBuffer;
-				sourceRef.current.connect(gainNodeRef.current);
-
-				// Reset gain and start fade in
-				gainNodeRef.current.gain.setValueAtTime(0, audioContextRef.current.currentTime);
-				gainNodeRef.current.gain.linearRampToValueAtTime(0.3, audioContextRef.current.currentTime + 1);
-
-				// Start playback
-				sourceRef.current.start();
-				setIsPlaying(true);
-
-				// Handle ending
-				sourceRef.current.onended = () => {
-					setIsPlaying(false);
-				};
-			} catch (error) {
-				console.error("Playback failed:", error);
-				setIsPlaying(false);
+		try {
+			if (audioContextRef.current.state === "suspended") {
+				await audioContextRef.current.resume();
 			}
-		},
-		[audioBuffer]
-	);
 
-	// Initialize animation and try autoplay
+			if (sourceRef.current) {
+				sourceRef.current.stop();
+				sourceRef.current.disconnect();
+			}
+
+			sourceRef.current = audioContextRef.current.createBufferSource();
+			sourceRef.current.buffer = audioBuffer;
+			sourceRef.current.connect(gainNodeRef.current);
+
+			gainNodeRef.current.gain.setValueAtTime(0, audioContextRef.current.currentTime);
+			gainNodeRef.current.gain.linearRampToValueAtTime(0.3, audioContextRef.current.currentTime + 1);
+
+			sourceRef.current.start();
+			setIsPlaying(true);
+
+			sourceRef.current.onended = () => {
+				setIsPlaying(false);
+			};
+		} catch (error) {
+			console.error("Playback failed:", error);
+			setIsPlaying(false);
+		}
+	}, [audioBuffer]);
+
 	useEffect(() => {
 		const xhr = new XMLHttpRequest();
 		xhr.open("GET", src, true);
@@ -2847,22 +2929,17 @@ const ImageLoader: React.FC<ImageLoaderProps> = ({ src, alt, mode = "light", cla
 				setProgress(100);
 				const runAnimationSequence = async () => {
 					setIsLoading(false);
-
 					await new Promise((resolve) => setTimeout(resolve, 500));
 					setShowPoem(true);
-
 					await new Promise((resolve) => setTimeout(resolve, 1000));
 					setStartSlideAnimation(true);
-
-					// Attempt to play sound after animation
 					await new Promise((resolve) => setTimeout(resolve, 800));
 
-					// Create a temporary button and simulate click
 					const tempButton = document.createElement("button");
 					tempButton.style.display = "none";
 					document.body.appendChild(tempButton);
 					tempButton.addEventListener("click", () => {
-						playSound(true);
+						playSound();
 						tempButton.remove();
 					});
 					tempButton.click();
@@ -2888,9 +2965,8 @@ const ImageLoader: React.FC<ImageLoaderProps> = ({ src, alt, mode = "light", cla
 		};
 	}, [src, playSound]);
 
-	// Handle manual play button click
 	const handlePlayClick = () => {
-		playSound(false);
+		playSound();
 	};
 
 	if (hasError) {
@@ -2900,17 +2976,20 @@ const ImageLoader: React.FC<ImageLoaderProps> = ({ src, alt, mode = "light", cla
 	return (
 		<Container className={className}>
 			<ContentWrapper>
+				{/* Whale image */}
 				<StyledImage
 					src={src}
 					alt={alt}
-					initial={{ opacity: 0, y: 0 }}
+					initial={{ opacity: 0, y: 0, height: false }}
 					animate={{
 						opacity: isLoading ? 0 : 1,
 						y: startSlideAnimation ? -210 : 0,
+                  height: !isLoading ? 220 : 550,
 					}}
 					transition={{
 						opacity: { duration: 0.5 },
 						y: { duration: 1.2, ease: "easeOut" },
+						height: { duration: 2.2, ease: "easeOut" },
 					}}
 				/>
 
@@ -2929,12 +3008,13 @@ const ImageLoader: React.FC<ImageLoaderProps> = ({ src, alt, mode = "light", cla
 							}}
 						>
 							<PoemTitle>Guiding Song</PoemTitle>
+							{/* <PoemText className="tw-font-sans tw-text-2xl"> // custom: apply the tw-font-sans class */}
 							<PoemText>
 								Beneath the waves, a whale does sing,
 								<br />
 								Of minds that learn and dreams that spring.
 								<br />
-								Its hums weave tales of AI’s might,
+								Its hums weave tales of AI's might,
 								<br />A guiding song in endless night.
 							</PoemText>
 						</PoemOverlay>
@@ -3048,7 +3128,7 @@ export const NavbarContainer = styled.nav`
    justify-content: space-between;
    align-items: center;
    padding: 0 24px;
-   background-color: ${({ theme }) => theme.colors.navBackground};
+   background-color: ${({ theme }) => theme.colors.backgrounds.nav};
    z-index: 1000;
    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.1);
    transition: background-color 1s ease;
@@ -3104,7 +3184,7 @@ export const FadeOverlay = styled.div`
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: ${({ theme }) => theme.colors.background};
+  background-color: ${({ theme }) => theme.colors.backgrounds};
   z-index: 9999;
   animation: ${fadeIn} 0.5s ease-in forwards;
 `;
@@ -3134,10 +3214,13 @@ export const MenuItems = styled.ul`
 
 export const MenuItem = styled.li`
   a {
-    text-decoration: none;
-    color: ${({ theme }) => theme.colors.text};
-   //  opacity: .75;
-    transition: opacity 0.3s ease;
+      text-decoration: none;
+      color: ${({ theme }) => theme.colors.text[theme.isDarkTheme ? 'dark' : 'light'].primary};
+      font-size: 1.2rem;
+      font-family: "Libre Baskerville", sans-serif;
+      //  color: ${({ theme }) => theme.colors.text};
+      //  opacity: .75;
+      transition: opacity 0.3s ease;
 
     &:hover {
       opacity: 0.7;
@@ -3149,7 +3232,8 @@ export const ThemeToggle = styled.button`
   background: none;
   border: none;
   cursor: pointer;
-  color: ${({ theme }) => theme.colors.text};
+//   color: ${({ theme }) => theme.colors.text};
+  color: ${({ theme }) => theme.colors.text[theme.isDarkTheme ? 'dark' : 'light'].primary};
   font-size: 1.5rem;
   padding: 0.5rem;
   display: flex;
@@ -3172,8 +3256,10 @@ export const MobileMenuButton = styled.button`
   background: none;
   border: none;
   cursor: pointer;
-  color: ${({ theme }) => theme.colors.text};
+//   color: ${({ theme }) => theme.colors.text};
+  color: ${({ theme }) => theme.colors.text[theme.isDarkTheme ? 'dark' : 'light'].primary};
   padding: 8px;
+//   transition: opacity 0.3s ease;
 
   @media (max-width: 768px) {
     display: flex;
@@ -3192,7 +3278,7 @@ export const MobileMenu = styled.div`
   top: ${({ theme }) => theme.sizes.navHeight};
   left: 0;
   right: 0;
-  background-color: ${({ theme }) => theme.colors.navBackground};
+  background-color: ${({ theme }) => theme.colors.backgrounds.nav};
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -3255,36 +3341,28 @@ export const ErrorMessage = styled.div`
 ```tsx
 // src/components/Navbar/Navbar.tsx
 
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { FiMenu, FiX, FiSun, FiMoon } from 'react-icons/fi';
-import {
-  NavbarContainer,
-  NavigationGroup,
-  ControlsGroup,
-  Logo,
-  MenuItems,
-  MenuItem,
-  ThemeToggle,
-  MobileMenuButton,
-  MobileMenu,
-  LogoButton
-} from './Navbar.styles';
-import { navigationData } from '@/data/mockData';
-import { NavigationItem } from '@/types/navigation';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { FiMenu, FiX, FiSun, FiMoon } from "react-icons/fi";
+import { NavbarContainer, NavigationGroup, ControlsGroup, Logo, MenuItems, MenuItem, ThemeToggle, MobileMenuButton, MobileMenu, LogoButton } from "./Navbar.styles";
+import { navigationData } from "@/data/mockData";
+import { NavigationItem } from "@/types/navigation";
 
 interface NavbarProps {
-  toggleTheme: () => void;
-  isDarkTheme: boolean;
+	toggleTheme: () => void;
+	isDarkTheme: boolean;
 }
 
 const Navbar: React.FC<NavbarProps> = ({ toggleTheme, isDarkTheme }) => {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { menuItems: { left: leftMenuItems, right: rightMenuItems }, logo } = navigationData;
+	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+	const {
+		menuItems: { left: leftMenuItems, right: rightMenuItems },
+		logo,
+	} = navigationData;
 
-  const getWindowFeatures = (isLogo: boolean = false) => {
-    if (isLogo) {
-      return `
+	const getWindowFeatures = (isLogo: boolean = false) => {
+		if (isLogo) {
+			return `
         height=1020,
         width=${window.innerWidth},
         left=${window.screenX},
@@ -3294,16 +3372,16 @@ const Navbar: React.FC<NavbarProps> = ({ toggleTheme, isDarkTheme }) => {
         location=yes,
         status=no,
         scrollbars=yes
-      `.replace(/\s/g, '');
-    }
+      `.replace(/\s/g, "");
+		}
 
-    // Features for social window
-    const width = 1920;
-    const height = 1020;
-    const left = (window.screen.width - width) / 2;
-    const top = (window.screen.height - height) / 2;
+		// Features for social window
+		const width = 1920;
+		const height = 1020;
+		const left = (window.screen.width - width) / 2;
+		const top = (window.screen.height - height) / 2;
 
-    return `
+		return `
       width=${width},
       height=${height},
       left=${left},
@@ -3313,130 +3391,111 @@ const Navbar: React.FC<NavbarProps> = ({ toggleTheme, isDarkTheme }) => {
       location=yes,
       status=no,
       scrollbars=yes
-    `.replace(/\s/g, '');
-  };
+    `.replace(/\s/g, "");
+	};
 
-  const handleLogoClick = () => {
-    const newWindow = window.open(logo.path, '_blank', getWindowFeatures(true));
-    if (newWindow) {
-      newWindow.focus();
-      window.close();
-    }
-  };
+	const handleLogoClick = () => {
+		const newWindow = window.open(logo.path, "_blank", getWindowFeatures(true));
+		if (newWindow) {
+			newWindow.focus();
+			window.close();
+		}
+	};
 
-  const handleWindowOpen = (path: string) => {
-    const newWindow = window.open(path, 'SocialWindow', getWindowFeatures());
-    if (newWindow) {
-      newWindow.focus();
-    }
-  };
+	const handleWindowOpen = (path: string) => {
+		const newWindow = window.open(path, "SocialWindow", getWindowFeatures());
+		if (newWindow) {
+			newWindow.focus();
+		}
+	};
 
-  const renderMenuItem = (item: NavigationItem) => {
-    if (item.openInWindow) {
-      return (
-        <MenuItem key={item.label}>
-          <a
-            href={item.path}
-            onClick={(e) => {
-              e.preventDefault();
-              handleWindowOpen(item.path);
-            }}
-          >
-            {item.label}
-          </a>
-        </MenuItem>
-      );
-    }
+	const renderMenuItem = (item: NavigationItem) => {
+		if (item.openInWindow) {
+			return (
+				<MenuItem key={item.label}>
+					<a
+						href={item.path}
+						onClick={(e) => {
+							e.preventDefault();
+							handleWindowOpen(item.path);
+						}}
+					>
+						{item.label}
+					</a>
+				</MenuItem>
+			);
+		}
 
-    if (item.label === 'Home' || item.isExternal) {
-      return (
-        <MenuItem key={item.label}>
-          <a
-            href={item.path}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {item.label}
-          </a>
-        </MenuItem>
-      );
-    }
+		if (item.label === "Home" || item.isExternal) {
+			return (
+				<MenuItem key={item.label}>
+					<a href={item.path} target="_blank" rel="noopener noreferrer">
+						{item.label}
+					</a>
+				</MenuItem>
+			);
+		}
 
-    return (
-      <MenuItem key={item.label}>
-        <Link to={item.path}>{item.label}</Link>
-      </MenuItem>
-    );
-  };
+		return (
+			<MenuItem key={item.label}>
+				<Link to={item.path}>{item.label}</Link>
+			</MenuItem>
+		);
+	};
 
-  return (
-    <NavbarContainer>
-      <NavigationGroup>
-        <MenuItems className="left-menu">
-          {leftMenuItems.map(renderMenuItem)}
-        </MenuItems>
+	return (
+		<NavbarContainer>
+			<NavigationGroup>
+				<MenuItems className="left-menu">{leftMenuItems.map(renderMenuItem)}</MenuItems>
 
-        <Logo>
-          <LogoButton
-            onClick={handleLogoClick}
-            aria-label={`${logo.alt} - Open article site in new window`}
-          >
-            <img
-              src={logo.image}
-              alt={logo.alt}
-              loading="eager"
-            />
-          </LogoButton>
-        </Logo>
+				<Logo>
+					<LogoButton onClick={handleLogoClick} aria-label={`${logo.alt} - Open article site in new window`}>
+						<img src={logo.image} alt={logo.alt} loading="eager" />
+					</LogoButton>
+				</Logo>
 
-        <MenuItems className="right-menu">
-          {rightMenuItems.map(renderMenuItem)}
-        </MenuItems>
-      </NavigationGroup>
+				<MenuItems className="right-menu">{rightMenuItems.map(renderMenuItem)}</MenuItems>
+			</NavigationGroup>
 
-      <ControlsGroup>
-        <ThemeToggle onClick={toggleTheme}>
-          {isDarkTheme ? <FiSun /> : <FiMoon />}
-        </ThemeToggle>
+			<ControlsGroup>
+				<ThemeToggle
+               onClick={toggleTheme}
+               aria-label={isDarkTheme ? 'Switch to light theme' : 'Switch to dark theme'}
+               >
+                  {isDarkTheme ? <FiSun /> : <FiMoon />}
+                  </ThemeToggle>
 
-        <MobileMenuButton onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
-          {isMobileMenuOpen ? <FiX /> : <FiMenu />}
-        </MobileMenuButton>
-      </ControlsGroup>
+				<MobileMenuButton onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>{isMobileMenuOpen ? <FiX /> : <FiMenu />}</MobileMenuButton>
+			</ControlsGroup>
 
-      {isMobileMenuOpen && (
-        <MobileMenu>
-          {[...leftMenuItems, ...rightMenuItems].map(renderMenuItem)}
-        </MobileMenu>
-      )}
-    </NavbarContainer>
-  );
+			{isMobileMenuOpen && <MobileMenu>{[...leftMenuItems, ...rightMenuItems].map(renderMenuItem)}</MobileMenu>}
+		</NavbarContainer>
+	);
 };
 
 export default Navbar;
 
 ```
 
-# src/components/Sound/AudioPlayer.tsx
+# src/components/Sound/AudioPlayer.tsx.bak
 
-```tsx
-//src/components/Sound/AudioPlayer.tsx
+```bak
+// src/components/Sound/AudioPlayer.tsx
 
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import styled from 'styled-components';
+import React, { useEffect, useRef, useState } from "react";
+import styled from "styled-components";
 
 interface AudioPlayerProps {
-  audioSrc: string;
-  autoPlayDelay?: number;
-  initialVolume?: number;
-  fadeInDuration?: number;
-  onPlayStart?: () => void;
-  onPlayEnd?: () => void;
-  onError?: (error: Error) => void;
-  controls?: boolean;
-  className?: string;
+	audioSrc: string;
+	autoPlayDelay?: number;
+	initialVolume?: number;
+	fadeInDuration?: number;
+	onPlayStart?: () => void;
+	onPlayEnd?: () => void;
+	onError?: (error: Error) => void;
+	controls?: boolean;
+	className?: string;
 }
-
 
 const PlayButton = styled.button`
 	position: fixed;
@@ -3466,188 +3525,429 @@ const PlayButton = styled.button`
 `;
 
 const AudioControlsContainer = styled.div`
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 1000;
+	position: fixed;
+	bottom: 20px;
+	right: 20px;
+	z-index: 1000;
 `;
 
-const AudioPlayer: React.FC<AudioPlayerProps> = ({
-   audioSrc,
-   autoPlayDelay = 0,
-   initialVolume = 0.8,
-   fadeInDuration = 0.5,
-   onPlayStart,
-   onPlayEnd,
-   onError,
-   controls = true,
-   className
- }) => {
-   const [isPlaying, setIsPlaying] = useState(false);
-   const [isLoaded, setIsLoaded] = useState(false);
-   const [hasAutoPlayed, setHasAutoPlayed] = useState(false);
-   const audioContextRef = useRef<AudioContext | null>(null);
-   const gainNodeRef = useRef<GainNode | null>(null);
-   const sourceRef = useRef<AudioBufferSourceNode | null>(null);
-   const audioBufferRef = useRef<AudioBuffer | null>(null);
+const AudioPlayer: React.FC<AudioPlayerProps> = ({ audioSrc, autoPlayDelay = 0, initialVolume = 0.8, fadeInDuration = 0.5, onPlayStart, onPlayEnd, onError, controls = true, className }) => {
+	const [isPlaying, setIsPlaying] = useState(false);
+	const [isLoaded, setIsLoaded] = useState(false);
+	const [hasAutoPlayed, setHasAutoPlayed] = useState(false);
+	const audioContextRef = useRef<AudioContext | null>(null);
+	const gainNodeRef = useRef<GainNode | null>(null);
+	const sourceRef = useRef<AudioBufferSourceNode | null>(null);
+	const audioBufferRef = useRef<AudioBuffer | null>(null);
 
-   const stopSound = useCallback(() => {
-     try {
-       if (sourceRef.current) {
-         sourceRef.current.stop();
-         sourceRef.current.disconnect();
-         sourceRef.current = null;
-       }
-       if (gainNodeRef.current) {
-         gainNodeRef.current.gain.value = 0;
-       }
-       setIsPlaying(false);
-       onPlayEnd?.();
-       console.log('Sound stopped');
-     } catch (error) {
-       console.error('Error stopping sound:', error);
-     }
-   }, [onPlayEnd]);
+	// const initAudioContext = async (): Promise<boolean> => {
+	// 	//added
+	// 	if (!audioContextRef.current || !audioBufferRef.current || !gainNodeRef.current) {
+	// 		const initialized = await initAudioContext();
+	// 		if (!initialized) return;
+	// 	}
 
-   const initAudioContext = useCallback(async () => {
-     if (!audioContextRef.current || audioContextRef.current.state === 'closed') {
-       try {
-         console.log('Creating new AudioContext...');
-         const AudioContext = window.AudioContext || window.webkitAudioContext;
-         audioContextRef.current = new AudioContext();
+	// 	// if (!audioContextRef.current || audioContextRef.current.state === "closed") {
+	// 	// 	try {
+	// 	// 		const AudioContext = window.AudioContext || window.webkitAudioContext;
+	// 	// 		const context = new AudioContext();
+	// 	// 		audioContextRef.current = context;
 
-         console.log('Creating gain node...');
-         gainNodeRef.current = audioContextRef.current.createGain();
-         gainNodeRef.current.connect(audioContextRef.current.destination);
-         gainNodeRef.current.gain.value = 0;
+	// 	// 		const gainNode = context.createGain();
+	// 	// 		gainNode.connect(context.destination);
+	// 	// 		gainNode.gain.value = 0;
+	// 	// 		gainNodeRef.current = gainNode;
 
-         console.log('Fetching audio file:', audioSrc);
-         const response = await fetch(audioSrc);
-         const arrayBuffer = await response.arrayBuffer();
+	// 	// 		const response = await fetch(audioSrc);
+	// 	// 		const arrayBuffer = await response.arrayBuffer();
+	// 	// 		const decodedBuffer = await context.decodeAudioData(arrayBuffer);
+	// 	// 		audioBufferRef.current = decodedBuffer;
 
-         console.log('Decoding audio data...');
-         audioBufferRef.current = await audioContextRef.current.decodeAudioData(arrayBuffer);
+	// 	// 		setIsLoaded(true);
+	// 	// 		return true;
+	// 	// 	} catch (error) {
+	// 	// 		console.error("Audio initialization error:", error);
+	// 	// 		onError?.(error instanceof Error ? error : new Error("Failed to initialize audio"));
+	// 	// 		return false;
+	// 	// 	}
+	// 	// }
+	// 	return true;
+	// };
+   const initAudioContext = async (): Promise<boolean> => {
+      try {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        const context = new AudioContext();
+        audioContextRef.current = context;
 
-         setIsLoaded(true);
-         console.log('Audio initialized successfully');
-         return true;
-       } catch (error) {
-         console.error('Audio initialization error:', error);
-         onError?.(error as Error);
-         return false;
-       }
-     }
-     return true;
-   }, [audioSrc, onError]);
+        const gainNode = context.createGain();
+        gainNode.connect(context.destination);
+        gainNode.gain.value = 0;
+        gainNodeRef.current = gainNode;
 
-   const playSound = useCallback(async () => {
-     if (isPlaying) {
-       stopSound();
-       return;
-     }
+        const response = await fetch(audioSrc);
+        const arrayBuffer = await response.arrayBuffer();
+        const decodedBuffer = await context.decodeAudioData(arrayBuffer);
+        audioBufferRef.current = decodedBuffer;
 
-     try {
-       // Initialize if needed
-       if (!audioContextRef.current || !audioBufferRef.current) {
-         console.log('Initializing audio before playing...');
-         const initialized = await initAudioContext();
-         if (!initialized) return;
-       }
+        setIsLoaded(true);
+        return true;
+      } catch (error) {
+        console.error('Audio initialization error:', error);
+        onError?.(error instanceof Error ? error : new Error('Failed to initialize audio'));
+        return false;
+      }
+    };
 
-       // Resume if suspended
-       if (audioContextRef.current.state === 'suspended') {
-         console.log('Resuming audio context...');
-         await audioContextRef.current.resume();
-       }
+	const stopSound = () => {
+		if (sourceRef.current) {
+			sourceRef.current.stop();
+			sourceRef.current.disconnect();
+			sourceRef.current = null;
+		}
+		if (gainNodeRef.current) {
+			gainNodeRef.current.gain.value = 0;
+		}
+		setIsPlaying(false);
+		onPlayEnd?.();
+	};
 
-       console.log('Setting up playback...');
-       // Create and setup source
-       sourceRef.current = audioContextRef.current.createBufferSource();
-       sourceRef.current.buffer = audioBufferRef.current;
-       sourceRef.current.connect(gainNodeRef.current!);
+	const playSound = async () => {
+		if (isPlaying) {
+			stopSound();
+			return;
+		}
 
-       // Set up volume fade in
-       const currentTime = audioContextRef.current.currentTime;
-       gainNodeRef.current!.gain.setValueAtTime(0, currentTime);
-       gainNodeRef.current!.gain.linearRampToValueAtTime(
-         initialVolume,
-         currentTime + fadeInDuration
-       );
+		try {
+			// Initialize if needed
+			const context = audioContextRef.current;
+			// const audioBuffer = audioBufferRef.current;
+			// const gainNode = gainNodeRef.current;
 
-       // Start playback
-       console.log('Starting playback with volume:', initialVolume);
-       sourceRef.current.start(0);
-       setIsPlaying(true);
-       onPlayStart?.();
+			if (!context) {
+				//added
+				throw new Error("Audio context not initialized");
+			}
 
-       sourceRef.current.onended = () => {
-         console.log('Playback ended naturally');
-         setIsPlaying(false);
-         onPlayEnd?.();
-         sourceRef.current = null;
-       };
+			// Resume if suspended
+			if (context.state === "suspended") {
+				await context.resume();
+			}
 
-     } catch (error) {
-       console.error('Playback failed:', error);
-       onError?.(error as Error);
-       setIsPlaying(false);
-     }
-   }, [isPlaying, stopSound, initAudioContext, initialVolume, fadeInDuration, onPlayStart, onPlayEnd, onError]);
+			if (!context || !audioBufferRef || !GainNode) {
+				const initialized = await initAudioContext();
+				if (!initialized || !audioContextRef.current) return;
+			}
 
-   // Initialize audio on mount
-   useEffect(() => {
-     console.log('Initializing audio component...');
-     initAudioContext();
+			// Resume if suspended
+			if (audioContextRef.current?.state === "suspended") {
+				await audioContextRef.current.resume();
+			}
 
-     return () => {
-       console.log('Cleaning up audio component...');
-       stopSound();
-       if (audioContextRef.current && audioContextRef.current.state !== 'closed') {
-         audioContextRef.current.close().catch(console.error);
-       }
-     };
-   }, [initAudioContext, stopSound]);
+			// Create and setup source
+			// const source = audioContextRef.current?.createBufferSource();
+			const source = context.createBufferSource();
+			// if (!source || !audioBufferRef.current || !gainNodeRef.current) return;
+			if (!audioBufferRef.current || !gainNodeRef.current) {
+				throw new Error("Audio resources not properly initialized");
+			}
 
-   // Handle autoplay
-   useEffect(() => {
-     if (autoPlayDelay > 0 && !hasAutoPlayed && isLoaded) {
-       console.log(`Setting up autoplay with ${autoPlayDelay}ms delay...`);
-       const autoPlayTimer = setTimeout(async () => {
-         console.log('Executing autoplay...');
-         await playSound();
-         setHasAutoPlayed(true);
-       }, autoPlayDelay);
+			source.buffer = audioBufferRef.current;
+			source.connect(gainNodeRef.current);
+			sourceRef.current = source;
 
-       return () => {
-         console.log('Cleaning up autoplay timer...');
-         clearTimeout(autoPlayTimer);
-       };
-     }
-   }, [autoPlayDelay, hasAutoPlayed, isLoaded, playSound]);
+			// Set up volume fade in
+			// const currentTime = audioContextRef.current?.currentTime ?? 0;
+			// gainNodeRef.current.gain.setValueAtTime(0, currentTime);
+			// gainNodeRef.current.gain.linearRampToValueAtTime(initialVolume, currentTime + fadeInDuration);
 
-   // Don't render anything if controls are disabled
-   if (!controls) return null;
+         const currentTime = context.currentTime;
+         gainNodeRef.current.gain.setValueAtTime(0, currentTime);
+         gainNodeRef.current.gain.linearRampToValueAtTime(
+           initialVolume,
+           currentTime + fadeInDuration
+         );
 
-   // Render play/stop button
-   return (
-     <AudioControlsContainer>
-       <PlayButton
-         onClick={playSound}
-         disabled={!isLoaded}
-         className={className}
-       >
-         {isPlaying ? '🔊 Stop' : '🔈 Play'}
-       </PlayButton>
-     </AudioControlsContainer>
-   );
- };
+			// Start playback
+			source.start(0);
+			setIsPlaying(true);
+			onPlayStart?.();
 
- export default AudioPlayer;
+			source.onended = () => {
+				setIsPlaying(false);
+				onPlayEnd?.();
+				sourceRef.current = null;
+			};
+		} catch (error) {
+			console.error("Playback failed:", error);
+			onError?.(error instanceof Error ? error : new Error("Playback failed"));
+			setIsPlaying(false);
+		}
+	};
+
+	useEffect(() => {
+		initAudioContext();
+		return () => {
+			stopSound();
+			// if (audioContextRef.current?.state !== 'closed') {
+			// audioContextRef.current?.close().catch(console.error);
+			if (audioContextRef.current && audioContextRef.current.state !== "closed") {
+				audioContextRef.current.close().catch(console.error);
+			}
+		};
+	}, []);
+
+	useEffect(() => {
+		if (autoPlayDelay > 0 && !hasAutoPlayed && isLoaded) {
+			const autoPlayTimer = setTimeout(async () => {
+				await playSound();
+				setHasAutoPlayed(true);
+			}, autoPlayDelay);
+
+			return () => clearTimeout(autoPlayTimer);
+		}
+	}, [autoPlayDelay, hasAutoPlayed, isLoaded]);
+
+	if (!controls) return null;
+
+	return (
+		<AudioControlsContainer>
+			<PlayButton onClick={playSound} disabled={!isLoaded} className={className}>
+				{isPlaying ? "🔊 Stop" : "🔈 Play"}
+			</PlayButton>
+		</AudioControlsContainer>
+	);
+};
+
+export default AudioPlayer;
+
+// //src/components/Sound/AudioPlayer.tsx
+
+// import React, { useCallback, useEffect, useRef, useState } from 'react';
+// import styled from 'styled-components';
+
+// interface AudioPlayerProps {
+//   audioSrc: string;
+//   autoPlayDelay?: number;
+//   initialVolume?: number;
+//   fadeInDuration?: number;
+//   onPlayStart?: () => void;
+//   onPlayEnd?: () => void;
+//   onError?: (error: Error) => void;
+//   controls?: boolean;
+//   className?: string;
+// }
+
+// const PlayButton = styled.button`
+// 	position: fixed;
+// 	bottom: 20px;
+// 	right: 20px;
+// 	padding: 12px 24px;
+// 	background: rgba(0, 0, 0, 0.7);
+// 	color: white;
+// 	border: none;
+// 	border-radius: 8px;
+// 	cursor: pointer;
+// 	font-size: 1rem;
+// 	z-index: 1000;
+// 	display: flex;
+// 	align-items: center;
+// 	gap: 8px;
+// 	transition: background-color 0.3s ease;
+
+// 	&:hover {
+// 		background: rgba(0, 0, 0, 0.9);
+// 	}
+
+// 	&:disabled {
+// 		opacity: 0.5;
+// 		cursor: not-allowed;
+// 	}
+// `;
+
+// const AudioControlsContainer = styled.div`
+//   position: fixed;
+//   bottom: 20px;
+//   right: 20px;
+//   z-index: 1000;
+// `;
+
+// const AudioPlayer: React.FC<AudioPlayerProps> = ({
+//    audioSrc,
+//    autoPlayDelay = 0,
+//    initialVolume = 0.8,
+//    fadeInDuration = 0.5,
+//    onPlayStart,
+//    onPlayEnd,
+//    onError,
+//    controls = true,
+//    className
+//  }) => {
+//    const [isPlaying, setIsPlaying] = useState(false);
+//    const [isLoaded, setIsLoaded] = useState(false);
+//    const [hasAutoPlayed, setHasAutoPlayed] = useState(false);
+//    const audioContextRef = useRef<AudioContext | null>(null);
+//    const gainNodeRef = useRef<GainNode | null>(null);
+//    const sourceRef = useRef<AudioBufferSourceNode | null>(null);
+//    const audioBufferRef = useRef<AudioBuffer | null>(null);
+
+//    const stopSound = useCallback(() => {
+//      try {
+//        if (sourceRef.current) {
+//          sourceRef.current.stop();
+//          sourceRef.current.disconnect();
+//          sourceRef.current = null;
+//        }
+//        if (gainNodeRef.current) {
+//          gainNodeRef.current.gain.value = 0;
+//        }
+//        setIsPlaying(false);
+//        onPlayEnd?.();
+//        console.log('Sound stopped');
+//      } catch (error) {
+//        console.error('Error stopping sound:', error);
+//      }
+//    }, [onPlayEnd]);
+
+//    const initAudioContext = useCallback(async () => {
+//      if (!audioContextRef.current || audioContextRef.current.state === 'closed') {
+//        try {
+//          console.log('Creating new AudioContext...');
+//          const AudioContext = window.AudioContext || window.webkitAudioContext;
+//          audioContextRef.current = new AudioContext();
+
+//          console.log('Creating gain node...');
+//          gainNodeRef.current = audioContextRef.current.createGain();
+//          gainNodeRef.current.connect(audioContextRef.current.destination);
+//          gainNodeRef.current.gain.value = 0;
+
+//          console.log('Fetching audio file:', audioSrc);
+//          const response = await fetch(audioSrc);
+//          const arrayBuffer = await response.arrayBuffer();
+
+//          console.log('Decoding audio data...');
+//          audioBufferRef.current = await audioContextRef.current.decodeAudioData(arrayBuffer);
+
+//          setIsLoaded(true);
+//          console.log('Audio initialized successfully');
+//          return true;
+//        } catch (error) {
+//          console.error('Audio initialization error:', error);
+//          onError?.(error as Error);
+//          return false;
+//        }
+//      }
+//      return true;
+//    }, [audioSrc, onError]);
+
+//    const playSound = useCallback(async () => {
+//      if (isPlaying) {
+//        stopSound();
+//        return;
+//      }
+
+//      try {
+//        // Initialize if needed
+//        if (!audioContextRef.current || !audioBufferRef.current) {
+//          console.log('Initializing audio before playing...');
+//          const initialized = await initAudioContext();
+//          if (!initialized) return;
+//        }
+
+//        // Resume if suspended
+//        if (audioContextRef.current.state === 'suspended') {
+//          console.log('Resuming audio context...');
+//          await audioContextRef.current.resume();
+//        }
+
+//        console.log('Setting up playback...');
+//        // Create and setup source
+//        sourceRef.current = audioContextRef.current.createBufferSource();
+//        sourceRef.current.buffer = audioBufferRef.current;
+//        sourceRef.current.connect(gainNodeRef.current!);
+
+//        // Set up volume fade in
+//        const currentTime = audioContextRef.current.currentTime;
+//        gainNodeRef.current!.gain.setValueAtTime(0, currentTime);
+//        gainNodeRef.current!.gain.linearRampToValueAtTime(
+//          initialVolume,
+//          currentTime + fadeInDuration
+//        );
+
+//        // Start playback
+//        console.log('Starting playback with volume:', initialVolume);
+//        sourceRef.current.start(0);
+//        setIsPlaying(true);
+//        onPlayStart?.();
+
+//        sourceRef.current.onended = () => {
+//          console.log('Playback ended naturally');
+//          setIsPlaying(false);
+//          onPlayEnd?.();
+//          sourceRef.current = null;
+//        };
+
+//      } catch (error) {
+//        console.error('Playback failed:', error);
+//        onError?.(error as Error);
+//        setIsPlaying(false);
+//      }
+//    }, [isPlaying, stopSound, initAudioContext, initialVolume, fadeInDuration, onPlayStart, onPlayEnd, onError]);
+
+//    // Initialize audio on mount
+//    useEffect(() => {
+//      console.log('Initializing audio component...');
+//      initAudioContext();
+
+//      return () => {
+//        console.log('Cleaning up audio component...');
+//        stopSound();
+//        if (audioContextRef.current && audioContextRef.current.state !== 'closed') {
+//          audioContextRef.current.close().catch(console.error);
+//        }
+//      };
+//    }, [initAudioContext, stopSound]);
+
+//    // Handle autoplay
+//    useEffect(() => {
+//      if (autoPlayDelay > 0 && !hasAutoPlayed && isLoaded) {
+//        console.log(`Setting up autoplay with ${autoPlayDelay}ms delay...`);
+//        const autoPlayTimer = setTimeout(async () => {
+//          console.log('Executing autoplay...');
+//          await playSound();
+//          setHasAutoPlayed(true);
+//        }, autoPlayDelay);
+
+//        return () => {
+//          console.log('Cleaning up autoplay timer...');
+//          clearTimeout(autoPlayTimer);
+//        };
+//      }
+//    }, [autoPlayDelay, hasAutoPlayed, isLoaded, playSound]);
+
+//    // Don't render anything if controls are disabled
+//    if (!controls) return null;
+
+//    // Render play/stop button
+//    return (
+//      <AudioControlsContainer>
+//        <PlayButton
+//          onClick={playSound}
+//          disabled={!isLoaded}
+//          className={className}
+//        >
+//          {isPlaying ? '🔊 Stop' : '🔈 Play'}
+//        </PlayButton>
+//      </AudioControlsContainer>
+//    );
+//  };
+
+//  export default AudioPlayer;
+
 ```
 
-# src/components/Sound/SoundPlayer.tsx
+# src/components/Sound/SoundPlayer.tsx.bak
 
-```tsx
+```bak
 //src/components/Sound/AudioPlayer.tsx
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
@@ -3873,29 +4173,68 @@ const SoundPlayer: React.FC<AudioPlayerProps> = ({
  export default SoundPlayer;
 ```
 
-# src/components/TestTailwind.tsx
+# src/components/Typography/Typography.styles.ts
 
-```tsx
-// src/components/TestTailwind.tsx
-import React from 'react';
+```ts
+// src/components/Typography/Typography.styles.ts
 
-export const TestTailwind = () => {
-  return (
-    <div className="tw-flex tw-flex-col tw-items-center tw-justify-center tw-min-h-screen tw-bg-gray-100 ">
-      <div className="tw-p-6 tw-bg-white tw-rounded-lg tw-shadow-lg">
-        <h1 className="tw-text-3xl tw-font-bold tw-text-blue-600">
-          Testing Tailwind
-        </h1>
-        <p className="tw-mt-4 tw-text-gray-600">
-          If you see this styled, Tailwind is working!
-        </p>
-        <button className="tw-mt-4 tw-px-4 tw-py-2 tw-bg-blue-500 tw-text-white tw-rounded hover:tw-bg-blue-600">
-          Test Button
-        </button>
-      </div>
-    </div>
-  );
-};
+ import styled from 'styled-components';
+
+ export const H1 = styled.h1`
+   font-family: "Libre Baskerville", serif;
+   font-size: 2.5rem;
+   line-height: 1.2;
+   font-weight: 700;
+ `;
+
+ export const H2 = styled.h2`
+   font-family: "Libre Baskerville", serif;
+   font-size: 2rem;
+   line-height: 1.3;
+   font-weight: 700;
+ `;
+
+ export const H3 = styled.h3`
+   font-family: "Libre Baskerville", serif;
+   font-size: 1.75rem;
+   line-height: 1.4;
+   font-weight: 600;
+ `;
+
+ export const H4 = styled.h4`
+   font-family: "Libre Baskerville", serif;
+   font-size: 1.5rem;
+   line-height: 1.4;
+   font-weight: 600;
+ `;
+
+ export const H5 = styled.h5`
+   font-family: "Libre Baskerville", serif;
+   font-size: 1.25rem;
+   line-height: 1.4;
+   font-weight: 600;
+ `;
+
+ export const H6 = styled.h6`
+   font-family: "Libre Baskerville", serif;
+   font-size: 1rem;
+   line-height: 1.4;
+   font-weight: 600;
+ `;
+
+ export const Paragraph = styled.p`
+   font-family: "Open Sans", sans-serif;
+   font-size: 1rem;
+   line-height: 1.6;
+   font-weight: 400;
+ `;
+
+ export const Text = styled.span`
+   font-family: "Open Sans", sans-serif;
+   font-size: 1rem;
+   line-height: 1.5;
+   font-weight: 400;
+ `;
 ```
 
 # src/data/mockData.ts
@@ -4007,17 +4346,17 @@ export { URLS };
 # src/main.tsx
 
 ```tsx
-// src/main.tsx
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import App from './App';
+// 4. Update main.tsx to import styles
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import App from './App'
 import './styles/globals.css'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <App />
   </React.StrictMode>
-);
+)
 ```
 
 # src/pages/BulkLoading/BulkLoading.tsx
@@ -4077,7 +4416,7 @@ export const HomeContainer = styled.div`
   padding-top: ${({ theme }) => theme.sizes.navHeight};
   background: transparent;
   position: relative;
-  border: 6px solid red;
+//   border: 6px solid red;
 `;
 
 export const ImageDiv = styled.div`
@@ -4104,16 +4443,22 @@ import React from "react";
 import { HomeContainer, ImageDiv } from "./Home.styles";
 import whale from "@/assets/Loader/Whale.png";
 import whaleSound from "@/assets/sounds/whale-call-2.wav";
-import CircularLoader from "@/components/Animations/CircularLoader";
-import { TestTailwind } from "@/components/TestTailwind";
 import ImageLoader from "@/components/ImageLoader/ImageLoader";
+// import CircularLoader from "@/components/Animations/CircularLoader";
+// import ImageLoader from "@/components/ImageLoader/ImageLoader";
+// import { TestTailwind } from "@/components/TestTailwind";
+// import ExampleComponent from "@/components/ExampleComponent";
 
 const Home: React.FC = () => {
 	console.log("Sound file path:", whaleSound);
 	return (
 		<HomeContainer>
 			<ImageDiv>
-				<ImageLoader src={whale} alt="Whale illustration" mode="light" soundSrc={whaleSound} />
+				<ImageLoader
+               src={whale}
+               alt="Whale illustration"
+               mode="light"
+            />
 
             {/* <CircularLoader
                src={whale}
@@ -4122,6 +4467,8 @@ const Home: React.FC = () => {
             /> */}
 
             {/* <TestTailwind /> */}
+
+            {/* <ExampleComponent /> */}
 
 			</ImageDiv>
 
@@ -4142,7 +4489,7 @@ export { default } from './Home';
 # src/pages/Loader/Loader.tsx
 
 ```tsx
-import React from 'react'
+// import React from 'react'
 
 const Loader = () => {
   return (
@@ -4260,81 +4607,1385 @@ export default Loader
 
 // export default MashMediaStudio;
 
-
 // src/pages/MashMediaStudio/MashMediaStudio.tsx
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 // import BulkImageLoader, { ImageInfo } from '@/components/Animations/BulkImageLoader';
 
 // Import images directly
-import image1 from '@/assets/mashmedia/image1.jpg';
-import image2 from '@/assets/mashmedia/image2.jpg';
-import image3 from '@/assets/mashmedia/landscape1.jpg';
-import image4 from '@/assets/mashmedia/landscape2.jpg';
+// import image1 from "@/assets/mashmedia/image1.jpg";
+// import image2 from "@/assets/mashmedia/image2.jpg";
+// import image3 from "@/assets/mashmedia/landscape1.jpg";
+// import image4 from "@/assets/mashmedia/landscape2.jpg";
 
 const Container = styled.div`
-  width: 100%;
-  min-height: 100vh;
-  padding: 2rem;
-  position: relative;
-  z-index: 1;
+	width: 100%;
+	min-height: 100vh;
+	padding: 2rem;
+	position: relative;
+	z-index: 1;
 `;
 
 const Title = styled.h1`
-  font-size: 2rem;
-  color: red;
-//   color: ${props => props.theme.text};
-  margin-bottom: 2rem;
+	font-size: 2rem;
+	color: red;
+	//   color: ${(props) => props.theme.text};
+	margin-bottom: 2rem;
 `;
 
 const MashMediaStudio: React.FC = () => {
-  const mashMediaImages: ImageInfo[] = [
-    {
-      src: image1,
-      alt: "MashMedia Project 1"
-    },
-    {
-      src: image2,
-      alt: "MashMedia Project 2"
-    },
-    {
-      src: image3,
-      alt: "MashMedia Project 3"
-    },{
-      src: image4,
-      alt: "MashMedia Project 4"
-    }
-  ];
+	// const mashMediaImages: ImageInfo[] = [
+	// 	{
+	// 		src: image1,
+	// 		alt: "MashMedia Project 1",
+	// 	},
+	// 	{
+	// 		src: image2,
+	// 		alt: "MashMedia Project 2",
+	// 	},
+	// 	{
+	// 		src: image3,
+	// 		alt: "MashMedia Project 3",
+	// 	},
+	// 	{
+	// 		src: image4,
+	// 		alt: "MashMedia Project 4",
+	// 	},
+	// ];
 
-  return (
-    <Container>
-      <Title>MashMedia Studio</Title>
-      Test page
-      {/* <BulkImageLoader
+	return (
+		<Container>
+			<Title>MashMedia Studio</Title>
+			Test page
+			{/* <BulkImageLoader
         images={mashMediaImages}
         className="media-image"
       /> */}
-    </Container>
-  );
+		</Container>
+	);
 };
 
 export default MashMediaStudio;
+
+```
+
+# src/pages/TailwindStyledCompIntegration/TW-SC-Integration-v1.md
+
+```md
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap');
+
+/* Base styles */
+body {
+  font-family: 'Libre Baskerville', serif;
+  line-height: 1.8;
+  color: #2D3748;
+  max-width: 50rem;
+  margin: 0 auto;
+  padding: 2rem;
+  background-color: #FFFDF7;
+}
+
+/* Typography scale */
+h1 {
+  font-size: 2.5rem;
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
+  color: #1A202C;
+  letter-spacing: -0.02em;
+  border-bottom: 2px solid #E2E8F0;
+  padding-bottom: 0.5rem;
+}
+
+h2 {
+  font-size: 1.875rem;
+  line-height: 1.3;
+  margin-top: 3rem;
+  margin-bottom: 1rem;
+  color: #2D3748;
+  letter-spacing: -0.01em;
+}
+
+h3 {
+  font-size: 1.5rem;
+  line-height: 1.4;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+  color: #4A5568;
+}
+
+/* Paragraphs and lists */
+p {
+  margin-bottom: 1.5rem;
+  font-size: 1.125rem;
+}
+
+ul, ol {
+  margin-bottom: 1.5rem;
+  padding-left: 1.5rem;
+}
+
+li {
+  margin-bottom: 0.5rem;
+}
+
+/* Code blocks */
+code {
+  font-family: 'JetBrains Mono', Consolas, Monaco, 'Andale Mono', monospace;
+  font-size: 0.9em;
+  background-color: #F7FAFC;
+  padding: 0.2em 0.4em;
+  border-radius: 3px;
+  border: 1px solid #E2E8F0;
+}
+
+pre {
+  background-color: #F7FAFC;
+  padding: 1.5rem;
+  border-radius: 6px;
+  overflow-x: auto;
+  border: 1px solid #E2E8F0;
+  margin: 1.5rem 0;
+}
+
+pre code {
+  border: none;
+  padding: 0;
+}
+
+/* Links */
+a {
+  color: #4A90E2;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s ease;
+}
+
+a:hover {
+  border-bottom-color: currentColor;
+}
+
+/* Blockquotes */
+blockquote {
+  font-style: italic;
+  margin: 1.5rem 0;
+  padding-left: 1.5rem;
+  border-left: 3px solid #CBD5E0;
+  color: #4A5568;
+}
+
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+}
+
+th, td {
+  padding: 0.75rem;
+  border: 1px solid #E2E8F0;
+  text-align: left;
+}
+
+th {
+  background-color: #F7FAFC;
+  font-weight: 700;
+}
+
+/* Emphasis and strong */
+em {
+  font-style: italic;
+}
+
+strong {
+  font-weight: 700;
+  color: #1A202C;
+}
+
+/* Meta information */
+.meta {
+  font-size: 0.875rem;
+  color: #718096;
+  margin-bottom: 2rem;
+}
+
+/* Feature list checkmarks */
+.features li::before {
+  content: "✓";
+  color: #48BB78;
+  font-weight: bold;
+  display: inline-block;
+  width: 1.5em;
+  margin-left: -1.5em;
+}
+
+/* Command line prompts */
+.command {
+  display: block;
+  margin: 1rem 0;
+  padding: 1rem;
+  background-color: #2D3748;
+  color: #FFFFFF;
+  border-radius: 6px;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.command::before {
+  content: "$ ";
+  color: #A0AEC0;
+}
+</style>
+
+# Integrating Tailwind CSS with Styled Components
+
+## 1. Configuration Setup
+
+### Tailwind Configuration
+\`\`\`javascript
+// tailwind.config.js
+module.exports = {
+  // Prefix all Tailwind classes to avoid conflicts
+  prefix: 'tw-',
+
+  // Your content paths
+  content: [
+    './src/**/*.{js,jsx,ts,tsx}',
+  ],
+
+  // Prevent Tailwind from purging Styled Components styles
+  important: true,
+
+  // Disable Tailwind's base styles to prevent conflicts
+  corePlugins: {
+    preflight: false,
+  }
+};
+\`\`\`
+
+### Global Styles
+\`\`\`css
+/* globals.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+\`\`\`
+
+## 2. When to Use Each
+
+### Use Styled Components for:
+- Component-level styles
+- Dynamic styling based on props
+- Complex animations
+- Themed components
+- Reusable style patterns
+- Global style themes
+- Layout components
+- Style inheritance
+
+\`\`\`typescript
+const StyledButton = styled.button`
+  position: relative;
+  transition: all 0.3s ease;
+
+  // Dynamic styling based on props
+  ${props => props.variant === 'primary' && `
+    background-color: ${props.theme.colors.primary};
+  `}
+`;
+\`\`\`
+
+### Use Tailwind for:
+- Quick prototyping
+- Small style adjustments
+- One-off styles
+- Responsive utilities
+- Spacing utilities
+- Typography utilities
+- Colors that don't need theming
+
+\`\`\`tsx
+<div className="tw-flex tw-items-center tw-gap-4">
+  <span className="tw-text-sm tw-text-gray-500">
+    Quick utility classes
+  </span>
+</div>
+\`\`\`
+
+## 3. Best Practices
+
+### 1. Consistent Prefix Usage
+\`\`\`tsx
+// Always use the tw- prefix for Tailwind classes
+<div className="tw-flex tw-items-center">
+  <StyledComponent>
+    Mixed styling approach
+  </StyledComponent>
+</div>
+\`\`\`
+
+### 2. Component Organization
+\`\`\`typescript
+// Separate styled components into .styles.ts files
+// src/components/Button/Button.styles.ts
+export const StyledButton = styled.button`
+  /* Base styles */
+`;
+
+// src/components/Button/Button.tsx
+const Button: React.FC = () => (
+  <StyledButton className="tw-hover:opacity-80">
+    Combined styling
+  </StyledButton>
+);
+\`\`\`
+
+### 3. Theme Integration
+\`\`\`typescript
+// Use theme values in both systems
+const theme = {
+  colors: {
+    primary: '#3490dc',
+    secondary: '#ffed4a',
+  }
+};
+
+// Tailwind config
+module.exports = {
+  theme: {
+    extend: {
+      colors: theme.colors
+    }
+  }
+};
+
+// Styled Components
+const StyledHeader = styled.header`
+  background-color: ${({ theme }) => theme.colors.primary};
+`;
+\`\`\`
+
+## 4. Common Patterns
+
+### Layout Components
+\`\`\`typescript
+// Use Styled Components for layouts
+const Layout = styled.div`
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 2rem;
+`;
+
+// Use Tailwind for inner elements
+const Component = () => (
+  <Layout>
+    <div className="tw-col-span-4 tw-p-4">
+      Grid item with Tailwind
+    </div>
+  </Layout>
+);
+\`\`\`
+
+### Interactive Components
+\`\`\`typescript
+const Button = styled.button`
+  // Base styles with Styled Components
+  position: relative;
+  transition: all 0.3s ease;
+
+  // Combine with Tailwind for states
+  &:hover {
+    @apply tw-shadow-lg;
+  }
+`;
+\`\`\`
+
+### Responsive Design
+\`\`\`typescript
+// Use Tailwind for simple responsive adjustments
+<div className="tw-w-full tw-md:w-1/2 tw-lg:w-1/3">
+  Responsive width
+</div>
+
+// Use Styled Components for complex responsive layouts
+const ResponsiveGrid = styled.div`
+  display: grid;
+  grid-template-columns: 1fr;
+
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+`;
+\`\`\`
+
+## 5. Performance Considerations
+
+1. **Style Extraction**
+- Styled Components styles are processed at runtime
+- Tailwind classes are processed at build time
+- Use Tailwind for frequently repeated styles
+
+2. **Bundle Size**
+- Tailwind's purge process removes unused styles
+- Styled Components bundles only used components
+- Balance between runtime and build-time styles
+
+3. **Caching**
+- Tailwind styles can be cached more effectively
+- Use Tailwind for common patterns
+- Use Styled Components for dynamic styles
+
+## 6. Debugging Tips
+
+1. **Class Names**
+\`\`\`typescript
+// Add debug names to styled components
+const StyledButton = styled.button.withConfig({
+  displayName: 'StyledButton',
+})`
+  // styles
+`;
+\`\`\`
+
+2. **Inspect Tools**
+- Use the React DevTools to inspect Styled Components
+- Use browser inspector for Tailwind classes
+- Keep the tw- prefix for easy identification
+
+## 7. Maintenance
+
+1. **Documentation**
+- Document component styling approach
+- Maintain a style guide
+- Document theme integration
+
+2. **Updates**
+- Keep both libraries updated
+- Test thoroughly after updates
+- Maintain consistent patterns
+```
+
+# src/pages/TailwindStyledCompIntegration/TW-SC-Integration-v2.md
+
+```md
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap');
+
+/* Base styles */
+body {
+  font-family: 'Libre Baskerville', serif;
+  line-height: 1.8;
+  color: #2D3748;
+  max-width: 50rem;
+  margin: 0 auto;
+  padding: 2rem;
+  background-color: #FFFDF7;
+}
+
+/* Typography scale */
+h1 {
+  font-size: 2.5rem;
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
+  color: #1A202C;
+  letter-spacing: -0.02em;
+  border-bottom: 2px solid #E2E8F0;
+  padding-bottom: 0.5rem;
+}
+
+h2 {
+  font-size: 1.875rem;
+  line-height: 1.3;
+  margin-top: 3rem;
+  margin-bottom: 1rem;
+  color: #2D3748;
+  letter-spacing: -0.01em;
+}
+
+h3 {
+  font-size: 1.5rem;
+  line-height: 1.4;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+  color: #4A5568;
+}
+
+/* Paragraphs and lists */
+p {
+  margin-bottom: 1.5rem;
+  font-size: 1.125rem;
+}
+
+ul, ol {
+  margin-bottom: 1.5rem;
+  padding-left: 1.5rem;
+}
+
+li {
+  margin-bottom: 0.5rem;
+}
+
+/* Code blocks */
+code {
+  font-family: 'JetBrains Mono', Consolas, Monaco, 'Andale Mono', monospace;
+  font-size: 0.9em;
+  background-color: #F7FAFC;
+  padding: 0.2em 0.4em;
+  border-radius: 3px;
+  border: 1px solid #E2E8F0;
+}
+
+pre {
+  background-color: #F7FAFC;
+  padding: 1.5rem;
+  border-radius: 6px;
+  overflow-x: auto;
+  border: 1px solid #E2E8F0;
+  margin: 1.5rem 0;
+}
+
+pre code {
+  border: none;
+  padding: 0;
+}
+
+/* Links */
+a {
+  color: #4A90E2;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s ease;
+}
+
+a:hover {
+  border-bottom-color: currentColor;
+}
+
+/* Blockquotes */
+blockquote {
+  font-style: italic;
+  margin: 1.5rem 0;
+  padding-left: 1.5rem;
+  border-left: 3px solid #CBD5E0;
+  color: #4A5568;
+}
+
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+}
+
+th, td {
+  padding: 0.75rem;
+  border: 1px solid #E2E8F0;
+  text-align: left;
+}
+
+th {
+  background-color: #F7FAFC;
+  font-weight: 700;
+}
+
+/* Emphasis and strong */
+em {
+  font-style: italic;
+}
+
+strong {
+  font-weight: 700;
+  color: #1A202C;
+}
+
+/* Meta information */
+.meta {
+  font-size: 0.875rem;
+  color: #718096;
+  margin-bottom: 2rem;
+}
+
+/* Feature list checkmarks */
+.features li::before {
+  content: "✓";
+  color: #48BB78;
+  font-weight: bold;
+  display: inline-block;
+  width: 1.5em;
+  margin-left: -1.5em;
+}
+
+/* Command line prompts */
+.command {
+  display: block;
+  margin: 1rem 0;
+  padding: 1rem;
+  background-color: #2D3748;
+  color: #FFFFFF;
+  border-radius: 6px;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.command::before {
+  content: "$ ";
+  color: #A0AEC0;
+}
+</style>
+
+# Integrating Tailwind CSS with Styled Components + Typography
+
+## 1. Configuration Setup
+
+### Tailwind Configuration
+\`\`\`javascript
+// tailwind.config.js
+module.exports = {
+  prefix: 'tw-',
+  content: [
+    './src/**/*.{js,jsx,ts,tsx}',
+  ],
+  theme: {
+    extend: {
+      fontFamily: {
+        serif: ['"Libre Baskerville"', 'serif'],     // Headers
+        sans: ['"Open Sans"', 'sans-serif'],         // Body text
+      },
+    },
+  },
+  important: true,
+  corePlugins: {
+    preflight: false,
+  }
+};
+\`\`\`
+
+### Global Styles
+\`\`\`typescript
+// src/styles/GlobalStyles.ts
+import { createGlobalStyle } from 'styled-components';
+
+export const GlobalStyles = createGlobalStyle`
+  @tailwind base;
+  @tailwind components;
+  @tailwind utilities;
+
+  // Global typography defaults
+  h1, h2, h3, h4, h5, h6 {
+    font-family: "Libre Baskerville", serif;
+  }
+
+  body, p, span, div {
+    font-family: "Open Sans", sans-serif;
+  }
+`;
+\`\`\`
+
+### Typography Components
+\`\`\`typescript
+// src/components/Typography/Typography.styles.ts
+import styled from 'styled-components';
+
+export const H1 = styled.h1`
+  font-family: "Libre Baskerville", serif;
+  font-size: 2.5rem;
+  line-height: 1.2;
+`;
+
+export const Paragraph = styled.p`
+  font-family: "Open Sans", sans-serif;
+  font-size: 1rem;
+  line-height: 1.6;
+`;
+
+// ... other typography components
+\`\`\`
+
+## 2. When to Use Each
+### Use Styled Components for:
+- Component-level styles
+- Dynamic styling based on props
+- Complex animations
+- Themed components
+- Reusable style patterns
+- Global style themes
+- Layout components
+- Style inheritance
+
+### Use Styled Components for:
+\`\`\`typescript
+// Complex, reusable components with consistent typography
+const StyledHeader = styled.header`
+  font-family: "Libre Baskerville", serif;
+  padding: 2rem;
+
+  h1 {
+    font-size: 2.5rem;
+    line-height: 1.2;
+  }
+
+  p {
+    font-family: "Open Sans", sans-serif;
+    font-size: 1rem;
+  }
+`;
+
+// Dynamic styling with theme and props
+const DynamicText = styled.p<{ size?: 'small' | 'large' }>`
+  font-family: "Open Sans", sans-serif;
+  font-size: ${props => props.size === 'large' ? '1.25rem' : '1rem'};
+`;
+\`\`\`
+
+### Use Tailwind for:
+- Quick prototyping
+- Small style adjustments
+- One-off styles
+- Responsive utilities
+- Spacing utilities
+- Typography utilities
+- Colors that don't need theming
+\`\`\`tsx
+// Quick typography adjustments
+<h1 className="tw-font-serif tw-text-4xl">
+  Header with Libre Baskerville
+</h1>
+
+// Body text with Open Sans
+<p className="tw-font-sans tw-text-base">
+  Paragraph with Open Sans
+</p>
+
+// Responsive typography
+<div className="tw-font-serif tw-text-2xl tw-md:text-3xl tw-lg:text-4xl">
+  Responsive Header
+</div>
+\`\`\`
+
+## 3. Best Practices
+
+### 1. Consistent Typography Structure
+\`\`\`typescript
+// Use Typography components for consistent styling
+import { H1, Paragraph } from '@/components/Typography';
+
+const Component = () => (
+  <>
+    <H1>This uses Libre Baskerville</H1>
+    <Paragraph>This uses Open Sans</Paragraph>
+  </>
+);
+\`\`\`
+
+### 2. Mixing Styles
+\`\`\`typescript
+// Combining styled-components with Tailwind
+const StyledSection = styled.section`
+  font-family: "Open Sans", sans-serif;
+
+  h1, h2, h3 {
+    font-family: "Libre Baskerville", serif;
+  }
+`;
+
+const Component = () => (
+  <StyledSection>
+    <h1 className="tw-text-4xl">Libre Baskerville Header</h1>
+    <p className="tw-text-base">Open Sans Paragraph</p>
+  </StyledSection>
+);
+\`\`\`
+
+### 3. Theme Integration
+\`\`\`typescript
+// theme.ts
+export const theme = {
+  fonts: {
+    heading: '"Libre Baskerville", serif',
+    body: '"Open Sans", sans-serif',
+  },
+  // ... other theme properties
+};
+
+// Using theme in styled components
+const Header = styled.h1`
+  font-family: ${({ theme }) => theme.fonts.heading};
+`;
+\`\`\`
+
+## 4. Common Patterns
+
+### Headers and Content Sections
+\`\`\`typescript
+const Section = () => (
+  <div>
+    {/* Styled Component for main header */}
+    <H1>Main Header</H1>
+
+    {/* Tailwind for quick text styling */}
+    <p className="tw-font-sans tw-text-lg tw-leading-relaxed">
+      Body content with Open Sans
+    </p>
+  </div>
+);
+\`\`\`
+
+### Responsive Typography
+\`\`\`typescript
+const ResponsiveText = styled.div`
+  // Base styles with Styled Components
+  font-family: "Open Sans", sans-serif;
+
+  h1 {
+    font-family: "Libre Baskerville", serif;
+  }
+
+  // Combine with Tailwind for responsive sizes
+  &.responsive-text {
+    @apply tw-text-base tw-md:text-lg tw-lg:text-xl;
+  }
+`;
+\`\`\`
+
+### Forms and Interactive Elements
+\`\`\`typescript
+const FormField = styled.div`
+  label {
+    font-family: "Libre Baskerville", serif;
+    @apply tw-text-sm tw-font-medium;
+  }
+
+  input {
+    font-family: "Open Sans", sans-serif;
+    @apply tw-text-base;
+  }
+`;
+\`\`\`
+
+## 5. Import Fonts
+\`\`\`html
+<!-- index.html -->
+<head>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+\`\`\`
+
+## 6. Performance Tips
+
+1. **Font Loading**
+- Use font-display: swap
+- Preload critical fonts
+- Consider self-hosting fonts for better performance
+
+2. **Style Organization**
+- Group typography-related styles
+- Use typography components for consistency
+- Leverage Tailwind's utilities for small adjustments
+
+3. **Maintenance**
+- Document typography usage
+- Create a style guide
+- Keep font definitions in theme file
+
+Remember:
+- Headers: Always use Libre Baskerville
+- Body Text: Always use Open Sans
+- Use Styled Components for complex, reusable patterns
+- Use Tailwind for quick adjustments and responsive design
+- Maintain consistent typographic scale
+- Keep font family definitions in one place
+```
+
+# src/pages/TailwindStyledCompIntegration/TW-SC-Integration-v3.md
+
+```md
+# Complete Guide: Tailwind CSS & Styled Components Integration
+A comprehensive guide to integrating Tailwind CSS with Styled Components, including typography, theming, and best practices.
+
+## 1. Initial Setup
+
+### Tailwind Configuration
+\`\`\`javascript
+// tailwind.config.js
+module.exports = {
+  prefix: 'tw-',
+  content: [
+    './src/**/*.{js,jsx,ts,tsx}',
+  ],
+  theme: {
+    extend: {
+      fontFamily: {
+        serif: ['"Libre Baskerville"', 'serif'],     // Headers
+        sans: ['"Open Sans"', 'sans-serif'],         // Body text
+      },
+      colors: {
+        // Extend with your theme colors
+        primary: {
+          light: 'var(--primary-light)',
+          dark: 'var(--primary-dark)',
+        }
+      },
+    },
+  },
+  important: true,
+  corePlugins: {
+    preflight: false,
+  }
+};
+\`\`\`
+
+### Theme Setup
+\`\`\`typescript
+// src/styles/theme.ts
+export interface Theme {
+  isDarkTheme: boolean;
+  colors: ColorPalette;
+  typography: Typography;
+  sizes: {
+    navHeight: string;
+  };
+  // ... other theme properties
+}
+
+export const lightTheme: Theme = {
+  isDarkTheme: false,
+  colors: {
+    backgrounds: {
+      light: '#FFFFFF',
+      dark: '#121212',
+      nav: 'rgba(255, 255, 255, 0.8)'
+    },
+    text: {
+      light: {
+        primary: '#676767',
+        secondary: '#8F8F8F',
+        disabled: '#CCCCCC'
+      }
+    }
+    // ... other colors
+  },
+  typography: {
+    heading: {
+      fontFamily: '"Libre Baskerville", serif',
+      // ... heading styles
+    },
+    body: {
+      fontFamily: '"Open Sans", sans-serif',
+      // ... body styles
+    }
+  }
+};
+
+export const darkTheme: Theme = {
+  isDarkTheme: true,
+  // ... dark theme properties
+};
+\`\`\`
+
+### Global Styles
+\`\`\`typescript
+// src/styles/GlobalStyles.ts
+import { createGlobalStyle } from 'styled-components';
+
+export const GlobalStyles = createGlobalStyle`
+  @tailwind base;
+  @tailwind components;
+  @tailwind utilities;
+
+  * {
+    transition: color 0.3s ease, background-color 0.3s ease;
+  }
+
+  // Typography defaults
+  h1, h2, h3, h4, h5, h6 {
+    font-family: "Libre Baskerville", serif;
+  }
+
+  body, p, span, div {
+    font-family: "Open Sans", sans-serif;
+    color: ${({ theme }) => theme.colors.text[theme.isDarkTheme ? 'dark' : 'light'].primary};
+    background-color: ${({ theme }) => theme.colors.backgrounds[theme.isDarkTheme ? 'dark' : 'light']};
+  }
+`;
+\`\`\`
+
+## 2. Typography Components
+\`\`\`typescript
+// src/components/Typography/Typography.styles.ts
+import styled from 'styled-components';
+
+export const H1 = styled.h1`
+  font-family: "Libre Baskerville", serif;
+  font-size: 2.5rem;
+  line-height: 1.2;
+  color: ${({ theme }) => theme.colors.text[theme.isDarkTheme ? 'dark' : 'light'].primary};
+`;
+
+export const Paragraph = styled.p`
+  font-family: "Open Sans", sans-serif;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: ${({ theme }) => theme.colors.text[theme.isDarkTheme ? 'dark' : 'light'].primary};
+`;
+
+// ... other typography components
+\`\`\`
+
+## 3. Common UI Components
+
+### Navigation
+\`\`\`typescript
+// src/components/Navbar/Navbar.styles.ts
+export const NavbarContainer = styled.nav`
+  background-color: ${({ theme }) => theme.colors.backgrounds.nav};
+  height: ${({ theme }) => theme.sizes.navHeight};
+  transition: background-color 0.3s ease;
+`;
+
+export const MenuItem = styled.li`
+  a {
+    font-family: "Open Sans", sans-serif;
+    color: ${({ theme }) => theme.colors.text[theme.isDarkTheme ? 'dark' : 'light'].primary};
+    transition: opacity 0.3s ease;
+
+    &:hover {
+      opacity: 0.7;
+    }
+  }
+`;
+
+export const ThemeToggle = styled.button`
+  color: ${({ theme }) => theme.colors.text[theme.isDarkTheme ? 'dark' : 'light'].primary};
+  transition: all 0.3s ease;
+`;
+\`\`\`
+
+## 4. Usage Patterns
+
+### When to Use Styled Components
+\`\`\`typescript
+// 1. Complex, reusable components
+const Card = styled.div`
+  font-family: "Open Sans", sans-serif;
+  background: ${({ theme }) => theme.colors.backgrounds[theme.isDarkTheme ? 'dark' : 'light']};
+
+  h2 {
+    font-family: "Libre Baskerville", serif;
+    color: ${({ theme }) => theme.colors.text[theme.isDarkTheme ? 'dark' : 'light'].primary};
+  }
+`;
+
+// 2. Theme-dependent styles
+const ThemedButton = styled.button`
+  background: ${({ theme }) => theme.colors.backgrounds[theme.isDarkTheme ? 'dark' : 'light']};
+  color: ${({ theme }) => theme.colors.text[theme.isDarkTheme ? 'dark' : 'light'].primary};
+`;
+
+// 3. Dynamic components
+const DynamicText = styled.p<{ size?: 'small' | 'large' }>`
+  font-family: "Open Sans", sans-serif;
+  font-size: ${props => props.size === 'large' ? '1.25rem' : '1rem'};
+`;
+\`\`\`
+
+### When to Use Tailwind
+\`\`\`tsx
+// 1. Quick adjustments
+<div className="tw-font-sans tw-text-lg">
+  Quick text styling
+</div>
+
+// 2. Responsive design
+<h1 className="tw-font-serif tw-text-2xl tw-md:text-3xl tw-lg:text-4xl">
+  Responsive heading
+</h1>
+
+// 3. Layout utilities
+<div className="tw-flex tw-items-center tw-gap-4">
+  <span className="tw-font-sans">Flexbox layout</span>
+</div>
+\`\`\`
+
+## 5. Combined Approach Examples
+
+### Responsive Component with Theme Support
+\`\`\`typescript
+const ResponsiveSection = styled.section`
+  font-family: "Open Sans", sans-serif;
+  color: ${({ theme }) => theme.colors.text[theme.isDarkTheme ? 'dark' : 'light'].primary};
+
+  h2 {
+    font-family: "Libre Baskerville", serif;
+  }
+`;
+
+const Component = () => (
+  <ResponsiveSection className="tw-p-4 tw-md:p-6 tw-lg:p-8">
+    <h2 className="tw-text-2xl tw-md:text-3xl">
+      Themed Header
+    </h2>
+    <p className="tw-text-base tw-md:text-lg">
+      Responsive content
+    </p>
+  </ResponsiveSection>
+);
+\`\`\`
+
+### Theme-Aware Interactive Component
+\`\`\`typescript
+const InteractiveCard = styled.div`
+  font-family: "Open Sans", sans-serif;
+  background: ${({ theme }) => theme.colors.backgrounds[theme.isDarkTheme ? 'dark' : 'light']};
+  transition: all 0.3s ease;
+`;
+
+const Component = () => (
+  <InteractiveCard className="tw-p-4 tw-hover:shadow-lg tw-cursor-pointer">
+    <h3 className="tw-font-serif tw-text-xl">
+      Card Title
+    </h3>
+    <p className="tw-mt-2">
+      Card content
+    </p>
+  </InteractiveCard>
+);
+\`\`\`
+
+## 6. Best Practices
+
+### 1. Typography Consistency
+- Use Typography components for consistent styling
+- Stick to defined font families (Libre Baskerville for headers, Open Sans for body)
+- Use theme colors for text
+
+### 2. Theme Integration
+- Always use theme values for colors
+- Include dark/light mode support
+- Add smooth transitions for theme changes
+
+### 3. Performance
+- Use Tailwind for frequently repeated utilities
+- Use Styled Components for complex, themed components
+- Combine approaches thoughtfully to minimize duplicate styles
+
+### 4. Maintenance
+- Keep theme definitions centralized
+- Document component usage
+- Use consistent naming conventions
+
+## 7. Font Loading
+\`\`\`html
+<!-- index.html -->
+<head>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+\`\`\`
+
+## 8. Type Safety
+\`\`\`typescript
+// Ensure type safety with theme
+declare module 'styled-components' {
+  export interface DefaultTheme extends Theme {}
+}
+\`\`\`
+
+Remember:
+- Headers always use Libre Baskerville
+- Body text always uses Open Sans
+- Always include theme support
+- Use Tailwind for layout and quick styling
+- Use Styled Components for complex, themed components
+- Maintain consistent typography and color usage
+- Consider performance implications
+- Keep documentation updated
+
+This combined approach gives you:
+- Consistent typography
+- Theme support (light/dark)
+- Responsive design capabilities
+- Type safety
+- Performance optimization
+- Maintainable codebase
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap');
+
+/* Base styles */
+body {
+  font-family: 'Libre Baskerville', serif;
+  line-height: 1.8;
+  color: #2D3748;
+  max-width: 50rem;
+  margin: 0 auto;
+  padding: 2rem;
+  background-color: #FFFDF7;
+}
+
+/* Typography scale */
+h1 {
+  font-size: 2.5rem;
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
+  color: #1A202C;
+  letter-spacing: -0.02em;
+  border-bottom: 2px solid #E2E8F0;
+  padding-bottom: 0.5rem;
+}
+
+h2 {
+  font-size: 1.875rem;
+  line-height: 1.3;
+  margin-top: 3rem;
+  margin-bottom: 1rem;
+  color: #2D3748;
+  letter-spacing: -0.01em;
+}
+
+h3 {
+  font-size: 1.5rem;
+  line-height: 1.4;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+  color: #4A5568;
+}
+
+/* Paragraphs and lists */
+p {
+  margin-bottom: 1.5rem;
+  font-size: 1.125rem;
+}
+
+ul, ol {
+  margin-bottom: 1.5rem;
+  padding-left: 1.5rem;
+}
+
+li {
+  margin-bottom: 0.5rem;
+}
+
+/* Code blocks */
+code {
+  font-family: 'JetBrains Mono', Consolas, Monaco, 'Andale Mono', monospace;
+  font-size: 0.9em;
+  background-color: #F7FAFC;
+  padding: 0.2em 0.4em;
+  border-radius: 3px;
+  border: 1px solid #E2E8F0;
+}
+
+pre {
+  background-color: #F7FAFC;
+  padding: 1.5rem;
+  border-radius: 6px;
+  overflow-x: auto;
+  border: 1px solid #E2E8F0;
+  margin: 1.5rem 0;
+}
+
+pre code {
+  border: none;
+  padding: 0;
+}
+
+/* Links */
+a {
+  color: #4A90E2;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s ease;
+}
+
+a:hover {
+  border-bottom-color: currentColor;
+}
+
+/* Blockquotes */
+blockquote {
+  font-style: italic;
+  margin: 1.5rem 0;
+  padding-left: 1.5rem;
+  border-left: 3px solid #CBD5E0;
+  color: #4A5568;
+}
+
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+}
+
+th, td {
+  padding: 0.75rem;
+  border: 1px solid #E2E8F0;
+  text-align: left;
+}
+
+th {
+  background-color: #F7FAFC;
+  font-weight: 700;
+}
+
+/* Emphasis and strong */
+em {
+  font-style: italic;
+}
+
+strong {
+  font-weight: 700;
+  color: #1A202C;
+}
+
+/* Meta information */
+.meta {
+  font-size: 0.875rem;
+  color: #718096;
+  margin-bottom: 2rem;
+}
+
+/* Feature list checkmarks */
+.features li::before {
+  content: "✓";
+  color: #48BB78;
+  font-weight: bold;
+  display: inline-block;
+  width: 1.5em;
+  margin-left: -1.5em;
+}
+
+/* Command line prompts */
+.command {
+  display: block;
+  margin: 1rem 0;
+  padding: 1rem;
+  background-color: #2D3748;
+  color: #FFFFFF;
+  border-radius: 6px;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.command::before {
+  content: "$ ";
+  color: #A0AEC0;
+}
+</style>
 ```
 
 # src/styles/globals.css
 
 ```css
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* 3. Create or update src/styles/globals.css */
+ @tailwind base;
+ @tailwind components;
+ @tailwind utilities;
 
-@layer base {
-  :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-    /* ... rest of your CSS variables ... */
-  }
-}
+ @layer base {
+   :root {
+     --background: 0 0% 100%;
+     --foreground: 222.2 84% 4.9%;
+     --radius: 0.5rem;
+   }
+ }
+
+
 ```
 
 # src/styles/GlobalStyles-sc.ts
@@ -4365,24 +6016,40 @@ export const GlobalStyles = createGlobalStyle`
 
 ```ts
 // src/styles/GlobalStyles.ts
-// In App.tsx or GlobalStyles.ts
 import { createGlobalStyle } from 'styled-components';
 
 export const GlobalStyles = createGlobalStyle`
-  body {
-    margin: 0;
-    padding: 0;
-    background: transparent;
-    min-height: 100vh;
-    color: ${({ theme }) => theme.colors.text.light.primary};
+  * {
+    transition: color 0.3s ease, background-color 0.3s ease;
   }
 
-  #root {
-    min-height: 100vh;
-    background: transparent;
+  body {
+    color: ${({ theme }) => theme.colors.text[theme.isDarkTheme ? 'dark' : 'light'].primary};
+    background-color: ${({ theme }) => theme.colors.backgrounds[theme.isDarkTheme ? 'dark' : 'light']};
   }
 `;
 
+// // src/styles/GlobalStyles.ts
+
+// import { createGlobalStyle } from 'styled-components';
+
+// export const GlobalStyles = createGlobalStyle`
+//   h1, h2, h3, h4, h5, h6 {
+//     font-family: "Libre Baskerville", serif;
+//   }
+
+//   body, p, span, div {
+//     font-family: "Open Sans", sans-serif;
+//   }
+
+//   // Optional: Add specific styles for each heading level
+//   h1 { font-size: 2.5rem; line-height: 1.2; }
+//   h2 { font-size: 2rem; line-height: 1.3; }
+//   h3 { font-size: 1.75rem; line-height: 1.4; }
+//   h4 { font-size: 1.5rem; line-height: 1.4; }
+//   h5 { font-size: 1.25rem; line-height: 1.4; }
+//   h6 { font-size: 1rem; line-height: 1.4; }
+// `;
 ```
 
 # src/styles/styled.d.ts
@@ -4433,32 +6100,131 @@ declare module 'styled-components' {
 
 ```ts
 // src/styles/tailwind.config.ts
-import { colors, typography, sizes } from './theme';
+// import type { Theme } from './theme';
+import { lightTheme } from './theme';
 
 export const tailwindTheme = {
   extend: {
-    colors: Object.entries(colors).reduce((acc, [key, value]) => {
-      if (value && typeof value === 'object') {
-        if ('500' in value) {
-          acc[key] = value;
-        } else {
-          Object.entries(value).forEach(([subKey, subValue]) => {
-            acc[`${key}-${subKey}`] = subValue;
-          });
+    colors: {
+      primary: {
+        100: lightTheme.colors.primary[100],
+        200: lightTheme.colors.primary[200],
+        300: lightTheme.colors.primary[300],
+        400: lightTheme.colors.primary[400],
+        500: lightTheme.colors.primary[500],
+        600: lightTheme.colors.primary[600],
+        700: lightTheme.colors.primary[700],
+        800: lightTheme.colors.primary[800],
+        900: lightTheme.colors.primary[900],
+      },
+      secondary: {
+        100: lightTheme.colors.secondary[100],
+        200: lightTheme.colors.secondary[200],
+        300: lightTheme.colors.secondary[300],
+        400: lightTheme.colors.secondary[400],
+        500: lightTheme.colors.secondary[500],
+        600: lightTheme.colors.secondary[600],
+        700: lightTheme.colors.secondary[700],
+        800: lightTheme.colors.secondary[800],
+        900: lightTheme.colors.secondary[900],
+      },
+      accent: {
+        100: lightTheme.colors.accent[100],
+        200: lightTheme.colors.accent[200],
+        300: lightTheme.colors.accent[300],
+        400: lightTheme.colors.accent[400],
+        500: lightTheme.colors.accent[500],
+        600: lightTheme.colors.accent[600],
+        700: lightTheme.colors.accent[700],
+        800: lightTheme.colors.accent[800],
+        900: lightTheme.colors.accent[900],
+      },
+      success: {
+        100: lightTheme.colors.success[100],
+        200: lightTheme.colors.success[200],
+        300: lightTheme.colors.success[300],
+        400: lightTheme.colors.success[400],
+        500: lightTheme.colors.success[500],
+        600: lightTheme.colors.success[600],
+        700: lightTheme.colors.success[700],
+        800: lightTheme.colors.success[800],
+        900: lightTheme.colors.success[900],
+      },
+      warning: {
+        100: lightTheme.colors.warning[100],
+        200: lightTheme.colors.warning[200],
+        300: lightTheme.colors.warning[300],
+        400: lightTheme.colors.warning[400],
+        500: lightTheme.colors.warning[500],
+        600: lightTheme.colors.warning[600],
+        700: lightTheme.colors.warning[700],
+        800: lightTheme.colors.warning[800],
+        900: lightTheme.colors.warning[900],
+      },
+      danger: {
+        100: lightTheme.colors.danger[100],
+        200: lightTheme.colors.danger[200],
+        300: lightTheme.colors.danger[300],
+        400: lightTheme.colors.danger[400],
+        500: lightTheme.colors.danger[500],
+        600: lightTheme.colors.danger[600],
+        700: lightTheme.colors.danger[700],
+        800: lightTheme.colors.danger[800],
+        900: lightTheme.colors.danger[900],
+      },
+      gray: {
+        100: lightTheme.colors.gray[100],
+        200: lightTheme.colors.gray[200],
+        300: lightTheme.colors.gray[300],
+        400: lightTheme.colors.gray[400],
+        500: lightTheme.colors.gray[500],
+        600: lightTheme.colors.gray[600],
+        700: lightTheme.colors.gray[700],
+        800: lightTheme.colors.gray[800],
+        900: lightTheme.colors.gray[900],
+      },
+      background: {
+        light: lightTheme.colors.backgrounds.light,
+        dark: lightTheme.colors.backgrounds.dark
+      },
+      text: {
+        light: {
+          primary: lightTheme.colors.text.light.primary,
+          secondary: lightTheme.colors.text.light.secondary,
+          disabled: lightTheme.colors.text.light.disabled
+        },
+        dark: {
+          primary: lightTheme.colors.text.dark.primary,
+          secondary: lightTheme.colors.text.dark.secondary,
+          disabled: lightTheme.colors.text.dark.disabled
         }
       }
-      return acc;
-    }, {} as Record<string, unknown>),
-    fontFamily: typography.fontFamily,
-    fontSize: typography.fontSize,
-    lineHeight: {
-      none: typography.lineHeight.none.toString(),
-      tight: typography.lineHeight.tight.toString(),
-      normal: typography.lineHeight.normal.toString(),
-      relaxed: typography.lineHeight.relaxed.toString(),
     },
-    fontWeight: typography.fontWeight,
-    spacing: sizes,
+    fontFamily: {
+      sans: [lightTheme.typography.body.fontFamily],
+      serif: [lightTheme.typography.heading.fontFamily],
+    },
+    fontSize: {
+      xs: lightTheme.typography.body.sizes.xs,
+      sm: lightTheme.typography.body.sizes.sm,
+      base: lightTheme.typography.body.sizes.base,
+      lg: lightTheme.typography.body.sizes.lg,
+      xl: lightTheme.typography.body.sizes.xl,
+      '2xl': lightTheme.typography.heading.sizes.h6,
+      '3xl': lightTheme.typography.heading.sizes.h5,
+      '4xl': lightTheme.typography.heading.sizes.h4,
+      '5xl': lightTheme.typography.heading.sizes.h3,
+      '6xl': lightTheme.typography.heading.sizes.h2,
+      '7xl': lightTheme.typography.heading.sizes.h1,
+    },
+    fontWeight: {
+      normal: lightTheme.typography.body.weights.regular,
+      medium: lightTheme.typography.body.weights.medium,
+      bold: lightTheme.typography.body.weights.bold,
+    },
+    spacing: {
+      navHeight: lightTheme.sizes.navHeight,
+    }
   },
 };
 
@@ -4466,27 +6232,10 @@ export const tailwindConfig = {
   prefix: 'tw-',
   theme: tailwindTheme,
   darkMode: 'class',
+  content: [
+    './src/**/*.{js,jsx,ts,tsx}',
+  ],
 };
-
-//  // src/styles/tailwind.config.ts
-//  import { colors, fontFamily, fontSize, spacing } from './theme';
-
-//  export default {
-//    prefix: 'tw-',
-//    content: [
-//      './src/**/*.{js,jsx,ts,tsx}',
-//    ],
-//    theme: {
-//      colors,
-//      fontFamily,
-//      fontSize,
-//      spacing,
-//      extend: {
-//        // Add any Tailwind-specific extensions here
-//      },
-//    },
-//    darkMode: 'class',
-//  };
 ```
 
 # src/styles/theme-sc.ts
@@ -4831,21 +6580,13 @@ export const applyFontStyle = (type: "heading" | "body", weight: "regular" | "me
 ```ts
 // src/styles/theme.ts
 
-export interface Theme {
-   colors: ColorPalette;
-   typography: Typography;
-   // Add these new properties to match our theme implementation
-   sizes: {
-     navHeight: string;
-   };
-   navBackground: string;
-   textSecondary: string;
-   border: string;
-   error: string;
-   backgroundColor?: string;  // Optional property for background color
-   backgroundBlendMode?: string;  // Optional property for blend mode
- }
+export type ThemeMode = 'light' | 'dark';
 
+// Create a type for color keys that can have shades
+export type ColorWithShades = 'primary' | 'secondary' | 'accent' | 'success' | 'warning' | 'danger' | 'gray';
+
+
+// Shared type definitions
 export interface ColorShades {
    100: string;
    200: string;
@@ -4866,9 +6607,10 @@ export interface ColorPalette {
    warning: ColorShades;
    danger: ColorShades;
    gray: ColorShades;
-   background: {
+   backgrounds: {  // Changed from 'background' to 'backgrounds'
       light: string;
       dark: string;
+      nav: string; // Add this for navBackground
    };
    text: {
       light: {
@@ -4918,19 +6660,26 @@ export interface Typography {
    };
 }
 
-export type ThemeMode = 'light' | 'dark';
+export interface Theme {
+   isDarkTheme: boolean;  // Add this property
+   colors: ColorPalette;
+   typography: Typography;
+   sizes: {
+      navHeight: string;
+   };
+   navBackground: string;
+   textSecondary: string;
+   border: string;
+   error: string;
+   backgroundColor?: string;
+   backgroundBlendMode?: string;
+}
 
-// export interface Theme {
-//    colors: ColorPalette;
-//    typography: Typography;
-// }
-
-// Define specific heading and body font sizes to fix type issues
 type HeadingSizes = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
 type BodySizes = 'xs' | 'sm' | 'base' | 'lg' | 'xl';
 
-// Create the base theme
-const baseTheme = {
+// Base theme configuration
+export const baseTheme = {
    typography: {
       heading: {
          fontFamily: '"Libre Baskerville", serif',
@@ -4966,8 +6715,8 @@ const baseTheme = {
    }
 } as const;
 
-// Common colors
-const colors = {
+// Color definitions
+export const colors = {
    primary: {
       100: '#EBE5F6',
       200: '#D7CCED',
@@ -5047,17 +6796,19 @@ const colors = {
    }
 };
 
-// Light theme
+// Theme definitions
 export const lightTheme: Theme = {
+   isDarkTheme: false,
    colors: {
       ...colors,
-      background: {
+      backgrounds: {  // Changed from 'background' to 'backgrounds'
          light: '#FFFFFF',
-         dark: '#121212'
+         dark: '#121212',
+         nav: 'rgba(255, 255, 255, 0.8)' // Add nav background here
       },
       text: {
          light: {
-            primary: '#676767',
+            primary: '#3629BA',
             secondary: '#8F8F8F',
             disabled: '#CCCCCC'
          },
@@ -5078,13 +6829,14 @@ export const lightTheme: Theme = {
    error: '#DC2626'
 };
 
-// Dark theme
 export const darkTheme: Theme = {
+   isDarkTheme: true,
    colors: {
       ...colors,
-      background: {
+      backgrounds: {  // Changed from 'background' to 'backgrounds'
          light: '#121212',
-         dark: '#000000'
+         dark: '#000000',
+         nav: 'rgba(18, 18, 18, 0.8)' // Add nav background here
       },
       text: {
          light: {
@@ -5093,7 +6845,7 @@ export const darkTheme: Theme = {
             disabled: '#6E6E6E'
          },
          dark: {
-            primary: '#FFFFFF',
+            primary: '#AF99DA',
             secondary: '#E0E0E0',
             disabled: '#6E6E6E'
          }
@@ -5109,31 +6861,69 @@ export const darkTheme: Theme = {
    error: '#EF4444'
 };
 
-// Default theme (for utilities to use)
+// Default theme for utilities
 export const theme = lightTheme;
 
 // Utility functions
-export const getColor = (colorName: keyof Omit<ColorPalette, "background" | "text">, shade: keyof ColorShades = 500): string => {
-   return theme.colors[colorName][shade];
+// export const getColor = (colorName: keyof Omit<ColorPalette, "background" | "text">, shade: keyof ColorShades = 500): string => {
+//   return theme.colors[colorName][shade];
+// };
+// Update the getColor function with proper type checking
+export const getColor = (
+   colorName: ColorWithShades,
+   shade: keyof ColorShades = 500
+): string => {
+   const color = theme.colors[colorName];
+
+   if (!isColorShades(color)) {
+      throw new Error(`Color ${colorName} does not have shades`);
+   }
+   return color[shade];
 };
 
-export const getBackgroundColor = (mode: ThemeMode): string => {
-   return theme.colors.background[mode];
+// Type guard to check if a color has shades
+const isColorShades = (color: any): color is ColorShades => {
+   return color && typeof color === 'object' && '500' in color;
 };
 
-export const getTextColor = (mode: ThemeMode, variant: "primary" | "secondary" | "disabled"): string => {
+// export const getBackgroundColor = (mode: ThemeMode): string => {
+//    //   return theme.colors.backgrounds[mode];
+//    return theme.colors.backgrounds.light;
+// };
+export const getBackgroundColor = (
+   mode: ThemeMode,
+   type: 'default' | 'nav' = 'default'
+ ): string => {
+   if (type === 'nav') {
+     return theme.colors.backgrounds.nav;
+   }
+   return theme.colors.backgrounds[mode];
+ };
+
+export const getTextColor = (
+   mode: ThemeMode,
+   variant: "primary" | "secondary" | "disabled"
+): string => {
    return theme.colors.text[mode][variant];
 };
 
-export const getFontFamily = (type: "heading" | "body"): string => {
+export const getFontFamily = (
+   type: "heading" | "body"
+): string => {
    return theme.typography[type].fontFamily;
 };
 
-export const getFontWeight = (type: "heading" | "body", weight: "regular" | "medium" | "bold"): number => {
+export const getFontWeight = (
+   type: "heading" | "body",
+   weight: "regular" | "medium" | "bold"
+): number => {
    return theme.typography[type].weights[weight];
 };
 
-export const getFontSize = (type: "heading" | "body", size: HeadingSizes | BodySizes): string => {
+export const getFontSize = (
+   type: "heading" | "body",
+   size: HeadingSizes | BodySizes
+): string => {
    if (type === "heading" && isHeadingSize(size)) {
       return theme.typography.heading.sizes[size];
    }
@@ -5160,7 +6950,6 @@ export const applyFontStyle = (type: "heading" | "body", weight: "regular" | "me
     font-size: ${getFontSize(type, size)};
   `;
 };
-
 ```
 
 # src/styles/ThemeProvider.tsx
@@ -5169,7 +6958,7 @@ export const applyFontStyle = (type: "heading" | "body", weight: "regular" | "me
 // src/styles/ThemeProvider.tsx
 import React, { createContext, useContext, useState } from 'react';
 import { ThemeProvider as StyledThemeProvider } from 'styled-components';
-import { lightTheme, darkTheme, ThemeInterface } from './theme';
+import { lightTheme, darkTheme } from './theme';
 import { GlobalStyles } from './GlobalStyles';
 
 interface ThemeContextType {
@@ -5532,20 +7321,80 @@ declare module 'styled-components' {
 # tailwind.config.js
 
 ```js
-// tailwind.config.js
+// 1. First, update tailwind.config.js to properly handle conflicts
 /** @type {import('tailwindcss').Config} */
-export default {
+module.exports = {
+   darkMode: ["class"],
    content: [
-     "./index.html",
-     "./src/**/*.{js,ts,jsx,tsx}",
+     './pages/**/*.{ts,tsx}',
+     './components/**/*.{ts,tsx}',
+     './app/**/*.{ts,tsx}',
+     './src/**/*.{ts,tsx}',
    ],
-   prefix: "tw-", // Optional: only if you need to avoid conflicts
+   prefix: "tw-",
    theme: {
-     extend: {},
+     container: {
+       center: true,
+       padding: "2rem",
+       screens: {
+         "2xl": "1400px",
+       },
+     },
+     extend: {
+      fontFamily: {
+         serif: ['"Libre Baskerville"', 'serif'],
+         sans: ['"Open Sans"', 'sans-serif'],
+       },
+       colors: {
+         border: "hsl(var(--border))",
+         input: "hsl(var(--input))",
+         ring: "hsl(var(--ring))",
+         background: "hsl(var(--background))",
+         foreground: "hsl(var(--foreground))",
+         primary: {
+           DEFAULT: "hsl(var(--primary))",
+           foreground: "hsl(var(--primary-foreground))",
+         },
+         secondary: {
+           DEFAULT: "hsl(var(--secondary))",
+           foreground: "hsl(var(--secondary-foreground))",
+         },
+         destructive: {
+           DEFAULT: "hsl(var(--destructive))",
+           foreground: "hsl(var(--destructive-foreground))",
+         },
+         muted: {
+           DEFAULT: "hsl(var(--muted))",
+           foreground: "hsl(var(--muted-foreground))",
+         },
+         accent: {
+           DEFAULT: "hsl(var(--accent))",
+           foreground: "hsl(var(--accent-foreground))",
+         },
+         popover: {
+           DEFAULT: "hsl(var(--popover))",
+           foreground: "hsl(var(--popover-foreground))",
+         },
+         card: {
+           DEFAULT: "hsl(var(--card))",
+           foreground: "hsl(var(--card-foreground))",
+         },
+       },
+       borderRadius: {
+         lg: "var(--radius)",
+         md: "calc(var(--radius) - 2px)",
+         sm: "calc(var(--radius) - 4px)",
+       },
+     },
    },
-   plugins: [],
+   plugins: [require("tailwindcss-animate")],
+   // Important: Prevent Tailwind from purging styles
+   important: true,
+   // Disable Tailwind's base styles to prevent conflicts
+   corePlugins: {
+     preflight: false,
+   }
  }
-
 ```
 
 # tsconfig.app.json
@@ -5619,7 +7468,7 @@ export default {
      "src/**/*.ts",
      "src/**/*.tsx",
      "src/**/*.d.ts"
-   ],
+, "src/components/Sound/SoundPlayer.tsx.bak", "src/components/Sound/AudioPlayer.tsx.bak", "src/components/BulkImagesLoader/BulkImageLoader-b4Logo.tsx.bak", "src/components/BulkImagesLoader/BulkImageLoader.tsx.bak"   ],
    "references": [{ "path": "./tsconfig.node.json" }]
  }
 ```
@@ -5644,13 +7493,13 @@ export default {
 # tsconfig.node.tsbuildinfo
 
 ```tsbuildinfo
-{"fileNames":["./node_modules/typescript/lib/lib.d.ts","./node_modules/typescript/lib/lib.es5.d.ts","./node_modules/typescript/lib/lib.es2015.d.ts","./node_modules/typescript/lib/lib.es2016.d.ts","./node_modules/typescript/lib/lib.es2017.d.ts","./node_modules/typescript/lib/lib.es2018.d.ts","./node_modules/typescript/lib/lib.es2019.d.ts","./node_modules/typescript/lib/lib.es2020.d.ts","./node_modules/typescript/lib/lib.dom.d.ts","./node_modules/typescript/lib/lib.webworker.importscripts.d.ts","./node_modules/typescript/lib/lib.scripthost.d.ts","./node_modules/typescript/lib/lib.es2015.core.d.ts","./node_modules/typescript/lib/lib.es2015.collection.d.ts","./node_modules/typescript/lib/lib.es2015.generator.d.ts","./node_modules/typescript/lib/lib.es2015.iterable.d.ts","./node_modules/typescript/lib/lib.es2015.promise.d.ts","./node_modules/typescript/lib/lib.es2015.proxy.d.ts","./node_modules/typescript/lib/lib.es2015.reflect.d.ts","./node_modules/typescript/lib/lib.es2015.symbol.d.ts","./node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts","./node_modules/typescript/lib/lib.es2016.array.include.d.ts","./node_modules/typescript/lib/lib.es2016.intl.d.ts","./node_modules/typescript/lib/lib.es2017.date.d.ts","./node_modules/typescript/lib/lib.es2017.object.d.ts","./node_modules/typescript/lib/lib.es2017.sharedmemory.d.ts","./node_modules/typescript/lib/lib.es2017.string.d.ts","./node_modules/typescript/lib/lib.es2017.intl.d.ts","./node_modules/typescript/lib/lib.es2017.typedarrays.d.ts","./node_modules/typescript/lib/lib.es2018.asyncgenerator.d.ts","./node_modules/typescript/lib/lib.es2018.asynciterable.d.ts","./node_modules/typescript/lib/lib.es2018.intl.d.ts","./node_modules/typescript/lib/lib.es2018.promise.d.ts","./node_modules/typescript/lib/lib.es2018.regexp.d.ts","./node_modules/typescript/lib/lib.es2019.array.d.ts","./node_modules/typescript/lib/lib.es2019.object.d.ts","./node_modules/typescript/lib/lib.es2019.string.d.ts","./node_modules/typescript/lib/lib.es2019.symbol.d.ts","./node_modules/typescript/lib/lib.es2019.intl.d.ts","./node_modules/typescript/lib/lib.es2020.bigint.d.ts","./node_modules/typescript/lib/lib.es2020.date.d.ts","./node_modules/typescript/lib/lib.es2020.promise.d.ts","./node_modules/typescript/lib/lib.es2020.sharedmemory.d.ts","./node_modules/typescript/lib/lib.es2020.string.d.ts","./node_modules/typescript/lib/lib.es2020.symbol.wellknown.d.ts","./node_modules/typescript/lib/lib.es2020.intl.d.ts","./node_modules/typescript/lib/lib.es2020.number.d.ts","./node_modules/typescript/lib/lib.decorators.d.ts","./node_modules/typescript/lib/lib.decorators.legacy.d.ts","./node_modules/@types/node/compatibility/disposable.d.ts","./node_modules/@types/node/compatibility/indexable.d.ts","./node_modules/@types/node/compatibility/iterators.d.ts","./node_modules/@types/node/compatibility/index.d.ts","./node_modules/@types/node/ts5.6/globals.typedarray.d.ts","./node_modules/@types/node/ts5.6/buffer.buffer.d.ts","./node_modules/undici-types/header.d.ts","./node_modules/undici-types/readable.d.ts","./node_modules/undici-types/file.d.ts","./node_modules/undici-types/fetch.d.ts","./node_modules/undici-types/formdata.d.ts","./node_modules/undici-types/connector.d.ts","./node_modules/undici-types/client.d.ts","./node_modules/undici-types/errors.d.ts","./node_modules/undici-types/dispatcher.d.ts","./node_modules/undici-types/global-dispatcher.d.ts","./node_modules/undici-types/global-origin.d.ts","./node_modules/undici-types/pool-stats.d.ts","./node_modules/undici-types/pool.d.ts","./node_modules/undici-types/handlers.d.ts","./node_modules/undici-types/balanced-pool.d.ts","./node_modules/undici-types/agent.d.ts","./node_modules/undici-types/mock-interceptor.d.ts","./node_modules/undici-types/mock-agent.d.ts","./node_modules/undici-types/mock-client.d.ts","./node_modules/undici-types/mock-pool.d.ts","./node_modules/undici-types/mock-errors.d.ts","./node_modules/undici-types/proxy-agent.d.ts","./node_modules/undici-types/env-http-proxy-agent.d.ts","./node_modules/undici-types/retry-handler.d.ts","./node_modules/undici-types/retry-agent.d.ts","./node_modules/undici-types/api.d.ts","./node_modules/undici-types/interceptors.d.ts","./node_modules/undici-types/util.d.ts","./node_modules/undici-types/cookies.d.ts","./node_modules/undici-types/patch.d.ts","./node_modules/undici-types/websocket.d.ts","./node_modules/undici-types/eventsource.d.ts","./node_modules/undici-types/filereader.d.ts","./node_modules/undici-types/diagnostics-channel.d.ts","./node_modules/undici-types/content-type.d.ts","./node_modules/undici-types/cache.d.ts","./node_modules/undici-types/index.d.ts","./node_modules/@types/node/globals.d.ts","./node_modules/@types/node/assert.d.ts","./node_modules/@types/node/assert/strict.d.ts","./node_modules/@types/node/async_hooks.d.ts","./node_modules/@types/node/buffer.d.ts","./node_modules/@types/node/child_process.d.ts","./node_modules/@types/node/cluster.d.ts","./node_modules/@types/node/console.d.ts","./node_modules/@types/node/constants.d.ts","./node_modules/@types/node/crypto.d.ts","./node_modules/@types/node/dgram.d.ts","./node_modules/@types/node/diagnostics_channel.d.ts","./node_modules/@types/node/dns.d.ts","./node_modules/@types/node/dns/promises.d.ts","./node_modules/@types/node/domain.d.ts","./node_modules/@types/node/dom-events.d.ts","./node_modules/@types/node/events.d.ts","./node_modules/@types/node/fs.d.ts","./node_modules/@types/node/fs/promises.d.ts","./node_modules/@types/node/http.d.ts","./node_modules/@types/node/http2.d.ts","./node_modules/@types/node/https.d.ts","./node_modules/@types/node/inspector.d.ts","./node_modules/@types/node/module.d.ts","./node_modules/@types/node/net.d.ts","./node_modules/@types/node/os.d.ts","./node_modules/@types/node/path.d.ts","./node_modules/@types/node/perf_hooks.d.ts","./node_modules/@types/node/process.d.ts","./node_modules/@types/node/punycode.d.ts","./node_modules/@types/node/querystring.d.ts","./node_modules/@types/node/readline.d.ts","./node_modules/@types/node/readline/promises.d.ts","./node_modules/@types/node/repl.d.ts","./node_modules/@types/node/sea.d.ts","./node_modules/@types/node/sqlite.d.ts","./node_modules/@types/node/stream.d.ts","./node_modules/@types/node/stream/promises.d.ts","./node_modules/@types/node/stream/consumers.d.ts","./node_modules/@types/node/stream/web.d.ts","./node_modules/@types/node/string_decoder.d.ts","./node_modules/@types/node/test.d.ts","./node_modules/@types/node/timers.d.ts","./node_modules/@types/node/timers/promises.d.ts","./node_modules/@types/node/tls.d.ts","./node_modules/@types/node/trace_events.d.ts","./node_modules/@types/node/tty.d.ts","./node_modules/@types/node/url.d.ts","./node_modules/@types/node/util.d.ts","./node_modules/@types/node/v8.d.ts","./node_modules/@types/node/vm.d.ts","./node_modules/@types/node/wasi.d.ts","./node_modules/@types/node/worker_threads.d.ts","./node_modules/@types/node/zlib.d.ts","./node_modules/@types/node/ts5.6/index.d.ts","./node_modules/@types/estree/index.d.ts","./node_modules/rollup/dist/rollup.d.ts","./node_modules/rollup/dist/parseast.d.ts","./node_modules/vite/types/hmrpayload.d.ts","./node_modules/vite/types/customevent.d.ts","./node_modules/vite/types/hot.d.ts","./node_modules/vite/dist/node/types.d-agj9qkwt.d.ts","./node_modules/esbuild/lib/main.d.ts","./node_modules/source-map-js/source-map.d.ts","./node_modules/vite/node_modules/postcss/lib/previous-map.d.ts","./node_modules/vite/node_modules/postcss/lib/input.d.ts","./node_modules/vite/node_modules/postcss/lib/css-syntax-error.d.ts","./node_modules/vite/node_modules/postcss/lib/declaration.d.ts","./node_modules/vite/node_modules/postcss/lib/root.d.ts","./node_modules/vite/node_modules/postcss/lib/warning.d.ts","./node_modules/vite/node_modules/postcss/lib/lazy-result.d.ts","./node_modules/vite/node_modules/postcss/lib/no-work-result.d.ts","./node_modules/vite/node_modules/postcss/lib/processor.d.ts","./node_modules/vite/node_modules/postcss/lib/result.d.ts","./node_modules/vite/node_modules/postcss/lib/document.d.ts","./node_modules/vite/node_modules/postcss/lib/rule.d.ts","./node_modules/vite/node_modules/postcss/lib/node.d.ts","./node_modules/vite/node_modules/postcss/lib/comment.d.ts","./node_modules/vite/node_modules/postcss/lib/container.d.ts","./node_modules/vite/node_modules/postcss/lib/at-rule.d.ts","./node_modules/vite/node_modules/postcss/lib/list.d.ts","./node_modules/vite/node_modules/postcss/lib/postcss.d.ts","./node_modules/vite/node_modules/postcss/lib/postcss.d.mts","./node_modules/vite/dist/node/runtime.d.ts","./node_modules/vite/types/importglob.d.ts","./node_modules/vite/types/metadata.d.ts","./node_modules/vite/dist/node/index.d.ts","./node_modules/@babel/types/lib/index.d.ts","./node_modules/@types/babel__generator/index.d.ts","./node_modules/@babel/parser/typings/babel-parser.d.ts","./node_modules/@types/babel__template/index.d.ts","./node_modules/@types/babel__traverse/index.d.ts","./node_modules/@types/babel__core/index.d.ts","./node_modules/@vitejs/plugin-react/dist/index.d.mts","./vite.config.ts","./node_modules/@types/react/global.d.ts","./node_modules/csstype/index.d.ts","./node_modules/@types/prop-types/index.d.ts","./node_modules/@types/react/index.d.ts","./node_modules/@types/hoist-non-react-statics/index.d.ts","./node_modules/@types/json-schema/index.d.ts","./node_modules/@types/react-dom/index.d.ts","./node_modules/@types/styled-components/index.d.ts","./node_modules/@types/stylis/index.d.ts"],"fileIdsList":[[54,96,179],[54,96],[54,96,179,180,181,182,183],[54,96,179,181],[54,96,190],[54,93,96],[54,95,96],[54,96,101,131],[54,96,97,102,108,109,116,128,139],[54,96,97,98,108,116],[49,50,51,54,96],[54,96,99,140],[54,96,100,101,109,117],[54,96,101,128,136],[54,96,102,104,108,116],[54,95,96,103],[54,96,104,105],[54,96,108],[54,96,106,108],[54,95,96,108],[54,96,108,109,110,128,139],[54,96,108,109,110,123,128,131],[54,91,96,144],[54,91,96,104,108,111,116,128,139],[54,96,108,109,111,112,116,128,136,139],[54,96,111,113,128,136,139],[54,96,108,114],[54,96,115,139,144],[54,96,104,108,116,128],[54,96,117],[54,96,118],[54,95,96,119],[54,93,94,95,96,97,98,99,100,101,102,103,104,105,106,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145],[54,96,121],[54,96,122],[54,96,108,123,124],[54,96,123,125,140,142],[54,96,108,128,129,130,131],[54,96,128,130],[54,96,128,129],[54,96,131],[54,96,132],[54,93,96,128],[54,96,108,134,135],[54,96,134,135],[54,96,101,116,128,136],[54,96,137],[96],[52,53,54,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145],[54,96,116,138],[54,96,111,122,139],[54,96,101,140],[54,96,128,141],[54,96,115,142],[54,96,143],[54,96,101,108,110,119,128,139,142,144],[54,96,128,145],[54,96,187,188,189],[54,96,188,190,191],[54,96,178,184],[54,96,148,177],[54,96,147,148],[54,63,67,96,139],[54,63,96,128,139],[54,58,96],[54,60,63,96,136,139],[54,96,116,136],[54,96,146],[54,58,96,146],[54,60,63,96,116,139],[54,55,56,59,62,96,108,128,139],[54,63,70,96],[54,55,61,96],[54,63,84,85,96],[54,59,63,96,131,139,146],[54,84,96,146],[54,57,58,96,146],[54,63,96],[54,57,58,59,60,61,62,63,64,65,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,85,86,87,88,89,90,96],[54,63,78,96],[54,63,70,71,96],[54,61,63,71,72,96],[54,62,96],[54,55,58,63,96],[54,63,67,71,72,96],[54,67,96],[54,61,63,66,96,139],[54,55,60,63,70,96],[54,96,128],[54,58,63,84,96,144,146],[54,96,108,109,111,112,113,116,128,136,139,145,146,148,149,150,151,152,153,154,174,175,176,177],[54,96,150,151,152,153],[54,96,150,151,152],[54,96,170],[54,96,168,170],[54,96,159,167,168,169,171],[54,96,157],[54,96,160,165,170,173],[54,96,156,173],[54,96,160,161,164,165,166,173],[54,96,160,161,162,164,165,173],[54,96,157,158,159,160,161,165,166,167,169,170,171,173],[54,96,173],[54,96,155,157,158,159,160,161,162,164,165,166,167,168,169,170,171,172],[54,96,155,173],[54,96,160,162,163,165,166,173],[54,96,164,173],[54,96,165,166,170,173],[54,96,158,168],[54,96,150],[54,96,151],[54,96,148],[54,96,118,178,185]],"fileInfos":[{"version":"a7297ff837fcdf174a9524925966429eb8e5feecc2cc55cc06574e6b092c1eaa","impliedFormat":1},{"version":"44e584d4f6444f58791784f1d530875970993129442a847597db702a073ca68c","affectsGlobalScope":true,"impliedFormat":1},{"version":"45b7ab580deca34ae9729e97c13cfd999df04416a79116c3bfb483804f85ded4","impliedFormat":1},{"version":"3facaf05f0c5fc569c5649dd359892c98a85557e3e0c847964caeb67076f4d75","impliedFormat":1},{"version":"9a68c0c07ae2fa71b44384a839b7b8d81662a236d4b9ac30916718f7510b1b2d","impliedFormat":1},{"version":"5e1c4c362065a6b95ff952c0eab010f04dcd2c3494e813b493ecfd4fcb9fc0d8","impliedFormat":1},{"version":"68d73b4a11549f9c0b7d352d10e91e5dca8faa3322bfb77b661839c42b1ddec7","impliedFormat":1},{"version":"5efce4fc3c29ea84e8928f97adec086e3dc876365e0982cc8479a07954a3efd4","impliedFormat":1},{"version":"9e8ca8ed051c2697578c023d9c29d6df689a083561feba5c14aedee895853999","affectsGlobalScope":true,"impliedFormat":1},{"version":"80e18897e5884b6723488d4f5652167e7bb5024f946743134ecc4aa4ee731f89","affectsGlobalScope":true,"impliedFormat":1},{"version":"cd034f499c6cdca722b60c04b5b1b78e058487a7085a8e0d6fb50809947ee573","affectsGlobalScope":true,"impliedFormat":1},{"version":"6920e1448680767498a0b77c6a00a8e77d14d62c3da8967b171f1ddffa3c18e4","affectsGlobalScope":true,"impliedFormat":1},{"version":"dc2df20b1bcdc8c2d34af4926e2c3ab15ffe1160a63e58b7e09833f616efff44","affectsGlobalScope":true,"impliedFormat":1},{"version":"515d0b7b9bea2e31ea4ec968e9edd2c39d3eebf4a2d5cbd04e88639819ae3b71","affectsGlobalScope":true,"impliedFormat":1},{"version":"45d8ccb3dfd57355eb29749919142d4321a0aa4df6acdfc54e30433d7176600a","affectsGlobalScope":true,"impliedFormat":1},{"version":"0dc1e7ceda9b8b9b455c3a2d67b0412feab00bd2f66656cd8850e8831b08b537","affectsGlobalScope":true,"impliedFormat":1},{"version":"ce691fb9e5c64efb9547083e4a34091bcbe5bdb41027e310ebba8f7d96a98671","affectsGlobalScope":true,"impliedFormat":1},{"version":"8d697a2a929a5fcb38b7a65594020fcef05ec1630804a33748829c5ff53640d0","affectsGlobalScope":true,"impliedFormat":1},{"version":"4ff2a353abf8a80ee399af572debb8faab2d33ad38c4b4474cff7f26e7653b8d","affectsGlobalScope":true,"impliedFormat":1},{"version":"93495ff27b8746f55d19fcbcdbaccc99fd95f19d057aed1bd2c0cafe1335fbf0","affectsGlobalScope":true,"impliedFormat":1},{"version":"6fc23bb8c3965964be8c597310a2878b53a0306edb71d4b5a4dfe760186bcc01","affectsGlobalScope":true,"impliedFormat":1},{"version":"ea011c76963fb15ef1cdd7ce6a6808b46322c527de2077b6cfdf23ae6f5f9ec7","affectsGlobalScope":true,"impliedFormat":1},{"version":"38f0219c9e23c915ef9790ab1d680440d95419ad264816fa15009a8851e79119","affectsGlobalScope":true,"impliedFormat":1},{"version":"69ab18c3b76cd9b1be3d188eaf8bba06112ebbe2f47f6c322b5105a6fbc45a2e","affectsGlobalScope":true,"impliedFormat":1},{"version":"4738f2420687fd85629c9efb470793bb753709c2379e5f85bc1815d875ceadcd","affectsGlobalScope":true,"impliedFormat":1},{"version":"2f11ff796926e0832f9ae148008138ad583bd181899ab7dd768a2666700b1893","affectsGlobalScope":true,"impliedFormat":1},{"version":"4de680d5bb41c17f7f68e0419412ca23c98d5749dcaaea1896172f06435891fc","affectsGlobalScope":true,"impliedFormat":1},{"version":"9fc46429fbe091ac5ad2608c657201eb68b6f1b8341bd6d670047d32ed0a88fa","affectsGlobalScope":true,"impliedFormat":1},{"version":"ac9538681b19688c8eae65811b329d3744af679e0bdfa5d842d0e32524c73e1c","affectsGlobalScope":true,"impliedFormat":1},{"version":"0a969edff4bd52585473d24995c5ef223f6652d6ef46193309b3921d65dd4376","affectsGlobalScope":true,"impliedFormat":1},{"version":"9e9fbd7030c440b33d021da145d3232984c8bb7916f277e8ffd3dc2e3eae2bdb","affectsGlobalScope":true,"impliedFormat":1},{"version":"811ec78f7fefcabbda4bfa93b3eb67d9ae166ef95f9bff989d964061cbf81a0c","affectsGlobalScope":true,"impliedFormat":1},{"version":"717937616a17072082152a2ef351cb51f98802fb4b2fdabd32399843875974ca","affectsGlobalScope":true,"impliedFormat":1},{"version":"d7e7d9b7b50e5f22c915b525acc5a49a7a6584cf8f62d0569e557c5cfc4b2ac2","affectsGlobalScope":true,"impliedFormat":1},{"version":"71c37f4c9543f31dfced6c7840e068c5a5aacb7b89111a4364b1d5276b852557","affectsGlobalScope":true,"impliedFormat":1},{"version":"576711e016cf4f1804676043e6a0a5414252560eb57de9faceee34d79798c850","affectsGlobalScope":true,"impliedFormat":1},{"version":"89c1b1281ba7b8a96efc676b11b264de7a8374c5ea1e6617f11880a13fc56dc6","affectsGlobalScope":true,"impliedFormat":1},{"version":"74f7fa2d027d5b33eb0471c8e82a6c87216223181ec31247c357a3e8e2fddc5b","affectsGlobalScope":true,"impliedFormat":1},{"version":"1a94697425a99354df73d9c8291e2ecd4dddd370aed4023c2d6dee6cccb32666","affectsGlobalScope":true,"impliedFormat":1},{"version":"063600664504610fe3e99b717a1223f8b1900087fab0b4cad1496a114744f8df","affectsGlobalScope":true,"impliedFormat":1},{"version":"934019d7e3c81950f9a8426d093458b65d5aff2c7c1511233c0fd5b941e608ab","affectsGlobalScope":true,"impliedFormat":1},{"version":"bf14a426dbbf1022d11bd08d6b8e709a2e9d246f0c6c1032f3b2edb9a902adbe","affectsGlobalScope":true,"impliedFormat":1},{"version":"e3f9fc0ec0b96a9e642f11eda09c0be83a61c7b336977f8b9fdb1e9788e925fe","affectsGlobalScope":true,"impliedFormat":1},{"version":"59fb2c069260b4ba00b5643b907ef5d5341b167e7d1dbf58dfd895658bda2867","affectsGlobalScope":true,"impliedFormat":1},{"version":"479553e3779be7d4f68e9f40cdb82d038e5ef7592010100410723ceced22a0f7","affectsGlobalScope":true,"impliedFormat":1},{"version":"368af93f74c9c932edd84c58883e736c9e3d53cec1fe24c0b0ff451f529ceab1","affectsGlobalScope":true,"impliedFormat":1},{"version":"33358442698bb565130f52ba79bfd3d4d484ac85fe33f3cb1759c54d18201393","affectsGlobalScope":true,"impliedFormat":1},{"version":"782dec38049b92d4e85c1585fbea5474a219c6984a35b004963b00beb1aab538","affectsGlobalScope":true,"impliedFormat":1},{"version":"70521b6ab0dcba37539e5303104f29b721bfb2940b2776da4cc818c07e1fefc1","affectsGlobalScope":true,"impliedFormat":1},{"version":"030e350db2525514580ed054f712ffb22d273e6bc7eddc1bb7eda1e0ba5d395e","affectsGlobalScope":true,"impliedFormat":1},{"version":"d153a11543fd884b596587ccd97aebbeed950b26933ee000f94009f1ab142848","affectsGlobalScope":true,"impliedFormat":1},{"version":"21d819c173c0cf7cc3ce57c3276e77fd9a8a01d35a06ad87158781515c9a438a","impliedFormat":1},{"version":"613b21ccdf3be6329d56e6caa13b258c842edf8377be7bc9f014ed14cdcfc308","affectsGlobalScope":true,"impliedFormat":1},{"version":"2d1319e6b5d0efd8c5eae07eb864a00102151e8b9afddd2d45db52e9aae002c4","affectsGlobalScope":true,"impliedFormat":1},{"version":"5929864ce17fba74232584d90cb721a89b7ad277220627cc97054ba15a98ea8f","impliedFormat":1},{"version":"24bd580b5743dc56402c440dc7f9a4f5d592ad7a419f25414d37a7bfe11e342b","impliedFormat":1},{"version":"25c8056edf4314820382a5fdb4bb7816999acdcb929c8f75e3f39473b87e85bc","impliedFormat":1},{"version":"c464d66b20788266e5353b48dc4aa6bc0dc4a707276df1e7152ab0c9ae21fad8","impliedFormat":1},{"version":"78d0d27c130d35c60b5e5566c9f1e5be77caf39804636bc1a40133919a949f21","impliedFormat":1},{"version":"c6fd2c5a395f2432786c9cb8deb870b9b0e8ff7e22c029954fabdd692bff6195","impliedFormat":1},{"version":"1d6e127068ea8e104a912e42fc0a110e2aa5a66a356a917a163e8cf9a65e4a75","impliedFormat":1},{"version":"5ded6427296cdf3b9542de4471d2aa8d3983671d4cac0f4bf9c637208d1ced43","impliedFormat":1},{"version":"6bdc71028db658243775263e93a7db2fd2abfce3ca569c3cca5aee6ed5eb186d","impliedFormat":1},{"version":"cadc8aced301244057c4e7e73fbcae534b0f5b12a37b150d80e5a45aa4bebcbd","impliedFormat":1},{"version":"385aab901643aa54e1c36f5ef3107913b10d1b5bb8cbcd933d4263b80a0d7f20","impliedFormat":1},{"version":"9670d44354bab9d9982eca21945686b5c24a3f893db73c0dae0fd74217a4c219","impliedFormat":1},{"version":"0b8a9268adaf4da35e7fa830c8981cfa22adbbe5b3f6f5ab91f6658899e657a7","impliedFormat":1},{"version":"11396ed8a44c02ab9798b7dca436009f866e8dae3c9c25e8c1fbc396880bf1bb","impliedFormat":1},{"version":"ba7bc87d01492633cb5a0e5da8a4a42a1c86270e7b3d2dea5d156828a84e4882","impliedFormat":1},{"version":"4893a895ea92c85345017a04ed427cbd6a1710453338df26881a6019432febdd","impliedFormat":1},{"version":"c21dc52e277bcfc75fac0436ccb75c204f9e1b3fa5e12729670910639f27343e","impliedFormat":1},{"version":"13f6f39e12b1518c6650bbb220c8985999020fe0f21d818e28f512b7771d00f9","impliedFormat":1},{"version":"9b5369969f6e7175740bf51223112ff209f94ba43ecd3bb09eefff9fd675624a","impliedFormat":1},{"version":"4fe9e626e7164748e8769bbf74b538e09607f07ed17c2f20af8d680ee49fc1da","impliedFormat":1},{"version":"24515859bc0b836719105bb6cc3d68255042a9f02a6022b3187948b204946bd2","impliedFormat":1},{"version":"ea0148f897b45a76544ae179784c95af1bd6721b8610af9ffa467a518a086a43","impliedFormat":1},{"version":"24c6a117721e606c9984335f71711877293a9651e44f59f3d21c1ea0856f9cc9","impliedFormat":1},{"version":"dd3273ead9fbde62a72949c97dbec2247ea08e0c6952e701a483d74ef92d6a17","impliedFormat":1},{"version":"405822be75ad3e4d162e07439bac80c6bcc6dbae1929e179cf467ec0b9ee4e2e","impliedFormat":1},{"version":"0db18c6e78ea846316c012478888f33c11ffadab9efd1cc8bcc12daded7a60b6","impliedFormat":1},{"version":"4d2b0eb911816f66abe4970898f97a2cfc902bcd743cbfa5017fad79f7ef90d8","impliedFormat":1},{"version":"bd0532fd6556073727d28da0edfd1736417a3f9f394877b6d5ef6ad88fba1d1a","impliedFormat":1},{"version":"89167d696a849fce5ca508032aabfe901c0868f833a8625d5a9c6e861ef935d2","impliedFormat":1},{"version":"e53a3c2a9f624d90f24bf4588aacd223e7bec1b9d0d479b68d2f4a9e6011147f","impliedFormat":1},{"version":"24b8685c62562f5d98615c5a0c1d05f297cf5065f15246edfe99e81ec4c0e011","impliedFormat":1},{"version":"93507c745e8f29090efb99399c3f77bec07db17acd75634249dc92f961573387","impliedFormat":1},{"version":"339dc5265ee5ed92e536a93a04c4ebbc2128f45eeec6ed29f379e0085283542c","impliedFormat":1},{"version":"4732aec92b20fb28c5fe9ad99521fb59974289ed1e45aecb282616202184064f","impliedFormat":1},{"version":"2e85db9e6fd73cfa3d7f28e0ab6b55417ea18931423bd47b409a96e4a169e8e6","impliedFormat":1},{"version":"c46e079fe54c76f95c67fb89081b3e399da2c7d109e7dca8e4b58d83e332e605","impliedFormat":1},{"version":"bf67d53d168abc1298888693338cb82854bdb2e69ef83f8a0092093c2d562107","impliedFormat":1},{"version":"81184fe8e67d78ac4e5374650f0892d547d665d77da2b2f544b5d84729c4a15d","affectsGlobalScope":true,"impliedFormat":1},{"version":"f52e8dacc97d71dcc96af29e49584353f9c54cb916d132e3e768d8b8129c928d","impliedFormat":1},{"version":"7394959e5a741b185456e1ef5d64599c36c60a323207450991e7a42e08911419","impliedFormat":1},{"version":"76103716ba397bbb61f9fa9c9090dca59f39f9047cb1352b2179c5d8e7f4e8d0","impliedFormat":1},{"version":"53eac70430b30089a3a1959d8306b0f9cfaf0de75224b68ef25243e0b5ad1ca3","affectsGlobalScope":true,"impliedFormat":1},{"version":"4314c7a11517e221f7296b46547dbc4df047115b182f544d072bdccffa57fc72","impliedFormat":1},{"version":"115971d64632ea4742b5b115fb64ed04bcaae2c3c342f13d9ba7e3f9ee39c4e7","impliedFormat":1},{"version":"c2510f124c0293ab80b1777c44d80f812b75612f297b9857406468c0f4dafe29","affectsGlobalScope":true,"impliedFormat":1},{"version":"a40826e8476694e90da94aa008283a7de50d1dafd37beada623863f1901cb7fb","impliedFormat":1},{"version":"a76037255d4e7af8b20d191a4d3ad13236fba352239d3d9d54868a98dbb222f5","affectsGlobalScope":true,"impliedFormat":1},{"version":"24642567d3729bcc545bacb65ee7c0db423400c7f1ef757cab25d05650064f98","impliedFormat":1},{"version":"e6f5a38687bebe43a4cef426b69d34373ef68be9a6b1538ec0a371e69f309354","impliedFormat":1},{"version":"a6bf63d17324010ca1fbf0389cab83f93389bb0b9a01dc8a346d092f65b3605f","impliedFormat":1},{"version":"e009777bef4b023a999b2e5b9a136ff2cde37dc3f77c744a02840f05b18be8ff","impliedFormat":1},{"version":"1e0d1f8b0adfa0b0330e028c7941b5a98c08b600efe7f14d2d2a00854fb2f393","impliedFormat":1},{"version":"ee1ee365d88c4c6c0c0a5a5701d66ebc27ccd0bcfcfaa482c6e2e7fe7b98edf7","affectsGlobalScope":true,"impliedFormat":1},{"version":"875928df2f3e9a3aed4019539a15d04ff6140a06df6cd1b2feb836d22a81eaca","affectsGlobalScope":true,"impliedFormat":1},{"version":"20b97c3368b1a63d2156deea35d03b125bb07908906eb35e0438042a3bbb3e71","impliedFormat":1},{"version":"f65eecc63138013d13fefea9092e83c3043cb52a5e351d22ea194e81021c1cd5","impliedFormat":1},{"version":"4617299caf33afef24b5e074e6d20ce8f510dd212cebd75884ef27c64457a77b","impliedFormat":1},{"version":"fa56be9b96f747e93b895d8dc2aa4fb9f0816743e6e2abb9d60705e88d4743a2","impliedFormat":1},{"version":"8257c55ff6bff6169142a35fce6811b511d857b4ae4f522cdb6ce20fd2116b2c","impliedFormat":1},{"version":"6d386bc0d7f3afa1d401afc3e00ed6b09205a354a9795196caed937494a713e6","impliedFormat":1},{"version":"5990bd8b9bc91f6e90269685ff5a154eeda52c18238f89f0101fb4d08cd80476","affectsGlobalScope":true,"impliedFormat":1},{"version":"94c4187083503a74f4544503b5a30e2bd7af0032dc739b0c9a7ce87f8bddc7b9","impliedFormat":1},{"version":"b1b6ee0d012aeebe11d776a155d8979730440082797695fc8e2a5c326285678f","impliedFormat":1},{"version":"45875bcae57270aeb3ebc73a5e3fb4c7b9d91d6b045f107c1d8513c28ece71c0","impliedFormat":1},{"version":"3eb62baae4df08c9173e6903d3ca45942ccec8c3659b0565684a75f3292cffbb","affectsGlobalScope":true,"impliedFormat":1},{"version":"6f6abdaf8764ef01a552a958f45e795b5e79153b87ddad3af5264b86d2681b72","affectsGlobalScope":true,"impliedFormat":1},{"version":"3f16a7e4deafa527ed9995a772bb380eb7d3c2c0fd4ae178c5263ed18394db2c","impliedFormat":1},{"version":"c6b4e0a02545304935ecbf7de7a8e056a31bb50939b5b321c9d50a405b5a0bba","impliedFormat":1},{"version":"fab29e6d649aa074a6b91e3bdf2bff484934a46067f6ee97a30fcd9762ae2213","impliedFormat":1},{"version":"8145e07aad6da5f23f2fcd8c8e4c5c13fb26ee986a79d03b0829b8fce152d8b2","impliedFormat":1},{"version":"e1120271ebbc9952fdc7b2dd3e145560e52e06956345e6fdf91d70ca4886464f","impliedFormat":1},{"version":"15c5e91b5f08be34a78e3d976179bf5b7a9cc28dc0ef1ffebffeb3c7812a2dca","impliedFormat":1},{"version":"a8f06c2382a30b7cb89ad2dfc48fc3b2b490f3dafcd839dadc008e4e5d57031d","impliedFormat":1},{"version":"553870e516f8c772b89f3820576152ebc70181d7994d96917bb943e37da7f8a7","impliedFormat":1},{"version":"37ba7b45141a45ce6e80e66f2a96c8a5ab1bcef0fc2d0f56bb58df96ec67e972","impliedFormat":1},{"version":"93452d394fdd1dc551ec62f5042366f011a00d342d36d50793b3529bfc9bd633","impliedFormat":1},{"version":"745c4240220559bd340c8aeb6e3c5270a709d3565e934dc22a69c304703956bc","affectsGlobalScope":true,"impliedFormat":1},{"version":"2754d8221d77c7b382096651925eb476f1066b3348da4b73fe71ced7801edada","impliedFormat":1},{"version":"918d3b03a75858dcd5dbb275f19448b6b9a222aa8fc8471aca38c28a32ecb40f","affectsGlobalScope":true,"impliedFormat":1},{"version":"bef91efa0baea5d0e0f0f27b574a8bc100ce62a6d7e70220a0d58af6acab5e89","affectsGlobalScope":true,"impliedFormat":1},{"version":"282fd2a1268a25345b830497b4b7bf5037a5e04f6a9c44c840cb605e19fea841","impliedFormat":1},{"version":"5360a27d3ebca11b224d7d3e38e3e2c63f8290cb1fcf6c3610401898f8e68bc3","impliedFormat":1},{"version":"66ba1b2c3e3a3644a1011cd530fb444a96b1b2dfe2f5e837a002d41a1a799e60","impliedFormat":1},{"version":"7e514f5b852fdbc166b539fdd1f4e9114f29911592a5eb10a94bb3a13ccac3c4","impliedFormat":1},{"version":"7d6ff413e198d25639f9f01f16673e7df4e4bd2875a42455afd4ecc02ef156da","affectsGlobalScope":true,"impliedFormat":1},{"version":"6bd91a2a356600dee28eb0438082d0799a18a974a6537c4410a796bab749813c","affectsGlobalScope":true,"impliedFormat":1},{"version":"a5c09990a37469b0311a92ce8feeb8682e83918723aedbd445bd7a0f510eaaa3","impliedFormat":1},{"version":"ae25afbbf1ed5df63a177d67b9048bf7481067f1b8dc9c39212e59db94fc9fc6","impliedFormat":1},{"version":"ac5ed35e649cdd8143131964336ab9076937fa91802ec760b3ea63b59175c10a","impliedFormat":1},{"version":"89332fc3cc945c8df2bc0aead55230430a0dabd3277c39a43315e00330de97a6","affectsGlobalScope":true,"impliedFormat":1},{"version":"78dc0513cc4f1642906b74dda42146bcbd9df7401717d6e89ea6d72d12ecb539","impliedFormat":1},{"version":"171fd8807643c46a9d17e843959abdf10480d57d60d38d061fb44a4c8d4a8cc4","impliedFormat":1},{"version":"785b9d575b49124ce01b46f5b9402157c7611e6532effa562ac6aebec0074dfc","impliedFormat":1},{"version":"207bee54c60bfe26feca8ef79922f66fd091092a9d24aa12daea1b340fa7e0ee","affectsGlobalScope":true,"impliedFormat":1},{"version":"a660aa95476042d3fdcc1343cf6bb8fdf24772d31712b1db321c5a4dcc325434","impliedFormat":1},{"version":"282f98006ed7fa9bb2cd9bdbe2524595cfc4bcd58a0bb3232e4519f2138df811","impliedFormat":1},{"version":"6222e987b58abfe92597e1273ad7233626285bc2d78409d4a7b113d81a83496b","impliedFormat":1},{"version":"cbe726263ae9a7bf32352380f7e8ab66ee25b3457137e316929269c19e18a2be","impliedFormat":1},{"version":"8b96046bf5fb0a815cba6b0880d9f97b7f3a93cf187e8dcfe8e2792e97f38f87","impliedFormat":99},{"version":"bacf2c84cf448b2cd02c717ad46c3d7fd530e0c91282888c923ad64810a4d511","affectsGlobalScope":true,"impliedFormat":1},{"version":"402e5c534fb2b85fa771170595db3ac0dd532112c8fa44fc23f233bc6967488b","impliedFormat":1},{"version":"8885cf05f3e2abf117590bbb951dcf6359e3e5ac462af1c901cfd24c6a6472e2","impliedFormat":1},{"version":"4d979e3c12ffb6497d2b1dc5613130196d986fff764c4526360c0716a162e7e7","impliedFormat":1},{"version":"e61df3640a38d535fd4bc9f4a53aef17c296b58dc4b6394fd576b808dd2fe5e6","impliedFormat":1},{"version":"80781460eca408fe8d2937d9fdbbb780d6aac35f549621e6200c9bee1da5b8fe","impliedFormat":1},{"version":"4719c209b9c00b579553859407a7e5dcfaa1c472994bd62aa5dd3cc0757eb077","impliedFormat":1},{"version":"7ec359bbc29b69d4063fe7dad0baaf35f1856f914db16b3f4f6e3e1bca4099fa","impliedFormat":1},{"version":"b9261ac3e9944d3d72c5ee4cf888ad35d9743a5563405c6963c4e43ee3708ca4","impliedFormat":1},{"version":"c84fd54e8400def0d1ef1569cafd02e9f39a622df9fa69b57ccc82128856b916","impliedFormat":1},{"version":"a022503e75d6953d0e82c2c564508a5c7f8556fad5d7f971372d2d40479e4034","impliedFormat":1},{"version":"2ed6489ef46eb61442d067c08e87e3db501c0bfb2837eee4041a27bf3e792bb0","impliedFormat":1},{"version":"644491cde678bd462bb922c1d0cfab8f17d626b195ccb7f008612dc31f445d2d","impliedFormat":1},{"version":"d60fe6d59d4e19ecc65359490b8535e359ca4b760d2cdb56897ca75d09d41ba3","impliedFormat":1},{"version":"f45a2a8b1777ecb50ed65e1a04bb899d4b676529b7921bd5d69b08573a00c832","impliedFormat":1},{"version":"774b783046ba3d473948132d28a69f52a295b2f378f2939304118ba571b1355e","impliedFormat":1},{"version":"b5734e05c787a40e4f9efe71f16683c5f7dc3bdb0de7c04440c855bd000f8fa7","impliedFormat":1},{"version":"14ba97f0907144771331e1349fdccb5a13526eba0647e6b447e572376d811b6f","impliedFormat":1},{"version":"2a771d907aebf9391ac1f50e4ad37952943515eeea0dcc7e78aa08f508294668","impliedFormat":1},{"version":"7165050eddaed878c2d2cd3cafcaf171072ac39e586a048c0603712b5555f536","impliedFormat":1},{"version":"26e629be9bbd94ea1d465af83ce5a3306890520695f07be6eb016f8d734d02be","impliedFormat":99},{"version":"82e687ebd99518bc63ea04b0c3810fb6e50aa6942decd0ca6f7a56d9b9a212a6","impliedFormat":99},{"version":"7f698624bbbb060ece7c0e51b7236520ebada74b747d7523c7df376453ed6fea","impliedFormat":1},{"version":"8f07f2b6514744ac96e51d7cb8518c0f4de319471237ea10cf688b8d0e9d0225","impliedFormat":1},{"version":"9ae0ca65717af0d3b554a26fd333ad9c78ad3910ad4b22140ff02acb63076927","impliedFormat":99},{"version":"03f1d83d61696326ea29c8a1c15cbaccf61e92598d53f2ccae06078531f42448","impliedFormat":1},{"version":"2c8e55457aaf4902941dfdba4061935922e8ee6e120539c9801cd7b400fae050","impliedFormat":1},{"version":"3a9313fe5ace558b8b18e85f931da10b259e738775f411c061e5f15787b138eb","impliedFormat":1},{"version":"670a76db379b27c8ff42f1ba927828a22862e2ab0b0908e38b671f0e912cc5ed","impliedFormat":1},{"version":"9e0cf651e8e2c5b9bebbabdff2f7c6f8cedd91b1d9afcc0a854cdff053a88f1b","impliedFormat":1},{"version":"069bebfee29864e3955378107e243508b163e77ab10de6a5ee03ae06939f0bb9","impliedFormat":1},{"version":"f5e8546cfe500116aba8a6cb7ee171774b14a6db30d4bcd6e0aa5073e919e739","impliedFormat":99},{"version":"ce617e4e4fa2d6efaaf24906279a0cbfd3462a4b946af37b40a4577167069bf3","signature":"4b96dd19fd2949d28ce80e913412b0026dc421e5bf6c31d87c7b5eb11b5753b4"},{"version":"36a2e4c9a67439aca5f91bb304611d5ae6e20d420503e96c230cf8fcdc948d94","affectsGlobalScope":true,"impliedFormat":1},{"version":"8a8eb4ebffd85e589a1cc7c178e291626c359543403d58c9cd22b81fab5b1fb9","impliedFormat":1},{"version":"ed6b820c54de95b2510bb673490d61c7f2187f532a339d8d04981645a918961f","impliedFormat":1},{"version":"aa17748c522bd586f8712b1a308ea23af59c309b2fd278f6d4f406647c72e659","affectsGlobalScope":true,"impliedFormat":1},{"version":"a7ca2a9e61286d74bc37fe64e5dcd7da04607f7f5432f7c651b47b573fc76cef","impliedFormat":1},{"version":"f3d8c757e148ad968f0d98697987db363070abada5f503da3c06aefd9d4248c1","impliedFormat":1},{"version":"17ed71200119e86ccef2d96b73b02ce8854b76ad6bd21b5021d4269bec527b5f","impliedFormat":1},{"version":"cfb95dbcdee02402fb9373c62ec4ba735b5479e5d879f39e7c23fe1d58186e31","affectsGlobalScope":true,"impliedFormat":1},{"version":"480ffa66827143d60025514f0d979f7bc790024821e5ecc12967ce13a7e3e08a","impliedFormat":1}],"root":[186],"options":{"allowSyntheticDefaultImports":true,"composite":true,"module":99,"skipLibCheck":true,"strict":true},"referencedMap":[[181,1],[179,2],[184,3],[180,1],[182,4],[183,1],[147,2],[191,5],[192,2],[93,6],[94,6],[95,7],[96,8],[97,9],[98,10],[49,2],[52,11],[50,2],[51,2],[99,12],[100,13],[101,14],[102,15],[103,16],[104,17],[105,17],[107,18],[106,19],[108,20],[109,21],[110,22],[92,23],[111,24],[112,25],[113,26],[114,27],[115,28],[116,29],[117,30],[118,31],[119,32],[120,33],[121,34],[122,35],[123,36],[124,36],[125,37],[126,2],[127,2],[128,38],[130,39],[129,40],[131,41],[132,42],[133,43],[134,44],[135,45],[136,46],[137,47],[54,48],[53,2],[146,49],[138,50],[139,51],[140,52],[141,53],[142,54],[143,55],[144,56],[145,57],[189,2],[193,5],[187,2],[190,58],[194,59],[195,2],[185,60],[188,2],[154,2],[149,61],[148,62],[155,2],[1,2],[47,2],[48,2],[9,2],[13,2],[12,2],[3,2],[14,2],[15,2],[16,2],[17,2],[18,2],[19,2],[20,2],[21,2],[4,2],[22,2],[5,2],[23,2],[27,2],[24,2],[25,2],[26,2],[28,2],[29,2],[30,2],[6,2],[31,2],[32,2],[33,2],[34,2],[7,2],[38,2],[35,2],[36,2],[37,2],[39,2],[8,2],[40,2],[45,2],[46,2],[41,2],[42,2],[43,2],[44,2],[2,2],[11,2],[10,2],[70,63],[80,64],[69,63],[90,65],[61,66],[60,67],[89,68],[83,69],[88,70],[63,71],[77,72],[62,73],[86,74],[58,75],[57,68],[87,76],[59,77],[64,78],[65,2],[68,78],[55,2],[91,79],[81,80],[72,81],[73,82],[75,83],[71,84],[74,85],[84,68],[66,86],[67,87],[76,88],[56,89],[79,80],[78,78],[82,2],[85,90],[178,91],[175,92],[153,93],[171,94],[169,95],[170,96],[158,97],[159,95],[166,98],[157,99],[162,100],[172,2],[163,101],[168,102],[174,103],[173,104],[156,105],[164,106],[165,107],[160,108],[167,94],[161,109],[151,110],[150,2],[152,111],[176,2],[177,112],[186,113]],"latestChangedDtsFile":"./vite.config.d.ts","version":"5.6.3"}
+{"fileNames":["./node_modules/typescript/lib/lib.d.ts","./node_modules/typescript/lib/lib.es5.d.ts","./node_modules/typescript/lib/lib.es2015.d.ts","./node_modules/typescript/lib/lib.es2016.d.ts","./node_modules/typescript/lib/lib.es2017.d.ts","./node_modules/typescript/lib/lib.es2018.d.ts","./node_modules/typescript/lib/lib.es2019.d.ts","./node_modules/typescript/lib/lib.es2020.d.ts","./node_modules/typescript/lib/lib.dom.d.ts","./node_modules/typescript/lib/lib.webworker.importscripts.d.ts","./node_modules/typescript/lib/lib.scripthost.d.ts","./node_modules/typescript/lib/lib.es2015.core.d.ts","./node_modules/typescript/lib/lib.es2015.collection.d.ts","./node_modules/typescript/lib/lib.es2015.generator.d.ts","./node_modules/typescript/lib/lib.es2015.iterable.d.ts","./node_modules/typescript/lib/lib.es2015.promise.d.ts","./node_modules/typescript/lib/lib.es2015.proxy.d.ts","./node_modules/typescript/lib/lib.es2015.reflect.d.ts","./node_modules/typescript/lib/lib.es2015.symbol.d.ts","./node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts","./node_modules/typescript/lib/lib.es2016.array.include.d.ts","./node_modules/typescript/lib/lib.es2016.intl.d.ts","./node_modules/typescript/lib/lib.es2017.date.d.ts","./node_modules/typescript/lib/lib.es2017.object.d.ts","./node_modules/typescript/lib/lib.es2017.sharedmemory.d.ts","./node_modules/typescript/lib/lib.es2017.string.d.ts","./node_modules/typescript/lib/lib.es2017.intl.d.ts","./node_modules/typescript/lib/lib.es2017.typedarrays.d.ts","./node_modules/typescript/lib/lib.es2018.asyncgenerator.d.ts","./node_modules/typescript/lib/lib.es2018.asynciterable.d.ts","./node_modules/typescript/lib/lib.es2018.intl.d.ts","./node_modules/typescript/lib/lib.es2018.promise.d.ts","./node_modules/typescript/lib/lib.es2018.regexp.d.ts","./node_modules/typescript/lib/lib.es2019.array.d.ts","./node_modules/typescript/lib/lib.es2019.object.d.ts","./node_modules/typescript/lib/lib.es2019.string.d.ts","./node_modules/typescript/lib/lib.es2019.symbol.d.ts","./node_modules/typescript/lib/lib.es2019.intl.d.ts","./node_modules/typescript/lib/lib.es2020.bigint.d.ts","./node_modules/typescript/lib/lib.es2020.date.d.ts","./node_modules/typescript/lib/lib.es2020.promise.d.ts","./node_modules/typescript/lib/lib.es2020.sharedmemory.d.ts","./node_modules/typescript/lib/lib.es2020.string.d.ts","./node_modules/typescript/lib/lib.es2020.symbol.wellknown.d.ts","./node_modules/typescript/lib/lib.es2020.intl.d.ts","./node_modules/typescript/lib/lib.es2020.number.d.ts","./node_modules/typescript/lib/lib.decorators.d.ts","./node_modules/typescript/lib/lib.decorators.legacy.d.ts","./node_modules/@types/node/compatibility/disposable.d.ts","./node_modules/@types/node/compatibility/indexable.d.ts","./node_modules/@types/node/compatibility/iterators.d.ts","./node_modules/@types/node/compatibility/index.d.ts","./node_modules/@types/node/ts5.6/globals.typedarray.d.ts","./node_modules/@types/node/ts5.6/buffer.buffer.d.ts","./node_modules/undici-types/header.d.ts","./node_modules/undici-types/readable.d.ts","./node_modules/undici-types/file.d.ts","./node_modules/undici-types/fetch.d.ts","./node_modules/undici-types/formdata.d.ts","./node_modules/undici-types/connector.d.ts","./node_modules/undici-types/client.d.ts","./node_modules/undici-types/errors.d.ts","./node_modules/undici-types/dispatcher.d.ts","./node_modules/undici-types/global-dispatcher.d.ts","./node_modules/undici-types/global-origin.d.ts","./node_modules/undici-types/pool-stats.d.ts","./node_modules/undici-types/pool.d.ts","./node_modules/undici-types/handlers.d.ts","./node_modules/undici-types/balanced-pool.d.ts","./node_modules/undici-types/agent.d.ts","./node_modules/undici-types/mock-interceptor.d.ts","./node_modules/undici-types/mock-agent.d.ts","./node_modules/undici-types/mock-client.d.ts","./node_modules/undici-types/mock-pool.d.ts","./node_modules/undici-types/mock-errors.d.ts","./node_modules/undici-types/proxy-agent.d.ts","./node_modules/undici-types/env-http-proxy-agent.d.ts","./node_modules/undici-types/retry-handler.d.ts","./node_modules/undici-types/retry-agent.d.ts","./node_modules/undici-types/api.d.ts","./node_modules/undici-types/interceptors.d.ts","./node_modules/undici-types/util.d.ts","./node_modules/undici-types/cookies.d.ts","./node_modules/undici-types/patch.d.ts","./node_modules/undici-types/websocket.d.ts","./node_modules/undici-types/eventsource.d.ts","./node_modules/undici-types/filereader.d.ts","./node_modules/undici-types/diagnostics-channel.d.ts","./node_modules/undici-types/content-type.d.ts","./node_modules/undici-types/cache.d.ts","./node_modules/undici-types/index.d.ts","./node_modules/@types/node/globals.d.ts","./node_modules/@types/node/assert.d.ts","./node_modules/@types/node/assert/strict.d.ts","./node_modules/@types/node/async_hooks.d.ts","./node_modules/@types/node/buffer.d.ts","./node_modules/@types/node/child_process.d.ts","./node_modules/@types/node/cluster.d.ts","./node_modules/@types/node/console.d.ts","./node_modules/@types/node/constants.d.ts","./node_modules/@types/node/crypto.d.ts","./node_modules/@types/node/dgram.d.ts","./node_modules/@types/node/diagnostics_channel.d.ts","./node_modules/@types/node/dns.d.ts","./node_modules/@types/node/dns/promises.d.ts","./node_modules/@types/node/domain.d.ts","./node_modules/@types/node/dom-events.d.ts","./node_modules/@types/node/events.d.ts","./node_modules/@types/node/fs.d.ts","./node_modules/@types/node/fs/promises.d.ts","./node_modules/@types/node/http.d.ts","./node_modules/@types/node/http2.d.ts","./node_modules/@types/node/https.d.ts","./node_modules/@types/node/inspector.d.ts","./node_modules/@types/node/module.d.ts","./node_modules/@types/node/net.d.ts","./node_modules/@types/node/os.d.ts","./node_modules/@types/node/path.d.ts","./node_modules/@types/node/perf_hooks.d.ts","./node_modules/@types/node/process.d.ts","./node_modules/@types/node/punycode.d.ts","./node_modules/@types/node/querystring.d.ts","./node_modules/@types/node/readline.d.ts","./node_modules/@types/node/readline/promises.d.ts","./node_modules/@types/node/repl.d.ts","./node_modules/@types/node/sea.d.ts","./node_modules/@types/node/sqlite.d.ts","./node_modules/@types/node/stream.d.ts","./node_modules/@types/node/stream/promises.d.ts","./node_modules/@types/node/stream/consumers.d.ts","./node_modules/@types/node/stream/web.d.ts","./node_modules/@types/node/string_decoder.d.ts","./node_modules/@types/node/test.d.ts","./node_modules/@types/node/timers.d.ts","./node_modules/@types/node/timers/promises.d.ts","./node_modules/@types/node/tls.d.ts","./node_modules/@types/node/trace_events.d.ts","./node_modules/@types/node/tty.d.ts","./node_modules/@types/node/url.d.ts","./node_modules/@types/node/util.d.ts","./node_modules/@types/node/v8.d.ts","./node_modules/@types/node/vm.d.ts","./node_modules/@types/node/wasi.d.ts","./node_modules/@types/node/worker_threads.d.ts","./node_modules/@types/node/zlib.d.ts","./node_modules/@types/node/ts5.6/index.d.ts","./node_modules/@types/estree/index.d.ts","./node_modules/rollup/dist/rollup.d.ts","./node_modules/rollup/dist/parseast.d.ts","./node_modules/vite/types/hmrpayload.d.ts","./node_modules/vite/types/customevent.d.ts","./node_modules/vite/types/hot.d.ts","./node_modules/vite/dist/node/types.d-agj9qkwt.d.ts","./node_modules/esbuild/lib/main.d.ts","./node_modules/source-map-js/source-map.d.ts","./node_modules/postcss/lib/previous-map.d.ts","./node_modules/postcss/lib/input.d.ts","./node_modules/postcss/lib/css-syntax-error.d.ts","./node_modules/postcss/lib/declaration.d.ts","./node_modules/postcss/lib/root.d.ts","./node_modules/postcss/lib/warning.d.ts","./node_modules/postcss/lib/lazy-result.d.ts","./node_modules/postcss/lib/no-work-result.d.ts","./node_modules/postcss/lib/processor.d.ts","./node_modules/postcss/lib/result.d.ts","./node_modules/postcss/lib/document.d.ts","./node_modules/postcss/lib/rule.d.ts","./node_modules/postcss/lib/node.d.ts","./node_modules/postcss/lib/comment.d.ts","./node_modules/postcss/lib/container.d.ts","./node_modules/postcss/lib/at-rule.d.ts","./node_modules/postcss/lib/list.d.ts","./node_modules/postcss/lib/postcss.d.ts","./node_modules/postcss/lib/postcss.d.mts","./node_modules/vite/dist/node/runtime.d.ts","./node_modules/vite/types/importglob.d.ts","./node_modules/vite/types/metadata.d.ts","./node_modules/vite/dist/node/index.d.ts","./node_modules/@babel/types/lib/index.d.ts","./node_modules/@types/babel__generator/index.d.ts","./node_modules/@babel/parser/typings/babel-parser.d.ts","./node_modules/@types/babel__template/index.d.ts","./node_modules/@types/babel__traverse/index.d.ts","./node_modules/@types/babel__core/index.d.ts","./node_modules/@vitejs/plugin-react/dist/index.d.mts","./vite.config.ts","./node_modules/@types/react/global.d.ts","./node_modules/csstype/index.d.ts","./node_modules/@types/prop-types/index.d.ts","./node_modules/@types/react/index.d.ts","./node_modules/@types/hoist-non-react-statics/index.d.ts","./node_modules/@types/json-schema/index.d.ts","./node_modules/@types/react-dom/index.d.ts","./node_modules/@types/styled-components/index.d.ts","./node_modules/@types/stylis/index.d.ts"],"fileIdsList":[[54,96,179],[54,96],[54,96,179,180,181,182,183],[54,96,179,181],[54,96,190],[54,93,96],[54,95,96],[54,96,101,131],[54,96,97,102,108,109,116,128,139],[54,96,97,98,108,116],[49,50,51,54,96],[54,96,99,140],[54,96,100,101,109,117],[54,96,101,128,136],[54,96,102,104,108,116],[54,95,96,103],[54,96,104,105],[54,96,108],[54,96,106,108],[54,95,96,108],[54,96,108,109,110,128,139],[54,96,108,109,110,123,128,131],[54,91,96,144],[54,91,96,104,108,111,116,128,139],[54,96,108,109,111,112,116,128,136,139],[54,96,111,113,128,136,139],[54,96,108,114],[54,96,115,139,144],[54,96,104,108,116,128],[54,96,117],[54,96,118],[54,95,96,119],[54,93,94,95,96,97,98,99,100,101,102,103,104,105,106,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145],[54,96,121],[54,96,122],[54,96,108,123,124],[54,96,123,125,140,142],[54,96,108,128,129,130,131],[54,96,128,130],[54,96,128,129],[54,96,131],[54,96,132],[54,93,96,128],[54,96,108,134,135],[54,96,134,135],[54,96,101,116,128,136],[54,96,137],[96],[52,53,54,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145],[54,96,116,138],[54,96,111,122,139],[54,96,101,140],[54,96,128,141],[54,96,115,142],[54,96,143],[54,96,101,108,110,119,128,139,142,144],[54,96,128,145],[54,96,187,188,189],[54,96,188,190,191],[54,96,178,184],[54,96,170],[54,96,168,170],[54,96,159,167,168,169,171],[54,96,157],[54,96,160,165,170,173],[54,96,156,173],[54,96,160,161,164,165,166,173],[54,96,160,161,162,164,165,173],[54,96,157,158,159,160,161,165,166,167,169,170,171,173],[54,96,173],[54,96,155,157,158,159,160,161,162,164,165,166,167,168,169,170,171,172],[54,96,155,173],[54,96,160,162,163,165,166,173],[54,96,164,173],[54,96,165,166,170,173],[54,96,158,168],[54,96,148,177],[54,96,147,148],[54,63,67,96,139],[54,63,96,128,139],[54,58,96],[54,60,63,96,136,139],[54,96,116,136],[54,96,146],[54,58,96,146],[54,60,63,96,116,139],[54,55,56,59,62,96,108,128,139],[54,63,70,96],[54,55,61,96],[54,63,84,85,96],[54,59,63,96,131,139,146],[54,84,96,146],[54,57,58,96,146],[54,63,96],[54,57,58,59,60,61,62,63,64,65,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,85,86,87,88,89,90,96],[54,63,78,96],[54,63,70,71,96],[54,61,63,71,72,96],[54,62,96],[54,55,58,63,96],[54,63,67,71,72,96],[54,67,96],[54,61,63,66,96,139],[54,55,60,63,70,96],[54,96,128],[54,58,63,84,96,144,146],[54,96,108,109,111,112,113,116,128,136,139,145,146,148,149,150,151,152,153,154,174,175,176,177],[54,96,150,151,152,153],[54,96,150,151,152],[54,96,150],[54,96,151],[54,96,148],[54,96,118,178,185]],"fileInfos":[{"version":"a7297ff837fcdf174a9524925966429eb8e5feecc2cc55cc06574e6b092c1eaa","impliedFormat":1},{"version":"44e584d4f6444f58791784f1d530875970993129442a847597db702a073ca68c","affectsGlobalScope":true,"impliedFormat":1},{"version":"45b7ab580deca34ae9729e97c13cfd999df04416a79116c3bfb483804f85ded4","impliedFormat":1},{"version":"3facaf05f0c5fc569c5649dd359892c98a85557e3e0c847964caeb67076f4d75","impliedFormat":1},{"version":"9a68c0c07ae2fa71b44384a839b7b8d81662a236d4b9ac30916718f7510b1b2d","impliedFormat":1},{"version":"5e1c4c362065a6b95ff952c0eab010f04dcd2c3494e813b493ecfd4fcb9fc0d8","impliedFormat":1},{"version":"68d73b4a11549f9c0b7d352d10e91e5dca8faa3322bfb77b661839c42b1ddec7","impliedFormat":1},{"version":"5efce4fc3c29ea84e8928f97adec086e3dc876365e0982cc8479a07954a3efd4","impliedFormat":1},{"version":"9e8ca8ed051c2697578c023d9c29d6df689a083561feba5c14aedee895853999","affectsGlobalScope":true,"impliedFormat":1},{"version":"80e18897e5884b6723488d4f5652167e7bb5024f946743134ecc4aa4ee731f89","affectsGlobalScope":true,"impliedFormat":1},{"version":"cd034f499c6cdca722b60c04b5b1b78e058487a7085a8e0d6fb50809947ee573","affectsGlobalScope":true,"impliedFormat":1},{"version":"6920e1448680767498a0b77c6a00a8e77d14d62c3da8967b171f1ddffa3c18e4","affectsGlobalScope":true,"impliedFormat":1},{"version":"dc2df20b1bcdc8c2d34af4926e2c3ab15ffe1160a63e58b7e09833f616efff44","affectsGlobalScope":true,"impliedFormat":1},{"version":"515d0b7b9bea2e31ea4ec968e9edd2c39d3eebf4a2d5cbd04e88639819ae3b71","affectsGlobalScope":true,"impliedFormat":1},{"version":"45d8ccb3dfd57355eb29749919142d4321a0aa4df6acdfc54e30433d7176600a","affectsGlobalScope":true,"impliedFormat":1},{"version":"0dc1e7ceda9b8b9b455c3a2d67b0412feab00bd2f66656cd8850e8831b08b537","affectsGlobalScope":true,"impliedFormat":1},{"version":"ce691fb9e5c64efb9547083e4a34091bcbe5bdb41027e310ebba8f7d96a98671","affectsGlobalScope":true,"impliedFormat":1},{"version":"8d697a2a929a5fcb38b7a65594020fcef05ec1630804a33748829c5ff53640d0","affectsGlobalScope":true,"impliedFormat":1},{"version":"4ff2a353abf8a80ee399af572debb8faab2d33ad38c4b4474cff7f26e7653b8d","affectsGlobalScope":true,"impliedFormat":1},{"version":"93495ff27b8746f55d19fcbcdbaccc99fd95f19d057aed1bd2c0cafe1335fbf0","affectsGlobalScope":true,"impliedFormat":1},{"version":"6fc23bb8c3965964be8c597310a2878b53a0306edb71d4b5a4dfe760186bcc01","affectsGlobalScope":true,"impliedFormat":1},{"version":"ea011c76963fb15ef1cdd7ce6a6808b46322c527de2077b6cfdf23ae6f5f9ec7","affectsGlobalScope":true,"impliedFormat":1},{"version":"38f0219c9e23c915ef9790ab1d680440d95419ad264816fa15009a8851e79119","affectsGlobalScope":true,"impliedFormat":1},{"version":"69ab18c3b76cd9b1be3d188eaf8bba06112ebbe2f47f6c322b5105a6fbc45a2e","affectsGlobalScope":true,"impliedFormat":1},{"version":"4738f2420687fd85629c9efb470793bb753709c2379e5f85bc1815d875ceadcd","affectsGlobalScope":true,"impliedFormat":1},{"version":"2f11ff796926e0832f9ae148008138ad583bd181899ab7dd768a2666700b1893","affectsGlobalScope":true,"impliedFormat":1},{"version":"4de680d5bb41c17f7f68e0419412ca23c98d5749dcaaea1896172f06435891fc","affectsGlobalScope":true,"impliedFormat":1},{"version":"9fc46429fbe091ac5ad2608c657201eb68b6f1b8341bd6d670047d32ed0a88fa","affectsGlobalScope":true,"impliedFormat":1},{"version":"ac9538681b19688c8eae65811b329d3744af679e0bdfa5d842d0e32524c73e1c","affectsGlobalScope":true,"impliedFormat":1},{"version":"0a969edff4bd52585473d24995c5ef223f6652d6ef46193309b3921d65dd4376","affectsGlobalScope":true,"impliedFormat":1},{"version":"9e9fbd7030c440b33d021da145d3232984c8bb7916f277e8ffd3dc2e3eae2bdb","affectsGlobalScope":true,"impliedFormat":1},{"version":"811ec78f7fefcabbda4bfa93b3eb67d9ae166ef95f9bff989d964061cbf81a0c","affectsGlobalScope":true,"impliedFormat":1},{"version":"717937616a17072082152a2ef351cb51f98802fb4b2fdabd32399843875974ca","affectsGlobalScope":true,"impliedFormat":1},{"version":"d7e7d9b7b50e5f22c915b525acc5a49a7a6584cf8f62d0569e557c5cfc4b2ac2","affectsGlobalScope":true,"impliedFormat":1},{"version":"71c37f4c9543f31dfced6c7840e068c5a5aacb7b89111a4364b1d5276b852557","affectsGlobalScope":true,"impliedFormat":1},{"version":"576711e016cf4f1804676043e6a0a5414252560eb57de9faceee34d79798c850","affectsGlobalScope":true,"impliedFormat":1},{"version":"89c1b1281ba7b8a96efc676b11b264de7a8374c5ea1e6617f11880a13fc56dc6","affectsGlobalScope":true,"impliedFormat":1},{"version":"74f7fa2d027d5b33eb0471c8e82a6c87216223181ec31247c357a3e8e2fddc5b","affectsGlobalScope":true,"impliedFormat":1},{"version":"1a94697425a99354df73d9c8291e2ecd4dddd370aed4023c2d6dee6cccb32666","affectsGlobalScope":true,"impliedFormat":1},{"version":"063600664504610fe3e99b717a1223f8b1900087fab0b4cad1496a114744f8df","affectsGlobalScope":true,"impliedFormat":1},{"version":"934019d7e3c81950f9a8426d093458b65d5aff2c7c1511233c0fd5b941e608ab","affectsGlobalScope":true,"impliedFormat":1},{"version":"bf14a426dbbf1022d11bd08d6b8e709a2e9d246f0c6c1032f3b2edb9a902adbe","affectsGlobalScope":true,"impliedFormat":1},{"version":"e3f9fc0ec0b96a9e642f11eda09c0be83a61c7b336977f8b9fdb1e9788e925fe","affectsGlobalScope":true,"impliedFormat":1},{"version":"59fb2c069260b4ba00b5643b907ef5d5341b167e7d1dbf58dfd895658bda2867","affectsGlobalScope":true,"impliedFormat":1},{"version":"479553e3779be7d4f68e9f40cdb82d038e5ef7592010100410723ceced22a0f7","affectsGlobalScope":true,"impliedFormat":1},{"version":"368af93f74c9c932edd84c58883e736c9e3d53cec1fe24c0b0ff451f529ceab1","affectsGlobalScope":true,"impliedFormat":1},{"version":"33358442698bb565130f52ba79bfd3d4d484ac85fe33f3cb1759c54d18201393","affectsGlobalScope":true,"impliedFormat":1},{"version":"782dec38049b92d4e85c1585fbea5474a219c6984a35b004963b00beb1aab538","affectsGlobalScope":true,"impliedFormat":1},{"version":"70521b6ab0dcba37539e5303104f29b721bfb2940b2776da4cc818c07e1fefc1","affectsGlobalScope":true,"impliedFormat":1},{"version":"030e350db2525514580ed054f712ffb22d273e6bc7eddc1bb7eda1e0ba5d395e","affectsGlobalScope":true,"impliedFormat":1},{"version":"d153a11543fd884b596587ccd97aebbeed950b26933ee000f94009f1ab142848","affectsGlobalScope":true,"impliedFormat":1},{"version":"21d819c173c0cf7cc3ce57c3276e77fd9a8a01d35a06ad87158781515c9a438a","impliedFormat":1},{"version":"613b21ccdf3be6329d56e6caa13b258c842edf8377be7bc9f014ed14cdcfc308","affectsGlobalScope":true,"impliedFormat":1},{"version":"2d1319e6b5d0efd8c5eae07eb864a00102151e8b9afddd2d45db52e9aae002c4","affectsGlobalScope":true,"impliedFormat":1},{"version":"5929864ce17fba74232584d90cb721a89b7ad277220627cc97054ba15a98ea8f","impliedFormat":1},{"version":"24bd580b5743dc56402c440dc7f9a4f5d592ad7a419f25414d37a7bfe11e342b","impliedFormat":1},{"version":"25c8056edf4314820382a5fdb4bb7816999acdcb929c8f75e3f39473b87e85bc","impliedFormat":1},{"version":"c464d66b20788266e5353b48dc4aa6bc0dc4a707276df1e7152ab0c9ae21fad8","impliedFormat":1},{"version":"78d0d27c130d35c60b5e5566c9f1e5be77caf39804636bc1a40133919a949f21","impliedFormat":1},{"version":"c6fd2c5a395f2432786c9cb8deb870b9b0e8ff7e22c029954fabdd692bff6195","impliedFormat":1},{"version":"1d6e127068ea8e104a912e42fc0a110e2aa5a66a356a917a163e8cf9a65e4a75","impliedFormat":1},{"version":"5ded6427296cdf3b9542de4471d2aa8d3983671d4cac0f4bf9c637208d1ced43","impliedFormat":1},{"version":"6bdc71028db658243775263e93a7db2fd2abfce3ca569c3cca5aee6ed5eb186d","impliedFormat":1},{"version":"cadc8aced301244057c4e7e73fbcae534b0f5b12a37b150d80e5a45aa4bebcbd","impliedFormat":1},{"version":"385aab901643aa54e1c36f5ef3107913b10d1b5bb8cbcd933d4263b80a0d7f20","impliedFormat":1},{"version":"9670d44354bab9d9982eca21945686b5c24a3f893db73c0dae0fd74217a4c219","impliedFormat":1},{"version":"0b8a9268adaf4da35e7fa830c8981cfa22adbbe5b3f6f5ab91f6658899e657a7","impliedFormat":1},{"version":"11396ed8a44c02ab9798b7dca436009f866e8dae3c9c25e8c1fbc396880bf1bb","impliedFormat":1},{"version":"ba7bc87d01492633cb5a0e5da8a4a42a1c86270e7b3d2dea5d156828a84e4882","impliedFormat":1},{"version":"4893a895ea92c85345017a04ed427cbd6a1710453338df26881a6019432febdd","impliedFormat":1},{"version":"c21dc52e277bcfc75fac0436ccb75c204f9e1b3fa5e12729670910639f27343e","impliedFormat":1},{"version":"13f6f39e12b1518c6650bbb220c8985999020fe0f21d818e28f512b7771d00f9","impliedFormat":1},{"version":"9b5369969f6e7175740bf51223112ff209f94ba43ecd3bb09eefff9fd675624a","impliedFormat":1},{"version":"4fe9e626e7164748e8769bbf74b538e09607f07ed17c2f20af8d680ee49fc1da","impliedFormat":1},{"version":"24515859bc0b836719105bb6cc3d68255042a9f02a6022b3187948b204946bd2","impliedFormat":1},{"version":"ea0148f897b45a76544ae179784c95af1bd6721b8610af9ffa467a518a086a43","impliedFormat":1},{"version":"24c6a117721e606c9984335f71711877293a9651e44f59f3d21c1ea0856f9cc9","impliedFormat":1},{"version":"dd3273ead9fbde62a72949c97dbec2247ea08e0c6952e701a483d74ef92d6a17","impliedFormat":1},{"version":"405822be75ad3e4d162e07439bac80c6bcc6dbae1929e179cf467ec0b9ee4e2e","impliedFormat":1},{"version":"0db18c6e78ea846316c012478888f33c11ffadab9efd1cc8bcc12daded7a60b6","impliedFormat":1},{"version":"4d2b0eb911816f66abe4970898f97a2cfc902bcd743cbfa5017fad79f7ef90d8","impliedFormat":1},{"version":"bd0532fd6556073727d28da0edfd1736417a3f9f394877b6d5ef6ad88fba1d1a","impliedFormat":1},{"version":"89167d696a849fce5ca508032aabfe901c0868f833a8625d5a9c6e861ef935d2","impliedFormat":1},{"version":"e53a3c2a9f624d90f24bf4588aacd223e7bec1b9d0d479b68d2f4a9e6011147f","impliedFormat":1},{"version":"24b8685c62562f5d98615c5a0c1d05f297cf5065f15246edfe99e81ec4c0e011","impliedFormat":1},{"version":"93507c745e8f29090efb99399c3f77bec07db17acd75634249dc92f961573387","impliedFormat":1},{"version":"339dc5265ee5ed92e536a93a04c4ebbc2128f45eeec6ed29f379e0085283542c","impliedFormat":1},{"version":"4732aec92b20fb28c5fe9ad99521fb59974289ed1e45aecb282616202184064f","impliedFormat":1},{"version":"2e85db9e6fd73cfa3d7f28e0ab6b55417ea18931423bd47b409a96e4a169e8e6","impliedFormat":1},{"version":"c46e079fe54c76f95c67fb89081b3e399da2c7d109e7dca8e4b58d83e332e605","impliedFormat":1},{"version":"bf67d53d168abc1298888693338cb82854bdb2e69ef83f8a0092093c2d562107","impliedFormat":1},{"version":"81184fe8e67d78ac4e5374650f0892d547d665d77da2b2f544b5d84729c4a15d","affectsGlobalScope":true,"impliedFormat":1},{"version":"f52e8dacc97d71dcc96af29e49584353f9c54cb916d132e3e768d8b8129c928d","impliedFormat":1},{"version":"7394959e5a741b185456e1ef5d64599c36c60a323207450991e7a42e08911419","impliedFormat":1},{"version":"76103716ba397bbb61f9fa9c9090dca59f39f9047cb1352b2179c5d8e7f4e8d0","impliedFormat":1},{"version":"53eac70430b30089a3a1959d8306b0f9cfaf0de75224b68ef25243e0b5ad1ca3","affectsGlobalScope":true,"impliedFormat":1},{"version":"4314c7a11517e221f7296b46547dbc4df047115b182f544d072bdccffa57fc72","impliedFormat":1},{"version":"115971d64632ea4742b5b115fb64ed04bcaae2c3c342f13d9ba7e3f9ee39c4e7","impliedFormat":1},{"version":"c2510f124c0293ab80b1777c44d80f812b75612f297b9857406468c0f4dafe29","affectsGlobalScope":true,"impliedFormat":1},{"version":"a40826e8476694e90da94aa008283a7de50d1dafd37beada623863f1901cb7fb","impliedFormat":1},{"version":"a76037255d4e7af8b20d191a4d3ad13236fba352239d3d9d54868a98dbb222f5","affectsGlobalScope":true,"impliedFormat":1},{"version":"24642567d3729bcc545bacb65ee7c0db423400c7f1ef757cab25d05650064f98","impliedFormat":1},{"version":"e6f5a38687bebe43a4cef426b69d34373ef68be9a6b1538ec0a371e69f309354","impliedFormat":1},{"version":"a6bf63d17324010ca1fbf0389cab83f93389bb0b9a01dc8a346d092f65b3605f","impliedFormat":1},{"version":"e009777bef4b023a999b2e5b9a136ff2cde37dc3f77c744a02840f05b18be8ff","impliedFormat":1},{"version":"1e0d1f8b0adfa0b0330e028c7941b5a98c08b600efe7f14d2d2a00854fb2f393","impliedFormat":1},{"version":"ee1ee365d88c4c6c0c0a5a5701d66ebc27ccd0bcfcfaa482c6e2e7fe7b98edf7","affectsGlobalScope":true,"impliedFormat":1},{"version":"875928df2f3e9a3aed4019539a15d04ff6140a06df6cd1b2feb836d22a81eaca","affectsGlobalScope":true,"impliedFormat":1},{"version":"20b97c3368b1a63d2156deea35d03b125bb07908906eb35e0438042a3bbb3e71","impliedFormat":1},{"version":"f65eecc63138013d13fefea9092e83c3043cb52a5e351d22ea194e81021c1cd5","impliedFormat":1},{"version":"4617299caf33afef24b5e074e6d20ce8f510dd212cebd75884ef27c64457a77b","impliedFormat":1},{"version":"fa56be9b96f747e93b895d8dc2aa4fb9f0816743e6e2abb9d60705e88d4743a2","impliedFormat":1},{"version":"8257c55ff6bff6169142a35fce6811b511d857b4ae4f522cdb6ce20fd2116b2c","impliedFormat":1},{"version":"6d386bc0d7f3afa1d401afc3e00ed6b09205a354a9795196caed937494a713e6","impliedFormat":1},{"version":"5990bd8b9bc91f6e90269685ff5a154eeda52c18238f89f0101fb4d08cd80476","affectsGlobalScope":true,"impliedFormat":1},{"version":"94c4187083503a74f4544503b5a30e2bd7af0032dc739b0c9a7ce87f8bddc7b9","impliedFormat":1},{"version":"b1b6ee0d012aeebe11d776a155d8979730440082797695fc8e2a5c326285678f","impliedFormat":1},{"version":"45875bcae57270aeb3ebc73a5e3fb4c7b9d91d6b045f107c1d8513c28ece71c0","impliedFormat":1},{"version":"3eb62baae4df08c9173e6903d3ca45942ccec8c3659b0565684a75f3292cffbb","affectsGlobalScope":true,"impliedFormat":1},{"version":"6f6abdaf8764ef01a552a958f45e795b5e79153b87ddad3af5264b86d2681b72","affectsGlobalScope":true,"impliedFormat":1},{"version":"3f16a7e4deafa527ed9995a772bb380eb7d3c2c0fd4ae178c5263ed18394db2c","impliedFormat":1},{"version":"c6b4e0a02545304935ecbf7de7a8e056a31bb50939b5b321c9d50a405b5a0bba","impliedFormat":1},{"version":"fab29e6d649aa074a6b91e3bdf2bff484934a46067f6ee97a30fcd9762ae2213","impliedFormat":1},{"version":"8145e07aad6da5f23f2fcd8c8e4c5c13fb26ee986a79d03b0829b8fce152d8b2","impliedFormat":1},{"version":"e1120271ebbc9952fdc7b2dd3e145560e52e06956345e6fdf91d70ca4886464f","impliedFormat":1},{"version":"15c5e91b5f08be34a78e3d976179bf5b7a9cc28dc0ef1ffebffeb3c7812a2dca","impliedFormat":1},{"version":"a8f06c2382a30b7cb89ad2dfc48fc3b2b490f3dafcd839dadc008e4e5d57031d","impliedFormat":1},{"version":"553870e516f8c772b89f3820576152ebc70181d7994d96917bb943e37da7f8a7","impliedFormat":1},{"version":"37ba7b45141a45ce6e80e66f2a96c8a5ab1bcef0fc2d0f56bb58df96ec67e972","impliedFormat":1},{"version":"93452d394fdd1dc551ec62f5042366f011a00d342d36d50793b3529bfc9bd633","impliedFormat":1},{"version":"745c4240220559bd340c8aeb6e3c5270a709d3565e934dc22a69c304703956bc","affectsGlobalScope":true,"impliedFormat":1},{"version":"2754d8221d77c7b382096651925eb476f1066b3348da4b73fe71ced7801edada","impliedFormat":1},{"version":"918d3b03a75858dcd5dbb275f19448b6b9a222aa8fc8471aca38c28a32ecb40f","affectsGlobalScope":true,"impliedFormat":1},{"version":"bef91efa0baea5d0e0f0f27b574a8bc100ce62a6d7e70220a0d58af6acab5e89","affectsGlobalScope":true,"impliedFormat":1},{"version":"282fd2a1268a25345b830497b4b7bf5037a5e04f6a9c44c840cb605e19fea841","impliedFormat":1},{"version":"5360a27d3ebca11b224d7d3e38e3e2c63f8290cb1fcf6c3610401898f8e68bc3","impliedFormat":1},{"version":"66ba1b2c3e3a3644a1011cd530fb444a96b1b2dfe2f5e837a002d41a1a799e60","impliedFormat":1},{"version":"7e514f5b852fdbc166b539fdd1f4e9114f29911592a5eb10a94bb3a13ccac3c4","impliedFormat":1},{"version":"7d6ff413e198d25639f9f01f16673e7df4e4bd2875a42455afd4ecc02ef156da","affectsGlobalScope":true,"impliedFormat":1},{"version":"6bd91a2a356600dee28eb0438082d0799a18a974a6537c4410a796bab749813c","affectsGlobalScope":true,"impliedFormat":1},{"version":"a5c09990a37469b0311a92ce8feeb8682e83918723aedbd445bd7a0f510eaaa3","impliedFormat":1},{"version":"ae25afbbf1ed5df63a177d67b9048bf7481067f1b8dc9c39212e59db94fc9fc6","impliedFormat":1},{"version":"ac5ed35e649cdd8143131964336ab9076937fa91802ec760b3ea63b59175c10a","impliedFormat":1},{"version":"89332fc3cc945c8df2bc0aead55230430a0dabd3277c39a43315e00330de97a6","affectsGlobalScope":true,"impliedFormat":1},{"version":"78dc0513cc4f1642906b74dda42146bcbd9df7401717d6e89ea6d72d12ecb539","impliedFormat":1},{"version":"171fd8807643c46a9d17e843959abdf10480d57d60d38d061fb44a4c8d4a8cc4","impliedFormat":1},{"version":"785b9d575b49124ce01b46f5b9402157c7611e6532effa562ac6aebec0074dfc","impliedFormat":1},{"version":"207bee54c60bfe26feca8ef79922f66fd091092a9d24aa12daea1b340fa7e0ee","affectsGlobalScope":true,"impliedFormat":1},{"version":"a660aa95476042d3fdcc1343cf6bb8fdf24772d31712b1db321c5a4dcc325434","impliedFormat":1},{"version":"282f98006ed7fa9bb2cd9bdbe2524595cfc4bcd58a0bb3232e4519f2138df811","impliedFormat":1},{"version":"6222e987b58abfe92597e1273ad7233626285bc2d78409d4a7b113d81a83496b","impliedFormat":1},{"version":"cbe726263ae9a7bf32352380f7e8ab66ee25b3457137e316929269c19e18a2be","impliedFormat":1},{"version":"8b96046bf5fb0a815cba6b0880d9f97b7f3a93cf187e8dcfe8e2792e97f38f87","impliedFormat":99},{"version":"bacf2c84cf448b2cd02c717ad46c3d7fd530e0c91282888c923ad64810a4d511","affectsGlobalScope":true,"impliedFormat":1},{"version":"402e5c534fb2b85fa771170595db3ac0dd532112c8fa44fc23f233bc6967488b","impliedFormat":1},{"version":"8885cf05f3e2abf117590bbb951dcf6359e3e5ac462af1c901cfd24c6a6472e2","impliedFormat":1},{"version":"4d979e3c12ffb6497d2b1dc5613130196d986fff764c4526360c0716a162e7e7","impliedFormat":1},{"version":"e61df3640a38d535fd4bc9f4a53aef17c296b58dc4b6394fd576b808dd2fe5e6","impliedFormat":1},{"version":"80781460eca408fe8d2937d9fdbbb780d6aac35f549621e6200c9bee1da5b8fe","impliedFormat":1},{"version":"4719c209b9c00b579553859407a7e5dcfaa1c472994bd62aa5dd3cc0757eb077","impliedFormat":1},{"version":"7ec359bbc29b69d4063fe7dad0baaf35f1856f914db16b3f4f6e3e1bca4099fa","impliedFormat":1},{"version":"b9261ac3e9944d3d72c5ee4cf888ad35d9743a5563405c6963c4e43ee3708ca4","impliedFormat":1},{"version":"c84fd54e8400def0d1ef1569cafd02e9f39a622df9fa69b57ccc82128856b916","impliedFormat":1},{"version":"a022503e75d6953d0e82c2c564508a5c7f8556fad5d7f971372d2d40479e4034","impliedFormat":1},{"version":"2ed6489ef46eb61442d067c08e87e3db501c0bfb2837eee4041a27bf3e792bb0","impliedFormat":1},{"version":"644491cde678bd462bb922c1d0cfab8f17d626b195ccb7f008612dc31f445d2d","impliedFormat":1},{"version":"d60fe6d59d4e19ecc65359490b8535e359ca4b760d2cdb56897ca75d09d41ba3","impliedFormat":1},{"version":"f45a2a8b1777ecb50ed65e1a04bb899d4b676529b7921bd5d69b08573a00c832","impliedFormat":1},{"version":"774b783046ba3d473948132d28a69f52a295b2f378f2939304118ba571b1355e","impliedFormat":1},{"version":"b5734e05c787a40e4f9efe71f16683c5f7dc3bdb0de7c04440c855bd000f8fa7","impliedFormat":1},{"version":"14ba97f0907144771331e1349fdccb5a13526eba0647e6b447e572376d811b6f","impliedFormat":1},{"version":"2a771d907aebf9391ac1f50e4ad37952943515eeea0dcc7e78aa08f508294668","impliedFormat":1},{"version":"7165050eddaed878c2d2cd3cafcaf171072ac39e586a048c0603712b5555f536","impliedFormat":1},{"version":"26e629be9bbd94ea1d465af83ce5a3306890520695f07be6eb016f8d734d02be","impliedFormat":99},{"version":"82e687ebd99518bc63ea04b0c3810fb6e50aa6942decd0ca6f7a56d9b9a212a6","impliedFormat":99},{"version":"7f698624bbbb060ece7c0e51b7236520ebada74b747d7523c7df376453ed6fea","impliedFormat":1},{"version":"8f07f2b6514744ac96e51d7cb8518c0f4de319471237ea10cf688b8d0e9d0225","impliedFormat":1},{"version":"9ae0ca65717af0d3b554a26fd333ad9c78ad3910ad4b22140ff02acb63076927","impliedFormat":99},{"version":"03f1d83d61696326ea29c8a1c15cbaccf61e92598d53f2ccae06078531f42448","impliedFormat":1},{"version":"2c8e55457aaf4902941dfdba4061935922e8ee6e120539c9801cd7b400fae050","impliedFormat":1},{"version":"3a9313fe5ace558b8b18e85f931da10b259e738775f411c061e5f15787b138eb","impliedFormat":1},{"version":"670a76db379b27c8ff42f1ba927828a22862e2ab0b0908e38b671f0e912cc5ed","impliedFormat":1},{"version":"9e0cf651e8e2c5b9bebbabdff2f7c6f8cedd91b1d9afcc0a854cdff053a88f1b","impliedFormat":1},{"version":"069bebfee29864e3955378107e243508b163e77ab10de6a5ee03ae06939f0bb9","impliedFormat":1},{"version":"f5e8546cfe500116aba8a6cb7ee171774b14a6db30d4bcd6e0aa5073e919e739","impliedFormat":99},{"version":"8ba418aac4ae68bf3cfcb45c85f6adcd3f919479a40e9339bb4e17bc0aeb781e","signature":"4b96dd19fd2949d28ce80e913412b0026dc421e5bf6c31d87c7b5eb11b5753b4"},{"version":"36a2e4c9a67439aca5f91bb304611d5ae6e20d420503e96c230cf8fcdc948d94","affectsGlobalScope":true,"impliedFormat":1},{"version":"8a8eb4ebffd85e589a1cc7c178e291626c359543403d58c9cd22b81fab5b1fb9","impliedFormat":1},{"version":"ed6b820c54de95b2510bb673490d61c7f2187f532a339d8d04981645a918961f","impliedFormat":1},{"version":"aa17748c522bd586f8712b1a308ea23af59c309b2fd278f6d4f406647c72e659","affectsGlobalScope":true,"impliedFormat":1},{"version":"a7ca2a9e61286d74bc37fe64e5dcd7da04607f7f5432f7c651b47b573fc76cef","impliedFormat":1},{"version":"f3d8c757e148ad968f0d98697987db363070abada5f503da3c06aefd9d4248c1","impliedFormat":1},{"version":"17ed71200119e86ccef2d96b73b02ce8854b76ad6bd21b5021d4269bec527b5f","impliedFormat":1},{"version":"cfb95dbcdee02402fb9373c62ec4ba735b5479e5d879f39e7c23fe1d58186e31","affectsGlobalScope":true,"impliedFormat":1},{"version":"480ffa66827143d60025514f0d979f7bc790024821e5ecc12967ce13a7e3e08a","impliedFormat":1}],"root":[186],"options":{"allowSyntheticDefaultImports":true,"composite":true,"module":99,"skipLibCheck":true,"strict":true},"referencedMap":[[181,1],[179,2],[184,3],[180,1],[182,4],[183,1],[147,2],[191,5],[192,2],[93,6],[94,6],[95,7],[96,8],[97,9],[98,10],[49,2],[52,11],[50,2],[51,2],[99,12],[100,13],[101,14],[102,15],[103,16],[104,17],[105,17],[107,18],[106,19],[108,20],[109,21],[110,22],[92,23],[111,24],[112,25],[113,26],[114,27],[115,28],[116,29],[117,30],[118,31],[119,32],[120,33],[121,34],[122,35],[123,36],[124,36],[125,37],[126,2],[127,2],[128,38],[130,39],[129,40],[131,41],[132,42],[133,43],[134,44],[135,45],[136,46],[137,47],[54,48],[53,2],[146,49],[138,50],[139,51],[140,52],[141,53],[142,54],[143,55],[144,56],[145,57],[189,2],[193,5],[187,2],[190,58],[194,59],[195,2],[185,60],[188,2],[154,2],[171,61],[169,62],[170,63],[158,64],[159,62],[166,65],[157,66],[162,67],[172,2],[163,68],[168,69],[174,70],[173,71],[156,72],[164,73],[165,74],[160,75],[167,61],[161,76],[149,77],[148,78],[155,2],[1,2],[47,2],[48,2],[9,2],[13,2],[12,2],[3,2],[14,2],[15,2],[16,2],[17,2],[18,2],[19,2],[20,2],[21,2],[4,2],[22,2],[5,2],[23,2],[27,2],[24,2],[25,2],[26,2],[28,2],[29,2],[30,2],[6,2],[31,2],[32,2],[33,2],[34,2],[7,2],[38,2],[35,2],[36,2],[37,2],[39,2],[8,2],[40,2],[45,2],[46,2],[41,2],[42,2],[43,2],[44,2],[2,2],[11,2],[10,2],[70,79],[80,80],[69,79],[90,81],[61,82],[60,83],[89,84],[83,85],[88,86],[63,87],[77,88],[62,89],[86,90],[58,91],[57,84],[87,92],[59,93],[64,94],[65,2],[68,94],[55,2],[91,95],[81,96],[72,97],[73,98],[75,99],[71,100],[74,101],[84,84],[66,102],[67,103],[76,104],[56,105],[79,96],[78,94],[82,2],[85,106],[178,107],[175,108],[153,109],[151,110],[150,2],[152,111],[176,2],[177,112],[186,113]],"latestChangedDtsFile":"./vite.config.d.ts","version":"5.6.3"}
 ```
 
 # tsconfig.tsbuildinfo
 
 ```tsbuildinfo
-{"root":["./src/vite-env.d.ts","./src/components/index.ts","./src/components/navbar/navbar.styles.ts","./src/components/navbar/index.ts","./src/data/mockdata.ts","./src/pages/home/home.styles.ts","./src/pages/home/index.ts","./src/styles/globalstyles-sc.ts","./src/styles/globalstyles.ts","./src/styles/styled.d.ts","./src/styles/tailwind.config.ts","./src/styles/theme-sc.ts","./src/styles/theme.ts","./src/types/global.d.ts","./src/types/images.d.ts","./src/types/navigation.ts","./src/types/paths.d.ts","./src/types/styled.d.ts","./src/app.tsx","./src/main.tsx","./src/components/background.tsx","./src/components/imagetest.tsx","./src/components/testtailwind.tsx","./src/components/animations/animatedtext.tsx","./src/components/animations/gearloader.tsx","./src/components/audioplayer/audioplayer.tsx","./src/components/bulkimagesloader/bulkimageloader-b4logo.tsx","./src/components/bulkimagesloader/bulkimageloader.tsx","./src/components/circularloader/circularloader.tsx","./src/components/imageloader/imageloader.tsx","./src/components/navbar/navbar.tsx","./src/components/sound/audioplayer.tsx","./src/components/sound/soundplayer.tsx","./src/pages/bulkloading/bulkloading.tsx","./src/pages/home/home.tsx","./src/pages/loader/loader.tsx","./src/pages/mashmediastudio/mashmediastudio.tsx","./src/styles/themeprovider.tsx"],"errors":true,"version":"5.6.3"}
+{"root":["./src/vite-env.d.ts","./src/components/index.ts","./src/components/navbar/navbar.styles.ts","./src/components/navbar/index.ts","./src/data/mockdata.ts","./src/pages/home/home.styles.ts","./src/pages/home/index.ts","./src/styles/globalstyles-sc.ts","./src/styles/globalstyles.ts","./src/styles/styled.d.ts","./src/styles/tailwind.config.ts","./src/styles/theme-sc.ts","./src/styles/theme.ts","./src/types/global.d.ts","./src/types/images.d.ts","./src/types/navigation.ts","./src/types/paths.d.ts","./src/types/styled.d.ts","./src/app.tsx","./src/main.tsx","./src/components/background.tsx","./src/components/imagetest.tsx","./src/components/animations/animatedtext.tsx","./src/components/animations/gearloader.tsx","./src/components/audioplayer/audioplayer.tsx","./src/components/circularloader/circularloader.tsx","./src/components/imageloader/imageloader.tsx","./src/components/navbar/navbar.tsx","./src/pages/bulkloading/bulkloading.tsx","./src/pages/home/home.tsx","./src/pages/loader/loader.tsx","./src/pages/mashmediastudio/mashmediastudio.tsx","./src/styles/themeprovider.tsx"],"version":"5.6.3"}
 ```
 
 # vite.config.d.ts
@@ -5664,11 +7513,28 @@ export default _default;
 # vite.config.js
 
 ```js
+// 2. Update vite.config.ts
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
 export default defineConfig({
-    plugins: [react()],
+    plugins: [
+        react({
+            babel: {
+                plugins: [
+                    [
+                        'styled-components',
+                        {
+                            displayName: true,
+                            fileName: true,
+                            pure: true,
+                            ssr: false
+                        }
+                    ]
+                ]
+            }
+        })
+    ],
     resolve: {
         alias: {
             '@': path.resolve(__dirname, './src'),
@@ -5677,7 +7543,7 @@ export default defineConfig({
             '@styles': path.resolve(__dirname, './src/styles'),
             '@data': path.resolve(__dirname, './src/data'),
         },
-    },
+    }
 });
 
 ```
@@ -5685,38 +7551,40 @@ export default defineConfig({
 # vite.config.ts
 
 ```ts
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-import path from 'path';
+// 2. Update vite.config.ts
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+import path from 'path'
 
 export default defineConfig({
-   plugins: [
-      react({
-         babel: {
-            plugins: [
-               [
-                  "babel-plugin-styled-components",
-                  'styled-components',
-                  {
-                     displayName: true,
-                     fileName: true,
-                     meaninglessFileNames: ["index", "styles"],
-                     ssr: false
-                  }
-               ]
-            ]
-         }
-      })
-   ],
-   resolve: {
-      alias: {
-         '@': path.resolve(__dirname, './src'),
-         '@components': path.resolve(__dirname, './src/components'),
-         '@pages': path.resolve(__dirname, './src/pages'),
-         '@styles': path.resolve(__dirname, './src/styles'),
-         '@data': path.resolve(__dirname, './src/data'),
-      },
-   },
-});
+  plugins: [
+    react({
+      babel: {
+        plugins: [
+          [
+            'styled-components',
+            {
+              displayName: true,
+              fileName: true,
+              pure: true,
+              ssr: false
+            }
+          ]
+        ]
+      }
+    })
+  ],
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
+      '@components': path.resolve(__dirname, './src/components'),
+      '@pages': path.resolve(__dirname, './src/pages'),
+      '@styles': path.resolve(__dirname, './src/styles'),
+      '@data': path.resolve(__dirname, './src/data'),
+    },
+  }
+})
+
+
 ```
 

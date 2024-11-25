@@ -111,10 +111,13 @@ export const MenuItems = styled.ul`
 
 export const MenuItem = styled.li`
   a {
-    text-decoration: none;
-    color: ${({ theme }) => theme.colors.text};
-   //  opacity: .75;
-    transition: opacity 0.3s ease;
+      text-decoration: none;
+      color: ${({ theme }) => theme.colors.text[theme.isDarkTheme ? 'dark' : 'light'].primary};
+      font-size: 1.2rem;
+      font-family: "Libre Baskerville", sans-serif;
+      //  color: ${({ theme }) => theme.colors.text};
+      //  opacity: .75;
+      transition: opacity 0.3s ease;
 
     &:hover {
       opacity: 0.7;
@@ -126,7 +129,8 @@ export const ThemeToggle = styled.button`
   background: none;
   border: none;
   cursor: pointer;
-  color: ${({ theme }) => theme.colors.text};
+//   color: ${({ theme }) => theme.colors.text};
+  color: ${({ theme }) => theme.colors.text[theme.isDarkTheme ? 'dark' : 'light'].primary};
   font-size: 1.5rem;
   padding: 0.5rem;
   display: flex;
@@ -149,8 +153,10 @@ export const MobileMenuButton = styled.button`
   background: none;
   border: none;
   cursor: pointer;
-  color: ${({ theme }) => theme.colors.text};
+//   color: ${({ theme }) => theme.colors.text};
+  color: ${({ theme }) => theme.colors.text[theme.isDarkTheme ? 'dark' : 'light'].primary};
   padding: 8px;
+//   transition: opacity 0.3s ease;
 
   @media (max-width: 768px) {
     display: flex;
