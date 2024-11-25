@@ -19,6 +19,13 @@ export interface ColorShades {
    900: string;
 }
 
+export interface BorderColors {
+   primary: string;
+   // secondary: string;
+   // accent: string;
+   // disabled: string;
+ }
+
 export interface ColorPalette {
    primary: ColorShades;
    secondary: ColorShades;
@@ -36,14 +43,20 @@ export interface ColorPalette {
       light: {
          primary: string;
          secondary: string;
+         accent: string;
          disabled: string;
       };
       dark: {
          primary: string;
          secondary: string;
+         accent: string;
          disabled: string;
       };
    };
+   border: {
+      light: BorderColors;
+      dark: BorderColors;
+    }
 }
 
 export interface Typography {
@@ -83,13 +96,24 @@ export interface Typography {
 export interface Theme {
    isDarkTheme: boolean;  // Add this property
    colors: ColorPalette;
+   // colors: ColorPalette & {
+   //    border: {
+   //      light: BorderColors;
+   //      dark: BorderColors;
+   //    };
+   //  };
    typography: Typography;
    sizes: {
       navHeight: string;
    };
    navBackground: string;
    textSecondary: string;
+   // border: ColorPalette;
    border: string;
+   // border: {
+   //    light: BorderColors;
+   //    dark: BorderColors;
+   //  };
    error: string;
    backgroundColor?: string;
    backgroundBlendMode?: string;
@@ -213,7 +237,16 @@ export const colors = {
       700: '#3D3D3D',
       800: '#282828',
       900: '#131313'
-   }
+   },
+   // Add border configuration
+   border: {
+      light: {
+        primary: '#0F66AF'
+      },
+      dark: {
+        primary: '#0D94A0'
+      }
+    }
 };
 
 // Theme definitions
@@ -229,15 +262,18 @@ export const lightTheme: Theme = {
       text: {
          light: {
             primary: '#3629BA',
-            secondary: '#8F8F8F',
+            secondary: '#F6F2C3CC',
+            accent: '#C23633',
             disabled: '#CCCCCC'
          },
          dark: {
             primary: '#FFFFFF',
-            secondary: '#E0E0E0',
+            secondary: '#3AF1F9',
+            accent: '#E0E0E0',
             disabled: '#6E6E6E'
          }
-      }
+      },
+      border: colors.border  // Add this
    },
    typography: baseTheme.typography,
    sizes: {
@@ -245,7 +281,7 @@ export const lightTheme: Theme = {
    },
    navBackground: 'rgba(255, 255, 255, 0.8)',
    textSecondary: '#8F8F8F',
-   border: '#E5E7EB',
+   border: '#E5E7EB',  // Add this
    error: '#DC2626'
 };
 
@@ -256,28 +292,32 @@ export const darkTheme: Theme = {
       backgrounds: {  // Changed from 'background' to 'backgrounds'
          light: '#121212',
          dark: '#000000',
-         nav: 'rgba(18, 18, 18, 0.8)' // Add nav background here
+         // nav: 'rgba(18, 18, 18, 0.8)' // Add nav background here
+         nav: "#C21F36" // Add nav background here
       },
       text: {
          light: {
-            primary: '#FFFFFF',
-            secondary: '#E0E0E0',
+            primary: '#F46A47',
+            secondary: '#99FCFF91',
+            accent: '',
             disabled: '#6E6E6E'
          },
          dark: {
             primary: '#AF99DA',
-            secondary: '#E0E0E0',
+            secondary: '#0d94a0cc',
+            accent: '',
             disabled: '#6E6E6E'
          }
-      }
+      },
+      border: colors.border  // Add this
    },
    typography: baseTheme.typography,
    sizes: {
       navHeight: '80px'
    },
-   navBackground: 'rgba(18, 18, 18, 0.8)',
+   navBackground: "#FAD8B4", // 'rgba(18, 18, 18, 0.8)',
    textSecondary: '#E0E0E0',
-   border: '#374151',
+   border: '#374151',  // Add this
    error: '#EF4444'
 };
 
@@ -302,8 +342,13 @@ export const getColor = (
 };
 
 // Type guard to check if a color has shades
-const isColorShades = (color: any): color is ColorShades => {
-   return color && typeof color === 'object' && '500' in color;
+// const isColorShades = (color: any): color is ColorShades => {
+//    return color && typeof color === 'object' && '500' in color;
+// };
+const isColorShades = (color: unknown): color is ColorShades => {
+   return typeof color === 'object' &&
+          color !== null &&
+          '500' in color;
 };
 
 // export const getBackgroundColor = (mode: ThemeMode): string => {
@@ -326,6 +371,10 @@ export const getTextColor = (
 ): string => {
    return theme.colors.text[mode][variant];
 };
+
+export const getBorderColor = (mode: ThemeMode, variant: keyof BorderColors): string => {
+   return theme.colors.border[mode][variant];
+ };
 
 export const getFontFamily = (
    type: "heading" | "body"

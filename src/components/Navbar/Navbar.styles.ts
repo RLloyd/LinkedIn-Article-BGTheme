@@ -25,7 +25,8 @@ export const NavbarContainer = styled.nav`
    justify-content: space-between;
    align-items: center;
    padding: 0 24px;
-   background-color: ${({ theme }) => theme.colors.backgrounds.nav};
+   // background-color: ${({ theme }) => theme.colors.backgrounds.nav};
+   background-color: ${({ theme }) => theme.colors.backgrounds[theme.isDarkTheme ? 'dark' : 'light']};;
    z-index: 1000;
    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.1);
    transition: background-color 1s ease;

@@ -15,7 +15,7 @@ const Container = styled.div`
 	justify-content: center;
 	align-items: center;
 	background-color: transparent;
-	border: 6px solid green;
+	// border: 6px solid green;
 `;
 
 const LoaderOverlay = styled(motion.div)<{ $mode: ThemeMode }>`
@@ -30,7 +30,7 @@ const LoaderOverlay = styled(motion.div)<{ $mode: ThemeMode }>`
 	align-items: center;
 	justify-content: center;
 	z-index: 10;
-	border: 6px solid cyan;
+	// border: 6px solid cyan;
 `;
 
 const StyledImage = styled(motion.img)`
@@ -42,61 +42,44 @@ const StyledImage = styled(motion.img)`
 	display: block;
 	object-fit: cover;
 	border-radius: 2rem;
-	border: 6px solid yellow;
+   z-index: 1;
+	// border: 1px solid white;
+   border: 1px solid ${({ theme }) => theme.colors.border[theme.isDarkTheme ? 'dark' : 'light'].primary};
 `;
-// Define animation variants
-const imageVariants = {
-   initial: {
-     opacity: 0,
-     y: 0,
-     height: 550
-   },
-   animate: {
-     opacity: 1,
-     y: -210,
-     transition: {
-       opacity: { duration: 0.5 },
-       y: { duration: 1.2, ease: "easeOut" }
-     }
-   },
-   resize: {
-     height: 220,
-     transition: {
-       height: {
-         duration: 2.2,
-         ease: "easeOut",
-         delay: 1.2 // Delay height change until after y animation
-       }
-     }
-   }
- };
 
 const PoemOverlay = styled(motion.div)`
 	position: absolute;
-	width: 90%;
+   max-width: 100%;
+	width: 100%;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	background: rgba(0, 0, 0, 0.1);
+	// background: rgba(0, 0, 0, 0.5);
+   background-image: linear-gradient(to bottom, rgba(5,25,52,1), rgba(5,25,52,0.85), rgba(5,25,52,0));
 	color: white;
-	padding: 2rem;
+	// padding: 2rem;
 	text-align: center;
 	pointer-events: none;
-	border: 1px solid magenta;
+   border-radius: 2rem;
+	// border: 1px solid magenta;
 `;
 
 const PoemTitle = styled.h2`
-	font-size: 4rem;
+	font-size: 3rem;
+   margin-top: 6rem;
 	margin-bottom: 1rem;
 	font-family: "Libre Baskerville", serif;
+   color: ${({ theme }) => theme.colors.text[theme.isDarkTheme ? 'dark' : 'light'].secondary};
 `;
 
 const PoemText = styled.p`
-	font-size: 2rem;
+   margin-top: 0;
+	font-size: 1.5rem;
 	line-height: 1.6;
 	font-family: "Libre Baskerville", serif;
 	font-style: italic;
+   color: ${({ theme }) => theme.colors.text[theme.isDarkTheme ? 'dark' : 'light'].secondary};
 `;
 
 const ContentWrapper = styled(motion.div)`
@@ -113,8 +96,9 @@ const PlayButton = styled.button`
 	right: 20px;
 	padding: 12px 24px;
 	background: rgba(0, 0, 0, 0.7);
-	color: white;
-	border: none;
+	// color: white;
+   color: ${({ theme }) => theme.colors.text[theme.isDarkTheme ? 'dark' : 'light'].secondary};
+	border: 1px solid #0d94a0cc;
 	border-radius: 8px;
 	cursor: pointer;
 	font-size: 1rem;
@@ -283,31 +267,31 @@ const ImageLoader: React.FC<ImageLoaderProps> = ({ src, alt, mode = "light", cla
 				<StyledImage
 					src={src}
 					alt={alt}
-					initial={{ opacity: 0, y: 0, height: false }}
+					initial={{ opacity: 0, y: 0, height: 550 }}
 					animate={{
 						opacity: isLoading ? 0 : 1,
 						y: startSlideAnimation ? -210 : 0,
-                  height: !isLoading ? 220 : 550,
+                  height: !isLoading ? 400 : 550,
 					}}
 					transition={{
 						opacity: { duration: 0.5 },
 						y: { duration: 1.2, ease: "easeOut" },
-						height: { duration: 2.2, ease: "easeOut" },
+						height: { duration: 1, ease: "easeOut", delay: 3 },
 					}}
 				/>
 
 				<AnimatePresence>
 					{showPoem && (
 						<PoemOverlay
-							initial={{ opacity: 0, y: 20 }}
+							initial={{ opacity: 0, y: 0 }}
 							animate={{
 								opacity: 1,
-								y: startSlideAnimation ? 150 : 20,
+								y: startSlideAnimation ? 120 : 20,
 							}}
 							exit={{ opacity: 0, y: -20 }}
 							transition={{
 								opacity: { duration: 0.8 },
-								y: { duration: 1.2, ease: "easeOut" },
+								y: { duration: 1.2, ease: "easeOut", delay: 2 },
 							}}
 						>
 							<PoemTitle>Guiding Song</PoemTitle>

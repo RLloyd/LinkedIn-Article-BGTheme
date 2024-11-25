@@ -25,5 +25,5 @@ export const ImageDiv = styled.div`
 //   overflow: hidden;
   border-radius: 1rem;
   background: transparent;
-  border: 6px solid white;
+//   border: 6px solid white;
 `;
