@@ -1,5 +1,4 @@
 // src/pages/Home/Home.styles.ts
-
 import styled from 'styled-components';
 
 export const HomeContainer = styled.div`
