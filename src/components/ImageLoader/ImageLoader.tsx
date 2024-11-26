@@ -278,29 +278,6 @@ const ImageLoader: React.FC<ImageLoaderProps> = ({ src, alt, mode = "light", cla
       img.src = imageUrl;
     }, [src]);
 
-
-	//
-	// const handleReload = useCallback(() => {
-	// 	// Reset all states
-	// 	setIsLoading(true);
-	// 	setProgress(0);
-	// 	setShowPoem(false);
-	// 	setStartSlideAnimation(false);
-
-	// 	// Force image reload
-	// 	const timestamp = new Date().getTime();
-	// 	const img = new Image();
-	// 	img.src = `${src}?t=${timestamp}`;
-
-	// 	// Reset the src attribute of the actual image element
-	// 	const imageElement = document.querySelector(`img[src*="${src}"]`) as HTMLImageElement;
-	// 	if (imageElement) {
-	// 		imageElement.src = `${src}?t=${timestamp}`;
-	// 	}
-	// }, [src]);
-
-
-
 	return (
 		<Container className={className}>
 			<NetworkThrottle
