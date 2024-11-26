@@ -255,7 +255,7 @@ export const lightTheme: Theme = {
    colors: {
       ...colors,
       backgrounds: {  // Changed from 'background' to 'backgrounds'
-         light: '#FFFFFF',
+         light: '#EBE5F6',
          dark: '#121212',
          nav: 'rgba(255, 255, 255, 0.8)' // Add nav background here
       },
@@ -263,7 +263,7 @@ export const lightTheme: Theme = {
          light: {
             primary: '#3629BA',
             secondary: '#F6F2C3CC',
-            accent: '#C23633',
+            accent: '#503DBD',
             disabled: '#CCCCCC'
          },
          dark: {

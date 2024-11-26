@@ -6,7 +6,9 @@ import styled from "styled-components";
 import { ThemeMode } from "@/styles/theme";
 import whaleSound from "@/assets/sounds/whale-call-2.wav";
 import LoadingOverlay from "../LoadingOverlay/LoadingOverlay";
-import NetworkThrottle from "../NetworkThrottle/NetworkThrottle";
+// import NetworkThrottle from "../NetworkThrottle/NetworkThrottle";
+// import DraggableAudioWidget from "../DraggableControlWidget/DraggableAudioWidget";
+import DraggableControlWidget from "../DraggableControlWidget/DraggableControlWidget";
 
 const Container = styled.div`
 	position: relative;
@@ -30,7 +32,7 @@ const StyledImage = styled(motion.img)`
 	object-fit: cover;
 	border-radius: 2rem;
 	z-index: 1;
-	// border: 1px solid white;
+	border: 1px solid white;
 	border: 1px solid ${({ theme }) => theme.colors.border[theme.isDarkTheme ? "dark" : "light"].primary};
 `;
 
@@ -77,113 +79,70 @@ const ContentWrapper = styled(motion.div)`
 	align-items: center;
 `;
 
-const PlayButton = styled.button`
-	position: fixed;
-	bottom: 20px;
-	right: 20px;
-	padding: 12px 24px;
-	background: rgba(0, 0, 0, 0.7);
-	// color: white;
-	color: ${({ theme }) => theme.colors.text[theme.isDarkTheme ? "dark" : "light"].secondary};
-	border: 1px solid #0d94a0cc;
-	border-radius: 8px;
-	cursor: pointer;
-	font-size: 1rem;
-	z-index: 1000;
-	display: flex;
-	align-items: center;
-	gap: 8px;
-	transition: background-color 0.3s ease;
+// const PlayButton = styled.button`
+// 	position: fixed;
+// 	bottom: 20px;
+// 	right: 20px;
+// 	padding: 12px 24px;
+// 	background: rgba(0, 0, 0, 0.7);
+// 	// color: white;
+// 	color: ${({ theme }) => theme.colors.text[theme.isDarkTheme ? "dark" : "light"].secondary};
+// 	border: 1px solid #0d94a0cc;
+// 	border-radius: 8px;
+// 	cursor: pointer;
+// 	font-size: 1rem;
+// 	z-index: 1000;
+// 	display: flex;
+// 	align-items: center;
+// 	gap: 8px;
+// 	transition: background-color 0.3s ease;
 
-	&:hover {
-		background: rgba(0, 0, 0, 0.9);
-	}
+// 	&:hover {
+// 		background: rgba(0, 0, 0, 0.9);
+// 	}
 
-	&:disabled {
-		opacity: 0.5;
-		cursor: not-allowed;
-	}
-`;
+// 	&:disabled {
+// 		opacity: 0.5;
+// 		cursor: not-allowed;
+// 	}
+// `;
 
 interface ImageLoaderProps {
 	src: string;
 	alt: string;
 	mode?: ThemeMode;
 	className?: string;
+	toggleTheme: () => void;
+	isDarkTheme: boolean;
 }
 
-const ImageLoader: React.FC<ImageLoaderProps> = ({ src, alt, mode = "light", className }) => {
+const ImageLoader: React.FC<ImageLoaderProps> = ({ src, alt, mode = "light", className, toggleTheme, isDarkTheme }) => {
 	const [isLoading, setIsLoading] = useState(true);
 	const [progress, setProgress] = useState(0);
 	const [showPoem, setShowPoem] = useState(false);
 	const [startSlideAnimation, setStartSlideAnimation] = useState(false);
 	const [hasError, setHasError] = useState(false);
-	const [isPlaying, setIsPlaying] = useState(false);
 
-	const audioContextRef = useRef<AudioContext | null>(null);
-	const sourceRef = useRef<AudioBufferSourceNode | null>(null);
-	const gainNodeRef = useRef<GainNode | null>(null);
-	const [audioBuffer, setAudioBuffer] = useState<AudioBuffer | null>(null);
-
-	useEffect(() => {
-		const initAudioContext = async () => {
-			try {
-				const AudioContext = window.AudioContext || window.webkitAudioContext;
-				audioContextRef.current = new AudioContext();
-
-				const response = await fetch(whaleSound);
-				const arrayBuffer = await response.arrayBuffer();
-				const decodedBuffer = await audioContextRef.current.decodeAudioData(arrayBuffer);
-				setAudioBuffer(decodedBuffer);
-
-				gainNodeRef.current = audioContextRef.current.createGain();
-				gainNodeRef.current.connect(audioContextRef.current.destination);
-				gainNodeRef.current.gain.value = 0;
-			} catch (error) {
-				console.error("Audio initialization error:", error);
-			}
-		};
-
-		initAudioContext();
-
-		return () => {
-			if (audioContextRef.current) {
-				audioContextRef.current.close();
-			}
-		};
+	const handleProgressChange = useCallback((newProgress: number) => {
+		setProgress(newProgress);
 	}, []);
 
-	const playSound = useCallback(async () => {
-		if (!audioContextRef.current || !audioBuffer || !gainNodeRef.current) return;
+	const handleLoadComplete = useCallback(() => {
+		setIsLoading(false);
+		setTimeout(() => {
+			setShowPoem(true);
+			setTimeout(() => {
+				setStartSlideAnimation(true);
+			}, 1000);
+		}, 500);
+	}, []);
 
-		try {
-			if (audioContextRef.current.state === "suspended") {
-				await audioContextRef.current.resume();
-			}
-
-			if (sourceRef.current) {
-				sourceRef.current.stop();
-				sourceRef.current.disconnect();
-			}
-
-			sourceRef.current = audioContextRef.current.createBufferSource();
-			sourceRef.current.buffer = audioBuffer;
-			sourceRef.current.connect(gainNodeRef.current);
-
-			gainNodeRef.current.gain.setValueAtTime(0, audioContextRef.current.currentTime);
-			gainNodeRef.current.gain.linearRampToValueAtTime(0.3, audioContextRef.current.currentTime + 1);
-
-			sourceRef.current.start();
-			setIsPlaying(true);
-
-			sourceRef.current.onended = () => {
-				setIsPlaying(false);
-			};
-		} catch (error) {
-			console.error("Playback failed:", error);
-			setIsPlaying(false);
-		}
-	}, [audioBuffer]);
+	const handleReload = useCallback(() => {
+		setIsLoading(true);
+		setProgress(0);
+		setShowPoem(false);
+		setStartSlideAnimation(false);
+	}, []);
 
 	useEffect(() => {
 		const xhr = new XMLHttpRequest();
@@ -193,32 +152,13 @@ const ImageLoader: React.FC<ImageLoaderProps> = ({ src, alt, mode = "light", cla
 		xhr.onprogress = (event) => {
 			if (event.lengthComputable) {
 				const percentComplete = (event.loaded / event.total) * 100;
-				setProgress(Math.round(percentComplete));
+				handleProgressChange(Math.round(percentComplete));
 			}
 		};
 
 		xhr.onload = () => {
 			if (xhr.status === 200) {
-				setProgress(100);
-				const runAnimationSequence = async () => {
-					setIsLoading(false);
-					await new Promise((resolve) => setTimeout(resolve, 500));
-					setShowPoem(true);
-					await new Promise((resolve) => setTimeout(resolve, 1000));
-					setStartSlideAnimation(true);
-					await new Promise((resolve) => setTimeout(resolve, 800));
-
-					const tempButton = document.createElement("button");
-					tempButton.style.display = "none";
-					document.body.appendChild(tempButton);
-					tempButton.addEventListener("click", () => {
-						playSound();
-						tempButton.remove();
-					});
-					tempButton.click();
-				};
-
-				runAnimationSequence();
+				handleLoadComplete();
 			} else {
 				setHasError(true);
 			}
@@ -232,115 +172,76 @@ const ImageLoader: React.FC<ImageLoaderProps> = ({ src, alt, mode = "light", cla
 
 		return () => {
 			xhr.abort();
-			if (sourceRef.current) {
-				sourceRef.current.stop();
-			}
 		};
-	}, [src, playSound]);
-
-	const handlePlayClick = () => {
-		playSound();
-	};
+	}, [src, handleLoadComplete, handleProgressChange]);
 
 	if (hasError) {
 		return <div>Error loading image</div>;
 	}
 
-   // Handle progress change
-	const handleProgressChange = useCallback((newProgress: number) => {
-		setProgress(newProgress);
-	}, []);
-
-   const handleLoadComplete = useCallback(() => {
-      // Start the animation sequence
-      setIsLoading(false);  // This will hide the loader
-
-      setTimeout(() => {
-        setShowPoem(true);
-        setTimeout(() => {
-          setStartSlideAnimation(true);
-        }, 1000);
-      }, 500);
-    }, []);
-
-    const handleReload = useCallback(() => {
-      // Reset all states
-      setIsLoading(true);
-      setProgress(0);
-      setShowPoem(false);
-      setStartSlideAnimation(false);
-
-      // Force image reload
-      const timestamp = new Date().getTime();
-      const imageUrl = `${src}?t=${timestamp}`;
-
-      const img = new Image();
-      img.src = imageUrl;
-    }, [src]);
-
 	return (
 		<Container className={className}>
-			<NetworkThrottle
+			<ContentWrapper>
+				<StyledImage
+					src={src}
+					alt={alt}
+					initial={{ opacity: 0, y: 0, height: 550 }}
+					animate={{
+						opacity: isLoading ? 0 : 1,
+						y: startSlideAnimation ? -210 : 0,
+						height: !isLoading ? 400 : 550,
+					}}
+					transition={{
+						opacity: { duration: 0.5 },
+						y: { duration: 1.2, ease: "easeOut" },
+						height: { duration: 1, ease: "easeOut", delay: 3 },
+					}}
+				/>
+
+				<AnimatePresence>
+					{showPoem && (
+						<PoemOverlay
+							initial={{ opacity: 0, y: 0 }}
+							animate={{
+								opacity: 1,
+								y: startSlideAnimation ? 120 : 20,
+							}}
+							exit={{ opacity: 0, y: -20 }}
+							transition={{
+								opacity: { duration: 0.8 },
+								y: { duration: 1.2, ease: "easeOut", delay: 2 },
+							}}
+						>
+							<PoemTitle>Guiding Song</PoemTitle>
+							<PoemText>
+								Beneath the waves, a whale does sing,
+								<br />
+								Of minds that learn and dreams that spring.
+								<br />
+								Its hums weave tales of AI's might,
+								<br />A guiding song in endless night.
+							</PoemText>
+						</PoemOverlay>
+					)}
+				</AnimatePresence>
+			</ContentWrapper>
+
+			{/* <DraggableAudioWidget
+            audioSrc={whaleSound}
+            toggleTheme={toggleTheme}
+            isDarkTheme={isDarkTheme}
+            /> */}
+
+         <DraggableControlWidget
+            audioSrc={whaleSound}
+            toggleTheme={toggleTheme}
+            isDarkTheme={isDarkTheme}
             onProgressChange={handleProgressChange}
             onLoadComplete={handleLoadComplete}
             onReload={handleReload}
-         >
-				<ContentWrapper>
-					{/* Whale image */}
-					<StyledImage
-						src={src}
-						alt={alt}
-						initial={{ opacity: 0, y: 0, height: 550 }}
-						animate={{
-							opacity: isLoading ? 0 : 1,
-							y: startSlideAnimation ? -210 : 0,
-							height: !isLoading ? 400 : 550,
-						}}
-						transition={{
-							opacity: { duration: 0.5 },
-							y: { duration: 1.2, ease: "easeOut" },
-							height: { duration: 1, ease: "easeOut", delay: 3 },
-						}}
-					/>
+            />
 
-					{isLoading && <LoadingOverlay progress={progress} mode={mode} />}
-
-					<AnimatePresence>
-						{showPoem && (
-							<PoemOverlay
-								initial={{ opacity: 0, y: 0 }}
-								animate={{
-									opacity: 1,
-									y: startSlideAnimation ? 120 : 20,
-								}}
-								exit={{ opacity: 0, y: -20 }}
-								transition={{
-									opacity: { duration: 0.8 },
-									y: { duration: 1.2, ease: "easeOut", delay: 2 },
-								}}
-							>
-								<PoemTitle>Guiding Song</PoemTitle>
-								{/* <PoemText className="tw-font-sans tw-text-2xl"> // custom: apply the tw-font-sans class */}
-								<PoemText>
-									Beneath the waves, a whale does sing,
-									<br />
-									Of minds that learn and dreams that spring.
-									<br />
-									Its hums weave tales of AI's might,
-									<br />A guiding song in endless night.
-								</PoemText>
-							</PoemOverlay>
-						)}
-					</AnimatePresence>
-				</ContentWrapper>
-			</NetworkThrottle>
-
-			<PlayButton onClick={handlePlayClick} disabled={isPlaying}>
-				{isPlaying ? "🔊 Playing..." : "🔈 Play Whale Sound"}
-			</PlayButton>
-
-			{/* Loader Component */}
-			{/* {isLoading && <LoadingOverlay progress={progress} mode={mode} />} */}
+			{isLoading && <LoadingOverlay progress={progress} mode={mode} />}
 		</Container>
 	);
 };

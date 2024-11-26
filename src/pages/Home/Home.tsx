@@ -3,20 +3,34 @@
 import React from "react";
 import { HomeContainer, ImageDiv } from "./Home.styles";
 import whale from "@/assets/Loader/Whale.png";
-import whaleSound from "@/assets/sounds/whale-call-2.wav";
+// import whaleSound from "@/assets/sounds/whale-call-2.wav";
 import ImageLoader from "@/components/ImageLoader/ImageLoader";
 
-const Home: React.FC = () => {
-	console.log("Sound file path:", whaleSound);
+interface HomeProps {
+   toggleTheme: () => void;
+   isDarkTheme: boolean;
+ }
+
+// const Home: React.FC = () => {
+const Home: React.FC<HomeProps> = ({ toggleTheme, isDarkTheme }) => {
+	// console.log("Sound file path:", whaleSound);
 	return (
 		<HomeContainer>
 			<ImageDiv>
 
-				<ImageLoader
+         <ImageLoader
+            src={whale}
+            alt="Whale illustration"
+            mode={isDarkTheme ? 'dark' : 'light'}
+            toggleTheme={toggleTheme}
+            isDarkTheme={isDarkTheme}
+         />
+
+				{/* <ImageLoader
                src={whale}
                alt="Whale illustration"
                mode="light"
-            />
+            /> */}
 
             {/* <CircularLoader
                src={whale}

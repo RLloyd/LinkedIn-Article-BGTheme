@@ -13,22 +13,30 @@ import Home from '@/pages/Home';
 
 const App: React.FC = () => {
   const [isDarkTheme, setIsDarkTheme] = useState(false);
-  const currentTheme = isDarkTheme ? darkTheme : lightTheme;
+//   const currentTheme = isDarkTheme ? darkTheme : lightTheme;
 
   const toggleTheme = () => {
     setIsDarkTheme(!isDarkTheme);
   };
 
+
   return (
-    <ThemeProvider theme={currentTheme}>
+   //  <ThemeProvider theme={currentTheme}>
+   <ThemeProvider theme={isDarkTheme ? darkTheme : lightTheme}>
       <GlobalStyles />
       <Background isDarkTheme={isDarkTheme} />
       <Router>
         <Navbar toggleTheme={toggleTheme} isDarkTheme={isDarkTheme} />
         <Routes>
-          <Route path="/"                 element={<Home/>} />
+          {/* <Route path="/"                 element={<Home/>} /> */}
           {/* <Route path="/"                 element={<Loader/>} /> */}
           {/* <Route path="/BulkLoading"      element={<div>MediaMash Studio</div>} /> */}
+          <Route path="/" element={
+            <Home
+              toggleTheme={toggleTheme}
+              isDarkTheme={isDarkTheme}
+            />
+          } />
           <Route path="/mashmedia"        element={<MashMediaStudio />} />
           <Route path="/digitalone"       element={<div>DigitalOne</div>} />
           <Route path="/zenmonics"        element={<div>Zenmonics</div>} />
