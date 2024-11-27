@@ -25,15 +25,28 @@ const Container = styled.div`
 const StyledImage = styled(motion.img)`
 	position: relative;
 	max-width: 100%;
-	width: 100%;
-	//   height: 50%;
+	// width: 100%;
+   width: 1020px;
 	height: 550px;
 	display: block;
 	object-fit: cover;
 	border-radius: 2rem;
 	z-index: 1;
-	border: 1px solid white;
 	border: 1px solid ${({ theme }) => theme.colors.border[theme.isDarkTheme ? "dark" : "light"].primary};
+
+	@media (max-width: 1024px) {
+		height: 450px;
+	}
+
+	@media (max-width: 768px) {
+		height: 350px;
+		border-radius: 1.5rem;
+	}
+
+	@media (max-width: 480px) {
+		height: 250px;
+		border-radius: 1rem;
+	}
 `;
 
 const PoemOverlay = styled(motion.div)`
@@ -44,14 +57,22 @@ const PoemOverlay = styled(motion.div)`
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	// background: rgba(0, 0, 0, 0.5);
 	background-image: linear-gradient(to bottom, rgba(5, 25, 52, 1), rgba(5, 25, 52, 0.85), rgba(5, 25, 52, 0));
 	color: white;
-	// padding: 2rem;
 	text-align: center;
 	pointer-events: none;
 	border-radius: 2rem;
-	// border: 1px solid magenta;
+	padding: 2rem 1rem;
+
+	@media (max-width: 768px) {
+		border-radius: 1.5rem;
+		padding: 1.5rem 0.75rem;
+	}
+
+	@media (max-width: 480px) {
+		border-radius: 1rem;
+		padding: 1rem 0.5rem;
+	}
 `;
 
 const PoemTitle = styled.h2`
@@ -60,6 +81,24 @@ const PoemTitle = styled.h2`
 	margin-bottom: 1rem;
 	font-family: "Libre Baskerville", serif;
 	color: ${({ theme }) => theme.colors.text[theme.isDarkTheme ? "dark" : "light"].secondary};
+	transition: all 0.3s ease;
+
+	@media (max-width: 1024px) {
+		font-size: 2.5rem;
+		margin-top: 5rem;
+	}
+
+	@media (max-width: 768px) {
+		font-size: 2rem;
+		margin-top: 4rem;
+		margin-bottom: 0.75rem;
+	}
+
+	@media (max-width: 480px) {
+		font-size: 1.5rem;
+		margin-top: 3rem;
+		margin-bottom: 0.5rem;
+	}
 `;
 
 const PoemText = styled.p`
@@ -69,6 +108,25 @@ const PoemText = styled.p`
 	font-family: "Libre Baskerville", serif;
 	font-style: italic;
 	color: ${({ theme }) => theme.colors.text[theme.isDarkTheme ? "dark" : "light"].secondary};
+	transition: all 0.3s ease;
+
+	@media (max-width: 1024px) {
+		font-size: 1.25rem;
+		line-height: 1.5;
+	}
+
+	@media (max-width: 768px) {
+		font-size: 1rem;
+		line-height: 1.4;
+	}
+
+	@media (max-width: 480px) {
+		font-size: 0.875rem;
+		line-height: 1.3;
+		br {
+			display: none; // Optional: removes line breaks on very small screens
+		}
+	}
 `;
 
 const ContentWrapper = styled(motion.div)`
@@ -122,6 +180,14 @@ const ImageLoader: React.FC<ImageLoaderProps> = ({ src, alt, mode = "light", cla
 	const [showPoem, setShowPoem] = useState(false);
 	const [startSlideAnimation, setStartSlideAnimation] = useState(false);
 	const [hasError, setHasError] = useState(false);
+
+	const getImageHeight = () => {
+		// Initial heights matching the styled component media queries
+		if (window.innerWidth <= 480) return 250;
+		if (window.innerWidth <= 768) return 350;
+		if (window.innerWidth <= 1024) return 450;
+		return 550;
+	};
 
 	const handleProgressChange = useCallback((newProgress: number) => {
 		setProgress(newProgress);
@@ -185,11 +251,11 @@ const ImageLoader: React.FC<ImageLoaderProps> = ({ src, alt, mode = "light", cla
 				<StyledImage
 					src={src}
 					alt={alt}
-					initial={{ opacity: 0, y: 0, height: 550 }}
+					initial={{ opacity: 0, y: 0, height: getImageHeight() }}
 					animate={{
 						opacity: isLoading ? 0 : 1,
 						y: startSlideAnimation ? -210 : 0,
-						height: !isLoading ? 400 : 550,
+						height: !isLoading ? getImageHeight() - 150 : getImageHeight(), // Reduced height after loading
 					}}
 					transition={{
 						opacity: { duration: 0.5 },
@@ -232,14 +298,7 @@ const ImageLoader: React.FC<ImageLoaderProps> = ({ src, alt, mode = "light", cla
             isDarkTheme={isDarkTheme}
             /> */}
 
-         <DraggableControlWidget
-            audioSrc={whaleSound}
-            toggleTheme={toggleTheme}
-            isDarkTheme={isDarkTheme}
-            onProgressChange={handleProgressChange}
-            onLoadComplete={handleLoadComplete}
-            onReload={handleReload}
-            />
+			<DraggableControlWidget audioSrc={whaleSound} toggleTheme={toggleTheme} isDarkTheme={isDarkTheme} onProgressChange={handleProgressChange} onLoadComplete={handleLoadComplete} onReload={handleReload} />
 
 			{isLoading && <LoadingOverlay progress={progress} mode={mode} />}
 		</Container>

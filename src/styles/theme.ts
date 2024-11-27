@@ -45,12 +45,18 @@ export interface ColorPalette {
          secondary: string;
          accent: string;
          disabled: string;
+         svgColor1: string;
+         svgColor2: string;
+         svgColor3: string;
       };
       dark: {
          primary: string;
          secondary: string;
          accent: string;
          disabled: string;
+         svgColor1: string;
+         svgColor2: string;
+         svgColor3: string;
       };
    };
    border: {
@@ -263,13 +269,19 @@ export const lightTheme: Theme = {
          light: {
             primary: '#3629BA',
             secondary: '#F6F2C3CC',
-            accent: '#503DBD',
-            disabled: '#CCCCCC'
+            accent: 'magenta',
+            disabled: '#CCCCCC',
+            svgColor1: "red",
+            svgColor2: "blue",
+            svgColor3: "magenta",
          },
          dark: {
             primary: '#FFFFFF',
             secondary: '#3AF1F9',
-            accent: '#E0E0E0',
+            accent: '',
+            svgColor1: "",
+            svgColor2: "",
+            svgColor3: "",
             disabled: '#6E6E6E'
          }
       },
@@ -300,13 +312,19 @@ export const darkTheme: Theme = {
             primary: '#F46A47',
             secondary: '#99FCFF91',
             accent: '',
+            svgColor1: "",
+            svgColor2: "",
+            svgColor3: "",
             disabled: '#6E6E6E'
          },
          dark: {
             primary: '#AF99DA',
             secondary: '#0d94a0cc',
-            accent: '',
-            disabled: '#6E6E6E'
+            accent: 'yellowgreen',
+            disabled: '#6E6E6E',
+            svgColor1: "yellow",
+            svgColor2: "green",
+            svgColor3: "orange",
          }
       },
       border: colors.border  // Add this

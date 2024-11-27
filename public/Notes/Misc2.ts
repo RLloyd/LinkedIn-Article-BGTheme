@@ -1,160 +1,66 @@
-import React, { useState, useEffect, useRef, useCallback, useMemo } from "react";
-import { Play, Pause, Volume2, VolumeX, GripVertical, Moon, Sun, RotateCw } from "lucide-react";
-import styled from "styled-components";
+import React from 'react';
+import { motion } from 'framer-motion';
+import styled, { useTheme } from 'styled-components';
+import { ThemeMode } from '@/styles/theme';
 
-// ... keep all your styled components the same ...
+// ... other styled components ...
 
-const DraggableControlWidget: React.FC<DraggableControlWidgetProps> = ({
-  audioSrc,
-  toggleTheme,
-  isDarkTheme,
-  onProgressChange,
-  onLoadComplete,
-  onReload
-}) => {
-  // ... keep your state declarations and refs the same ...
+const ThemedPath = styled(motion.path)`
+  fill: ${({ theme }) => theme.isDarkTheme ?
+    theme.colors.text.dark.secondary :
+    theme.colors.text.light.secondary};
+`;
 
-  const SLOW_4G = useMemo(() => ({
-    totalLoadTime: 8000,
-    progressInterval: 100,
-    randomVariation: 0.2,
-  }), []);
-
-  const simulateProgress = useCallback(() => {
-    let progress = 0;
-
-    if (intervalId) {
-      clearInterval(intervalId);
-    }
-
-    const interval = setInterval(() => {
-      const incrementsNeeded = SLOW_4G.totalLoadTime / SLOW_4G.progressInterval;
-      const baseIncrement = 100 / incrementsNeeded;
-      const variation = (Math.random() * 2 - 1) * SLOW_4G.randomVariation * baseIncrement;
-      const increment = Math.max(0.1, baseIncrement + variation);
-
-      progress = Math.min(100, progress + increment);
-      onProgressChange(Math.floor(progress));
-
-      if (progress >= 100) {
-        clearInterval(interval);
-        setIntervalId(null);
-        setTimeout(() => {
-          onLoadComplete();
-        }, 200);
-      }
-    }, SLOW_4G.progressInterval);
-
-    setIntervalId(interval);
-  }, [SLOW_4G.totalLoadTime, SLOW_4G.progressInterval, SLOW_4G.randomVariation, onProgressChange, onLoadComplete, intervalId]);
-
-  const handleReload = useCallback(() => {
-    onReload();
-    setTimeout(() => {
-      simulateProgress();
-    }, 100);
-  }, [onReload, simulateProgress]);
-
-  // Initialize audio context
-  useEffect(() => {
-    const initAudio = async () => {
-      try {
-        const AudioContext = window.AudioContext || window.webkitAudioContext;
-        audioContextRef.current = new AudioContext();
-        gainNodeRef.current = audioContextRef.current.createGain();
-        gainNodeRef.current.connect(audioContextRef.current.destination);
-        gainNodeRef.current.gain.value = volume;
-
-        const response = await fetch(audioSrc);
-        const arrayBuffer = await response.arrayBuffer();
-        const decoded = await audioContextRef.current.decodeAudioData(arrayBuffer);
-        setAudioBuffer(decoded);
-      } catch (error) {
-        console.error("Audio initialization error:", error);
-      }
-    };
-
-    initAudio();
-
-    return () => {
-      if (sourceRef.current) {
-        sourceRef.current.stop();
-      }
-      if (audioContextRef.current) {
-        audioContextRef.current.close();
-      }
-    };
-  }, [audioSrc, volume]);
-
-  // Initialize position
-  useEffect(() => {
-    const updatePosition = () => {
-      if (widgetRef.current) {
-        const widgetRect = widgetRef.current.getBoundingClientRect();
-        setPosition({
-          x: window.innerWidth - widgetRect.width - 20,
-          y: window.innerHeight - widgetRect.height - 20,
-        });
-      }
-    };
-
-    updatePosition();
-    window.addEventListener("resize", updatePosition);
-
-    return () => window.removeEventListener("resize", updatePosition);
-  }, []);
-
-  // Start initial progress
-  useEffect(() => {
-    simulateProgress();
-
-    return () => {
-      if (intervalId) {
-        clearInterval(intervalId);
-      }
-    };
-  }, []); // Empty dependency array since we only want this to run once on mount
-
-  // Handle dragging
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      if (!isDragging) return;
-
-      const newX = e.clientX - dragOffset.x;
-      const newY = e.clientY - dragOffset.y;
-
-      if (widgetRef.current) {
-        const widgetRect = widgetRef.current.getBoundingClientRect();
-        const maxX = window.innerWidth - widgetRect.width;
-        const maxY = window.innerHeight - widgetRect.height;
-
-        const boundedX = Math.min(Math.max(0, newX), maxX);
-        const boundedY = Math.min(Math.max(0, newY), maxY);
-
-        setPosition({ x: boundedX, y: boundedY });
-      }
-    };
-
-    const handleMouseUp = () => {
-      setIsDragging(false);
-    };
-
-    if (isDragging) {
-      document.addEventListener("mousemove", handleMouseMove);
-      document.addEventListener("mouseup", handleMouseUp);
-    }
-
-    return () => {
-      document.removeEventListener("mousemove", handleMouseMove);
-      document.removeEventListener("mouseup", handleMouseUp);
-    };
-  }, [isDragging, dragOffset]);
-
-  // ... keep your other handlers (handleMouseDown, togglePlayback, etc.) ...
+const LoadingOverlay: React.FC<{ progress: number; mode: ThemeMode }> = ({ progress, mode }) => {
+  const theme = useTheme();
+  const easing = [0.35, 0.27, 0.3, 0.83];
+  const animationDuration = 3;
 
   return (
-    // ... keep your JSX the same ...
+    <LoaderOverlay
+      $mode={mode}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.3 }}
+    >
+      <LoaderContainer>
+        <CounterContainer>
+          <CountdownText>
+            <span>{Math.min(progress, 100)}</span>
+            <span>%</span>
+          </CountdownText>
+        </CounterContainer>
+
+        <CircularSVG>
+          <motion.svg width="314" height="314" viewBox="0 0 314 314" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <ThemedPath
+              initial={{ rotate: 0 }}
+              animate={{ rotate: 720 }}
+              transition={{ duration: animationDuration, ease: easing, repeat: Infinity }}
+              d="M156.699 33.1997C88.4921 33.1997 33.1992 88.4925 33.1992 156.7C33.1992 224.907 88.4921 280.2 156.699 280.2C224.906 280.2 280.199 224.907 280.199 156.7C280.199 88.4925 224.906 33.1997 156.699 33.1997ZM31.1992 156.7C31.1992 87.388 87.3875 31.1997 156.699 31.1997C226.011 31.1997 282.199 87.388 282.199 156.7C282.199 226.011 226.011 282.2 156.699 282.2C87.3875 282.2 31.1992 226.011 31.1992 156.7Z"
+            />
+
+            <ThemedPath
+              initial={{ rotate: 0 }}
+              animate={{ rotate: -360 }}
+              transition={{ duration: animationDuration, ease: easing, repeat: Infinity }}
+              d="M156.7 49.2993C97.3844 49.2993 49.2998 97.3839 49.2998 156.699C49.2998 216.015 97.3844 264.099 156.7 264.099C216.015 264.099 264.1 216.015 264.1 156.699C264.1 97.3839 216.015 49.2993 156.7 49.2993ZM47.2998 156.699C47.2998 96.2794 96.2799 47.2993 156.7 47.2993C217.12 47.2993 266.1 96.2794 266.1 156.699C266.1 217.119 217.12 266.099 156.7 266.099C96.2799 266.099 47.2998 217.119 47.2998 156.699Z"
+            />
+
+            <ThemedPath
+              initial={{ rotate: 0 }}
+              animate={{ rotate: 360 }}
+              transition={{ duration: animationDuration, ease: easing, repeat: Infinity }}
+              d="M156.7 95.2993C138.384 95.2993 121.907 103.312 110.707 116.059L101.692 108.139C115.092 92.8871 134.816 83.2993 156.7 83.2993C197.214 83.2993 230.1 116.186 230.1 156.699C230.1 197.213 197.214 230.099 156.7 230.099C116.186 230.099 83.2998 197.213 83.2998 156.699H95.2998C95.2998 190.586 122.814 218.099 156.7 218.099C190.586 218.099 218.1 190.586 218.1 156.699C218.1 122.813 190.586 95.2993 156.7 95.2993Z"
+            />
+
+            {/* Add ThemedPath for other paths as well */}
+          </motion.svg>
+        </CircularSVG>
+      </LoaderContainer>
+    </LoaderOverlay>
   );
 };
 
-export default DraggableControlWidget;
+export default LoadingOverlay;

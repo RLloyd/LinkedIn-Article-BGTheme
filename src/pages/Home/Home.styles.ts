@@ -7,7 +7,7 @@ export const HomeContainer = styled.div`
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  padding-top: ${({ theme }) => theme.sizes.navHeight};
+//   padding-top: ${({ theme }) => theme.sizes.navHeight};
   background: transparent;
   position: relative;
 //   border: 6px solid red;
@@ -18,7 +18,7 @@ export const ImageDiv = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 80%;
+//   width: 80%;
   max-width: 1020px;
   margin: 0 auto;
 //   overflow: hidden;

@@ -117,12 +117,12 @@ const Navbar: React.FC<NavbarProps> = ({ toggleTheme, isDarkTheme }) => {
 			</NavigationGroup>
 
 			<ControlsGroup>
-				<ThemeToggle
+				{/* <ThemeToggle
                onClick={toggleTheme}
                aria-label={isDarkTheme ? 'Switch to light theme' : 'Switch to dark theme'}
                >
                   {isDarkTheme ? <FiSun /> : <FiMoon />}
-                  </ThemeToggle>
+                  </ThemeToggle> */}
 
 				<MobileMenuButton onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>{isMobileMenuOpen ? <FiX /> : <FiMenu />}</MobileMenuButton>
 			</ControlsGroup>
