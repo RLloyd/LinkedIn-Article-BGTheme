@@ -2,8 +2,8 @@
 
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { FiMenu, FiX, FiSun, FiMoon } from "react-icons/fi";
-import { NavbarContainer, NavigationGroup, ControlsGroup, Logo, MenuItems, MenuItem, ThemeToggle, MobileMenuButton, MobileMenu, LogoButton } from "./Navbar.styles";
+import { FiMenu, FiX} from "react-icons/fi";
+import { NavbarContainer, NavigationGroup, ControlsGroup, Logo, MenuItems, MenuItem, MobileMenuButton, MobileMenu, LogoButton } from "./Navbar.styles";
 import { navigationData } from "@/data/mockData";
 import { NavigationItem } from "@/types/navigation";
 
@@ -12,7 +12,8 @@ interface NavbarProps {
 	isDarkTheme: boolean;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ toggleTheme, isDarkTheme }) => {
+// const Navbar: React.FC<NavbarProps> = ({ toggleTheme, isDarkTheme }) => {
+const Navbar: React.FC<NavbarProps> = () => {
 	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 	const {
 		menuItems: { left: leftMenuItems, right: rightMenuItems },

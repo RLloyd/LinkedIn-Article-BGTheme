@@ -1,15 +1,23 @@
 # To Do
 
 
-## Section: NavBar
-#### Date: Nov. 24, 2024
+## Component: NavBar
+### Date: Nov. 24, 2024
 - Fix the Mobile menu: hide mobile menu when screen goes larger than mobile size
 - Home button menu open _blank page. Shouldn't!
--
 
 
+## Component: ImageLoader, LoadingOverlay
+### Date: Nov. 27, 2024
+- Image responsiveness
+   - Keep the width of 1020px on large screen
+   - Fix the spacing between the image and the poem on sn=mall screens
+- Loader color theming : comply with the existing color themes
+- Loader background color is black in dark mode
 
-
+## Component: ColorPalette
+### Date: Nov. 28, 2024
+- Image responsiveness
 
 
 

@@ -1,6 +1,6 @@
 // src/components/ImageLoader/ImageLoader.tsx
 
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import styled from "styled-components";
 import { ThemeMode } from "@/styles/theme";

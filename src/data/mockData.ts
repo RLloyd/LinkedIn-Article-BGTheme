@@ -19,6 +19,9 @@ export const navigationData = {
       // { label: 'Home', path: URLS.portfolioSite, isExternal: true },
       { label: 'Home', path: '/' },
       { label: 'MashMedia Studio', path: '/mashmedia' },
+      // { label: 'DigitalOne', path: '/digitalone' }
+      // { label: 'DigitalOneX', path: '/colorpalette' }
+      // { label: 'DigitalOne', path: '/digitalone/colorpalette' }
       { label: 'DigitalOne', path: '/digitalone' }
     ],
     right: [
