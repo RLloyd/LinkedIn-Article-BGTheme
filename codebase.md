@@ -36,7 +36,7 @@ src/components/BulkImagesLoader
 # src/pages/BulkLoading
 # src/pages/BulkLoading/BulkLoading.tsx
 
-
+public/Notes/Atom
 ```
 
 # .vscode/settings.json
@@ -217,6 +217,223 @@ The component uses several state variables to manage its behavior, including `is
 
 ```
 
+# public/Notes/Atom/Navbar.tsx
+
+```tsx
+//App.tsx
+// I see the issue. In the Navbar component, you're not using the toggleTheme and isDarkTheme props that are being passed down. Let's fix that. Here's the corrected Navbar component:
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { FiMenu, FiX, FiSun, FiMoon } from "react-icons/fi"; // Add FiSun and FiMoon
+import {
+  NavbarContainer,
+  NavigationGroup,
+  ControlsGroup,
+  Logo,
+  MenuItems,
+  MenuItem,
+  MobileMenuButton,
+  MobileMenu,
+  LogoButton,
+  ThemeToggle // Make sure this is imported
+} from "./Navbar.styles";
+import { navigationData } from "@/data/mockData";
+import { NavigationItem } from "@/types/navigation";
+
+interface NavbarProps {
+  toggleTheme: () => void;
+  isDarkTheme: boolean;
+}
+
+const Navbar: React.FC<NavbarProps> = ({ toggleTheme, isDarkTheme }) => { // Use the props
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const {
+    menuItems: { left: leftMenuItems, right: rightMenuItems },
+    logo,
+  } = navigationData;
+
+  // ... rest of your existing code ...
+
+  return (
+    <NavbarContainer>
+      <NavigationGroup>
+        <MenuItems className="left-menu">{leftMenuItems.map(renderMenuItem)}</MenuItems>
+
+        <Logo>
+          <LogoButton onClick={handleLogoClick} aria-label={`${logo.alt} - Open article site in new window`}>
+            <img src={logo.image} alt={logo.alt} loading="eager" />
+          </LogoButton>
+        </Logo>
+
+        <MenuItems className="right-menu">{rightMenuItems.map(renderMenuItem)}</MenuItems>
+      </NavigationGroup>
+
+      <ControlsGroup>
+        <ThemeToggle
+          onClick={toggleTheme}
+          aria-label={isDarkTheme ? 'Switch to light theme' : 'Switch to dark theme'}
+        >
+          {isDarkTheme ? <FiSun size={20} /> : <FiMoon size={20} />}
+        </ThemeToggle>
+
+        <MobileMenuButton onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+          {isMobileMenuOpen ? <FiX /> : <FiMenu />}
+        </MobileMenuButton>
+      </ControlsGroup>
+
+      {isMobileMenuOpen && (
+        <MobileMenu>
+          {[...leftMenuItems, ...rightMenuItems].map(renderMenuItem)}
+        </MobileMenu>
+      )}
+    </NavbarContainer>
+  );
+};
+
+export default Navbar;
+
+/*---++++++++++++++++++++++++++++++++++++++++++++++++++++++++++---*/
+// Orig
+
+// src/components/Navbar/Navbar.tsx
+
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { FiMenu, FiX} from "react-icons/fi";
+import { NavbarContainer, NavigationGroup, ControlsGroup, Logo, MenuItems, MenuItem, MobileMenuButton, MobileMenu, LogoButton } from "./Navbar.styles";
+import { navigationData } from "@/data/mockData";
+import { NavigationItem } from "@/types/navigation";
+
+interface NavbarProps {
+	toggleTheme: () => void;
+	isDarkTheme: boolean;
+}
+
+// const Navbar: React.FC<NavbarProps> = ({ toggleTheme, isDarkTheme }) => {
+const Navbar: React.FC<NavbarProps> = () => {
+	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+	const {
+		menuItems: { left: leftMenuItems, right: rightMenuItems },
+		logo,
+	} = navigationData;
+
+	const getWindowFeatures = (isLogo: boolean = false) => {
+		if (isLogo) {
+			return `
+        height=1020,
+        width=${window.innerWidth},
+        left=${window.screenX},
+        top=${window.screenY},
+        menubar=no,
+        toolbar=no,
+        location=yes,
+        status=no,
+        scrollbars=yes
+      `.replace(/\s/g, "");
+		}
+
+		// Features for social window
+		const width = 1920;
+		const height = 1020;
+		const left = (window.screen.width - width) / 2;
+		const top = (window.screen.height - height) / 2;
+
+		return `
+      width=${width},
+      height=${height},
+      left=${left},
+      top=${top},
+      menubar=no,
+      toolbar=no,
+      location=yes,
+      status=no,
+      scrollbars=yes
+    `.replace(/\s/g, "");
+	};
+
+	const handleLogoClick = () => {
+		const newWindow = window.open(logo.path, "_blank", getWindowFeatures(true));
+		if (newWindow) {
+			newWindow.focus();
+			window.close();
+		}
+	};
+
+	const handleWindowOpen = (path: string) => {
+		const newWindow = window.open(path, "SocialWindow", getWindowFeatures());
+		if (newWindow) {
+			newWindow.focus();
+		}
+	};
+
+	const renderMenuItem = (item: NavigationItem) => {
+		if (item.openInWindow) {
+			return (
+				<MenuItem key={item.label}>
+					<a
+						href={item.path}
+						onClick={(e) => {
+							e.preventDefault();
+							handleWindowOpen(item.path);
+						}}
+					>
+						{item.label}
+					</a>
+				</MenuItem>
+			);
+		}
+
+		if (item.label === "Home" || item.isExternal) {
+			return (
+				<MenuItem key={item.label}>
+					<a href={item.path} target="_blank" rel="noopener noreferrer">
+						{item.label}
+					</a>
+				</MenuItem>
+			);
+		}
+
+		return (
+			<MenuItem key={item.label}>
+				<Link to={item.path}>{item.label}</Link>
+			</MenuItem>
+		);
+	};
+
+	return (
+		<NavbarContainer>
+			<NavigationGroup>
+				<MenuItems className="left-menu">{leftMenuItems.map(renderMenuItem)}</MenuItems>
+
+				<Logo>
+					<LogoButton onClick={handleLogoClick} aria-label={`${logo.alt} - Open article site in new window`}>
+						<img src={logo.image} alt={logo.alt} loading="eager" />
+					</LogoButton>
+				</Logo>
+
+				<MenuItems className="right-menu">{rightMenuItems.map(renderMenuItem)}</MenuItems>
+			</NavigationGroup>
+
+			<ControlsGroup>
+				{/* <ThemeToggle
+               onClick={toggleTheme}
+               aria-label={isDarkTheme ? 'Switch to light theme' : 'Switch to dark theme'}
+               >
+                  {isDarkTheme ? <FiSun /> : <FiMoon />}
+                  </ThemeToggle> */}
+
+				<MobileMenuButton onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>{isMobileMenuOpen ? <FiX /> : <FiMenu />}</MobileMenuButton>
+			</ControlsGroup>
+
+			{isMobileMenuOpen && <MobileMenu>{[...leftMenuItems, ...rightMenuItems].map(renderMenuItem)}</MobileMenu>}
+		</NavbarContainer>
+	);
+};
+
+export default Navbar;
+
+```
+
 # public/Notes/Create folder structures.txt
 
 ```txt
@@ -247,230 +464,12 @@ Use the source control to commit and push to GIT
 
 ```tsx
 
-
-import React, { useEffect } from 'react';
-import styled from 'styled-components';
-import { colors } from '@/styles/theme';
-
-const Container = styled.div`
-  width: 100%;
-  min-height: 100vh;
-  padding-top: ${({ theme }) => theme.sizes.navHeight};
-  background: transparent;
-`;
-
-const Content = styled.div`
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 2rem;
-  border: 1px solid red; // Debug border
-`;
-
-const Title = styled.h2`
-  font-size: 2rem;
-  font-weight: bold;
-  margin-bottom: 2rem;
-  color: ${({ theme }) => theme.colors.text.light.primary};
-`;
-
-const Grid = styled.div`
-  display: grid;
-  grid-gap: 2rem;
-`;
-
-const ColorSection = styled.div`
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 0.5rem;
-  padding: 1rem;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-`;
-
-const SectionTitle = styled.h3`
-  font-size: 1.25rem;
-  font-weight: bold;
-  margin-bottom: 1rem;
-  text-transform: capitalize;
-  color: ${({ theme }) => theme.colors.text.light.primary};
-`;
-
-const ColorGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 1rem;
-`;
-
-const ColorSwatch = styled.div<{ $bgColor: string }>`
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-
-  .swatch {
-    height: 5rem;
-    border-radius: 0.375rem;
-    background-color: ${props => props.$bgColor};
-    transition: transform 0.2s ease;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-
-    &:hover {
-      transform: scale(1.05);
-    }
-  }
-
-  .info {
-    font-size: 0.875rem;
-
-    .shade {
-      font-weight: 500;
-      color: ${({ theme }) => theme.colors.text.light.primary};
-    }
-
-    .value {
-      font-family: monospace;
-      opacity: 0.75;
-      color: ${({ theme }) => theme.colors.text.light.secondary};
-    }
-  }
-`;
-
-const ColorPalette: React.FC = () => {
-  useEffect(() => {
-    console.log('ColorPalette mounted');
-    console.log('Theme colors available:', colors);
-
-    return () => {
-      console.log('ColorPalette unmounted');
-    };
-  }, []);
-
-  const displayableColors = {
-    primary: colors.primary,
-    secondary: colors.secondary,
-    accent: colors.accent,
-    success: colors.success,
-    warning: colors.warning,
-    danger: colors.danger,
-    gray: colors.gray
-  };
-
-  const renderColorSection = (colorName: string, shades: Record<string | number, string>) => {
-    console.log(`Rendering color section: ${colorName}`, shades);
-    return (
-      <ColorSection key={colorName}>
-        <SectionTitle>{colorName}</SectionTitle>
-        <ColorGrid>
-          {Object.entries(shades).map(([shade, value]) => (
-            <ColorSwatch key={`${colorName}-${shade}`} $bgColor={value}>
-              <div className="swatch" />
-              <div className="info">
-                <div className="shade">{shade}</div>
-                <div className="value">{value}</div>
-              </div>
-            </ColorSwatch>
-          ))}
-        </ColorGrid>
-      </ColorSection>
-    );
-  };
-
-  if (!colors || Object.keys(displayableColors).length === 0) {
-    console.warn('No colors available in theme');
-    return (
-      <Container>
-        <Content>
-          <Title>Color Palette</Title>
-          <p>No colors available to display</p>
-        </Content>
-      </Container>
-    );
-  }
-
-  return (
-    <Container>
-      <Content>
-        <Title>Color Palette</Title>
-        <Grid>
-          {Object.entries(displayableColors).map(([colorName, shades]) => {
-            console.log(`Processing color: ${colorName}`);
-            return renderColorSection(colorName, shades);
-          })}
-        </Grid>
-      </Content>
-    </Container>
-  );
-};
-
-export default ColorPalette;
 ```
 
 # public/Notes/Misc2.ts
 
 ```ts
-import React from 'react';
-import { motion } from 'framer-motion';
-import styled, { useTheme } from 'styled-components';
-import { ThemeMode } from '@/styles/theme';
 
-// ... other styled components ...
-
-const ThemedPath = styled(motion.path)`
-  fill: ${({ theme }) => theme.isDarkTheme ?
-    theme.colors.text.dark.secondary :
-    theme.colors.text.light.secondary};
-`;
-
-const LoadingOverlay: React.FC<{ progress: number; mode: ThemeMode }> = ({ progress, mode }) => {
-  const theme = useTheme();
-  const easing = [0.35, 0.27, 0.3, 0.83];
-  const animationDuration = 3;
-
-  return (
-    <LoaderOverlay
-      $mode={mode}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.3 }}
-    >
-      <LoaderContainer>
-        <CounterContainer>
-          <CountdownText>
-            <span>{Math.min(progress, 100)}</span>
-            <span>%</span>
-          </CountdownText>
-        </CounterContainer>
-
-        <CircularSVG>
-          <motion.svg width="314" height="314" viewBox="0 0 314 314" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <ThemedPath
-              initial={{ rotate: 0 }}
-              animate={{ rotate: 720 }}
-              transition={{ duration: animationDuration, ease: easing, repeat: Infinity }}
-              d="M156.699 33.1997C88.4921 33.1997 33.1992 88.4925 33.1992 156.7C33.1992 224.907 88.4921 280.2 156.699 280.2C224.906 280.2 280.199 224.907 280.199 156.7C280.199 88.4925 224.906 33.1997 156.699 33.1997ZM31.1992 156.7C31.1992 87.388 87.3875 31.1997 156.699 31.1997C226.011 31.1997 282.199 87.388 282.199 156.7C282.199 226.011 226.011 282.2 156.699 282.2C87.3875 282.2 31.1992 226.011 31.1992 156.7Z"
-            />
-
-            <ThemedPath
-              initial={{ rotate: 0 }}
-              animate={{ rotate: -360 }}
-              transition={{ duration: animationDuration, ease: easing, repeat: Infinity }}
-              d="M156.7 49.2993C97.3844 49.2993 49.2998 97.3839 49.2998 156.699C49.2998 216.015 97.3844 264.099 156.7 264.099C216.015 264.099 264.1 216.015 264.1 156.699C264.1 97.3839 216.015 49.2993 156.7 49.2993ZM47.2998 156.699C47.2998 96.2794 96.2799 47.2993 156.7 47.2993C217.12 47.2993 266.1 96.2794 266.1 156.699C266.1 217.119 217.12 266.099 156.7 266.099C96.2799 266.099 47.2998 217.119 47.2998 156.699Z"
-            />
-
-            <ThemedPath
-              initial={{ rotate: 0 }}
-              animate={{ rotate: 360 }}
-              transition={{ duration: animationDuration, ease: easing, repeat: Infinity }}
-              d="M156.7 95.2993C138.384 95.2993 121.907 103.312 110.707 116.059L101.692 108.139C115.092 92.8871 134.816 83.2993 156.7 83.2993C197.214 83.2993 230.1 116.186 230.1 156.699C230.1 197.213 197.214 230.099 156.7 230.099C116.186 230.099 83.2998 197.213 83.2998 156.699H95.2998C95.2998 190.586 122.814 218.099 156.7 218.099C190.586 218.099 218.1 190.586 218.1 156.699C218.1 122.813 190.586 95.2993 156.7 95.2993Z"
-            />
-
-            {/* Add ThemedPath for other paths as well */}
-          </motion.svg>
-        </CircularSVG>
-      </LoaderContainer>
-    </LoaderOverlay>
-  );
-};
-
-export default LoadingOverlay;
 ```
 
 # public/Notes/To-Do.md
@@ -501,6 +500,48 @@ export default LoadingOverlay;
 ### Date: Nov. 29, 2024
 - Source control: Changes/Discard all changes
 - npx ai-digest : Created a new codebase for a new chat
+
+## Project: All components integration
+#### Date: Nov. 29, 2024
+### Troubleshooting Light/Dark Mode Switch
+- Light & Dark mode switch not working
+   - Copy & paste App.tsx & Navbar.tsx code
+   - I see the issue. In the Navbar component, you're not using the toggleTheme and isDarkTheme props that are being passed down. Let's fix that. Here's the corrected Navbar component:
+   - ✅ Fixed!
+<!--================================================================-->
+### Implement Reusable Draggable Control Widget
+- I need the DraggableControlWidget to work accross all the different pages
+ - Created a new SharedControlWidget.tsx and update App.tsx
+ - ✅ Fixed!
+<!--================================================================-->
+### Fix Home menu item to use internal navigation
+- Home button is opening external link
+ - In /src/components/Navbar/Navbar.tsx, the renderMenuItem function needs to be fixed to correctly handle internal vs external links.
+ - ✅ Fixed!
+<!--================================================================-->
+### Add Minimize & Maximize button for the SharedControlWidget
+- To be able to get the widget out of the way we should be able to minimize it.
+<!--================================================================-->
+### Hard reload brakes loader
+- When doing a browser hard reload the percentages goes awry and the sequence of animation is out of synch.
+- It continues on the animation while the image is still loading. It should wait for the image
+  to finish loading before starting the animation.
+- Once loaded the Reload button works fine
+- It also takes time to load when hard reloading
+<!--================================================================-->
+### Loader has a black background in Darkmode
+- Go to dark mode, Reload page using widget, the background goes black covering
+  the Navbar, Widget and the image background, the loader continue to calculate.
+- Needs to show the dark image backgrpound instead of just black during loading
+<!--================================================================-->
+### Miscellaneous manual fixes
+- PoemEverlay width:97% instead of 100% : ✅ Fixed!
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+- Home opens a new window. Shouldn't!
+- Play a Whale sound after animation is not working. This can wait.
+- Loader color theme needs work. Comply to themes
+- Fonts in Color Palette is OFF
+
 
 
 
@@ -781,7 +822,7 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
-  useLocation  // Add this
+  useLocation
 } from 'react-router-dom';
 import { lightTheme, darkTheme } from '@/styles/theme';
 import { GlobalStyles } from '@/styles/GlobalStyles';
@@ -790,8 +831,8 @@ import Navbar from '@/components/Navbar';
 import MashMediaStudio from './pages/MashMediaStudio/MashMediaStudio';
 import ColorPalette from '@/components/ColorPalette';
 import Home from '@/pages/Home';
+import SharedControlWidget from './components/SharedControlWidget/SharedControlWidget';
 
-// Create a wrapper component that will log route changes
 const RouteLogger: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const location = useLocation();
 
@@ -818,12 +859,37 @@ const App: React.FC = () => {
         <RouteLogger>
           <Navbar toggleTheme={toggleTheme} isDarkTheme={isDarkTheme} />
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/mashmedia" element={<MashMediaStudio />} />
-            <Route path="/digitalone" element={<ColorPalette />} />
-            <Route path="/zenmonics" element={<div>Zenmonics</div>} />
-            <Route path="/styleguide" element={<div>Styleguide</div>} />
-            <Route path="/profile" element={<div>Profile</div>} />
+            <Route path="/" element={<Home toggleTheme={toggleTheme} isDarkTheme={isDarkTheme} />} />
+            <Route path="/mashmedia" element={
+              <>
+                <MashMediaStudio />
+                <SharedControlWidget toggleTheme={toggleTheme} isDarkTheme={isDarkTheme} />
+              </>
+            } />
+            <Route path="/digitalone" element={
+              <>
+                <ColorPalette />
+                <SharedControlWidget toggleTheme={toggleTheme} isDarkTheme={isDarkTheme} />
+              </>
+            } />
+            <Route path="/zenmonics" element={
+              <>
+                <div>Zenmonics</div>
+                <SharedControlWidget toggleTheme={toggleTheme} isDarkTheme={isDarkTheme} />
+              </>
+            } />
+            <Route path="/styleguide" element={
+              <>
+                <div>Styleguide</div>
+                <SharedControlWidget toggleTheme={toggleTheme} isDarkTheme={isDarkTheme} />
+              </>
+            } />
+            <Route path="/profile" element={
+              <>
+                <div>Profile</div>
+                <SharedControlWidget toggleTheme={toggleTheme} isDarkTheme={isDarkTheme} />
+              </>
+            } />
             <Route
               path="*"
               element={
@@ -844,61 +910,6 @@ const App: React.FC = () => {
 };
 
 export default App;
-
-/*-+++++++++++++++++++++++++++++++++++++++++++++++++-*/
-// import React, { useState } from "react";
-// import { ThemeProvider } from "styled-components";
-// import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-// import { lightTheme, darkTheme } from "@/styles/theme";
-// import { GlobalStyles } from "@/styles/GlobalStyles";
-// import Background from "@/components/Background";
-// import Navbar from "@/components/Navbar";
-// import MashMediaStudio from "./pages/MashMediaStudio/MashMediaStudio";
-// // import Loader from './pages/Loader/Loader';
-// import Home from "@/pages/Home";
-// // import ColorPalette from './components/ColorPalette/ColorPalette';
-// import ColorPalette from "@/components/ColorPalette";
-// // import { Loader } from 'lucide-react';
-
-// const App: React.FC = () => {
-// 	const [isDarkTheme, setIsDarkTheme] = useState(false);
-// 	//   const currentTheme = isDarkTheme ? darkTheme : lightTheme;
-
-// 	const toggleTheme = () => {
-// 		setIsDarkTheme(!isDarkTheme);
-// 	};
-
-// 	return (
-// 		//  <ThemeProvider theme={currentTheme}>
-// 		<ThemeProvider theme={isDarkTheme ? darkTheme : lightTheme}>
-// 			<GlobalStyles />
-// 			<Background isDarkTheme={isDarkTheme} />
-// 			<Router>
-// 				<Navbar toggleTheme={toggleTheme} isDarkTheme={isDarkTheme} />
-// 				<Routes>
-// 					{/* <Route path="/"                 element={<Home/>} /> */}
-// 					{/* <Route path="/"                 element={<Loader/>} /> */}
-// 					{/* <Route path="/BulkLoading"      element={<div>MediaMash Studio</div>} /> */}
-// 					<Route path="/" element={<Home toggleTheme={toggleTheme} isDarkTheme={isDarkTheme} />} />
-// 					<Route path="/mashmedia" element={<MashMediaStudio />} />
-// 					{/* <Route path="/digitalone"       element={<div>DigitalOne</div>} /> */}
-// 					{/* <Route path="/colorpalette"       element={<div><ColorPalette/></div>} /> */}
-// 					{/* <Route path="/digitalone/colorpalette" element={<ColorPalette />} /> */}
-// 					{/* <Route path="/digitalone"       element={<ColorPalette />} /> */}
-// 					<Route path="/digitalone/colorpalette" element={<ColorPalette />} />
-// 					<Route path="/zenmonics" element={<div>Zenmonics</div>} />
-// 					<Route path="/styleguide" element={<div>Styleguide</div>} />
-// 					<Route path="/profile" element={<div>Profile</div>} />
-// 					{/* Add a catch-all route for debugging */}
-// 					<Route path="*" element={<div>404 - Page not found</div>} />
-// 				</Routes>
-// 			</Router>
-// 		</ThemeProvider>
-// 	);
-// };
-
-// export default App;
-
 ```
 
 # src/assets/bonsai.png
@@ -3357,155 +3368,163 @@ export default CircularLoader;
 ```tsx
 // src/compoents/ColorPalette/ColorPalette.tsx
 
-import React, { useEffect } from 'react';
-import styled from 'styled-components';
-import { colors } from '@/styles/theme';
+import React, { useEffect } from "react";
+import styled from "styled-components";
+import { colors } from "@/styles/theme";
 
 const Container = styled.div`
-  width: 100%;
-  min-height: 100vh;
-  padding-top: ${({ theme }) => theme.sizes.navHeight};
-  background: transparent;
+	width: 100%;
+	min-height: 100vh;
+	padding-top: ${({ theme }) => theme.sizes.navHeight};
+	background: transparent;
 `;
 
 const Content = styled.div`
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 2rem;
-  border: 1px solid red; // Debug border
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 2rem;
+	top: 100px;
+	position: relative;
+	border-radius: 1rem;
+   background: ${({ theme }) => (theme.isDarkTheme ? "rgba(0, 0 ,0, .5)" : "rgba(255, 255, 255, 0.5)")};
+	border: 6px solid red; // Debug border
 `;
 
 const Title = styled.h2`
-  font-size: 2rem;
-  font-weight: bold;
-  margin-bottom: 2rem;
-  color: ${({ theme }) => theme.colors.text.light.primary};
+	font-size: 2rem;
+	font-weight: bold;
+	margin-bottom: 2rem;
+	color: ${({ theme }) => theme.colors.text.light.primary};
 `;
 
 const Grid = styled.div`
-  display: grid;
-  grid-gap: 2rem;
+	display: grid;
+	grid-gap: 2rem;
 `;
 
 const ColorSection = styled.div`
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 0.5rem;
-  padding: 1rem;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+	background: rgba(255, 255, 255, 0.1);
+	border-radius: 0.5rem;
+	padding: 1rem;
+	border: 1px solid rgba(255, 255, 255, 0.2);
 `;
 
 const SectionTitle = styled.h3`
-  font-size: 1.25rem;
-  font-weight: bold;
-  margin-bottom: 1rem;
-  text-transform: capitalize;
-  color: ${({ theme }) => theme.colors.text.light.primary};
+	font-size: 1.25rem;
+	font-weight: bold;
+	margin-bottom: 1rem;
+	text-transform: capitalize;
+	color: ${({ theme }) => theme.colors.text.light.primary};
 `;
 
 const ColorGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 1rem;
+	display: grid;
+	  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+	// grid-template-columns: auto auto auto auto auto;
+	gap: 1rem;
+	border: 1px solid red;
 `;
 
 const ColorSwatch = styled.div<{ $bgColor: string }>`
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+   border: 1px solid red;
 
-  .swatch {
-    height: 5rem;
-    border-radius: 0.375rem;
-    background-color: ${props => props.$bgColor};
-    transition: transform 0.2s ease;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+	.swatch {
+		height: 5rem;
+		// width: 10rem;
+		border-radius: 0.375rem;
+		background-color: ${(props) => props.$bgColor};
+		transition: transform 0.2s ease;
+		border: 1px solid rgba(255, 255, 255, 0.1);
 
-    &:hover {
-      transform: scale(1.05);
-    }
-  }
+		&:hover {
+			transform: scale(1.05);
+		}
+	}
 
-  .info {
-    font-size: 0.875rem;
+	.info {
+		font-size: 0.875rem;
 
-    .shade {
-      font-weight: 500;
-      color: ${({ theme }) => theme.colors.text.light.primary};
-    }
+		.shade {
+			font-weight: 500;
+			color: ${({ theme }) => theme.colors.text.light.primary};
+		}
 
-    .value {
-      font-family: monospace;
-      opacity: 0.75;
-      color: ${({ theme }) => theme.colors.text.light.secondary};
-    }
-  }
+		.value {
+			font-family: monospace;
+			opacity: 0.75;
+			color: ${({ theme }) => theme.colors.text.light.secondary};
+		}
+	}
 `;
 
 const ColorPalette: React.FC = () => {
-  useEffect(() => {
-    console.log('ColorPalette mounted');
-    console.log('Theme colors available:', colors);
+	useEffect(() => {
+		console.log("ColorPalette mounted");
+		console.log("Theme colors available:", colors);
 
-    return () => {
-      console.log('ColorPalette unmounted');
-    };
-  }, []);
+		return () => {
+			console.log("ColorPalette unmounted");
+		};
+	}, []);
 
-  const displayableColors = {
-    primary: colors.primary,
-    secondary: colors.secondary,
-    accent: colors.accent,
-    success: colors.success,
-    warning: colors.warning,
-    danger: colors.danger,
-    gray: colors.gray
-  };
+	const displayableColors = {
+		primary: colors.primary,
+		secondary: colors.secondary,
+		accent: colors.accent,
+		success: colors.success,
+		warning: colors.warning,
+		danger: colors.danger,
+		gray: colors.gray,
+	};
 
-  const renderColorSection = (colorName: string, shades: Record<string | number, string>) => {
-    console.log(`Rendering color section: ${colorName}`, shades);
-    return (
-      <ColorSection key={colorName}>
-        <SectionTitle>{colorName}</SectionTitle>
-        <ColorGrid>
-          {Object.entries(shades).map(([shade, value]) => (
-            <ColorSwatch key={`${colorName}-${shade}`} $bgColor={value}>
-              <div className="swatch" />
-              <div className="info">
-                <div className="shade">{shade}</div>
-                <div className="value">{value}</div>
-              </div>
-            </ColorSwatch>
-          ))}
-        </ColorGrid>
-      </ColorSection>
-    );
-  };
+	const renderColorSection = (colorName: string, shades: Record<string | number, string>) => {
+		console.log(`Rendering color section: ${colorName}`, shades);
+		return (
+			<ColorSection key={colorName}>
+				<SectionTitle>{colorName}</SectionTitle>
+				<ColorGrid>
+					{Object.entries(shades).map(([shade, value]) => (
+						<ColorSwatch key={`${colorName}-${shade}`} $bgColor={value}>
+							<div className="swatch" />
+							<div className="info">
+								<div className="shade">{shade}</div>
+								<div className="value">{value}</div>
+							</div>
+						</ColorSwatch>
+					))}
+				</ColorGrid>
+			</ColorSection>
+		);
+	};
 
-  if (!colors || Object.keys(displayableColors).length === 0) {
-    console.warn('No colors available in theme');
-    return (
-      <Container>
-        <Content>
-          <Title>Color Palette</Title>
-          <p>No colors available to display</p>
-        </Content>
-      </Container>
-    );
-  }
+	if (!colors || Object.keys(displayableColors).length === 0) {
+		console.warn("No colors available in theme");
+		return (
+			<Container>
+				<Content>
+					<Title>Color Palette</Title>
+					<p>No colors available to display</p>
+				</Content>
+			</Container>
+		);
+	}
 
-  return (
-    <Container>
-      <Content>
-        <Title>Color Palette</Title>
-        <Grid>
-          {Object.entries(displayableColors).map(([colorName, shades]) => {
-            console.log(`Processing color: ${colorName}`);
-            return renderColorSection(colorName, shades);
-          })}
-        </Grid>
-      </Content>
-    </Container>
-  );
+	return (
+		<Container>
+			<Content>
+				<Title>Color Palette</Title>
+				<Grid>
+					{Object.entries(displayableColors).map(([colorName, shades]) => {
+						console.log(`Processing color: ${colorName}`);
+						return renderColorSection(colorName, shades);
+					})}
+				</Grid>
+			</Content>
+		</Container>
+	);
 };
 
 export default ColorPalette;
@@ -3827,300 +3846,13 @@ export default ColorPalette;
 // };
 
 // export default ColorPalette;
+
 ```
 
 # src/components/ColorPalette/index.ts
 
 ```ts
 export { default } from './ColorPalette';
-```
-
-# src/components/DraggableControlWidget/DraggableAudioWidget.tsx
-
-```tsx
-//src/components/DraggableControlWidget/DraggableAudioWidget.tsx
-
-import React, { useState, useEffect, useRef } from 'react';
-import { Play, Pause, Volume2, VolumeX, GripVertical, Moon, Sun } from 'lucide-react';
-import styled from 'styled-components';
-
-const WidgetContainer = styled.div<{ $isDragging: boolean }>`
-  position: fixed;
-  background: ${({ theme }) => theme.isDarkTheme
-    ? 'rgba(18, 18, 18, 0.9)'
-    : 'rgba(255, 255, 255, 0.9)'};
-  border: 1px solid ${({ theme }) => theme.colors.border[theme.isDarkTheme ? 'dark' : 'light'].primary};
-  border-radius: 0.5rem;
-  padding: 0.75rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transform: ${({ $isDragging }) => $isDragging ? 'scale(1.02)' : 'scale(1)'};
-  transition: ${({ $isDragging }) => $isDragging ? 'none' : 'all 0.2s ease'};
-  z-index: 50;
-`;
-
-const DragHandle = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 0.5rem;
-  cursor: move;
-  color: ${({ theme }) => theme.colors.text[theme.isDarkTheme ? 'dark' : 'light'].secondary};
-  font-family: ${({ theme }) => theme.typography.body.fontFamily};
-  font-size: 0.875rem;
-`;
-
-const Controls = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-`;
-
-const IconButton = styled.button`
-  background: transparent;
-  border: 1px solid ${({ theme }) => theme.colors.border[theme.isDarkTheme ? 'dark' : 'light'].primary};
-  padding: 0.5rem;
-  border-radius: 0.25rem;
-  color: ${({ theme }) => theme.colors.text[theme.isDarkTheme ? 'dark' : 'light'].primary};
-  cursor: pointer;
-  transition: all 0.2s ease;
-
-  &:hover {
-    background: ${({ theme }) => theme.isDarkTheme
-      ? 'rgba(255, 255, 255, 0.1)'
-      : 'rgba(0, 0, 0, 0.05)'};
-  }
-
-  &:active {
-    transform: scale(0.95);
-  }
-`;
-
-const VolumeSlider = styled.input`
-  width: 6rem;
-  cursor: pointer;
-
-  @media (max-width: 640px) {
-    width: 4rem;
-  }
-`;
-
-interface DraggableAudioWidgetProps {
-  audioSrc: string;
-  toggleTheme: () => void;
-  isDarkTheme: boolean;
-}
-
-const DraggableAudioWidget: React.FC<DraggableAudioWidgetProps> = ({
-  audioSrc,
-  toggleTheme,
-  isDarkTheme
-}) => {
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [isMuted, setIsMuted] = useState(false);
-  const [volume, setVolume] = useState(0.5);
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [isDragging, setIsDragging] = useState(false);
-  const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
-
-  const widgetRef = useRef<HTMLDivElement>(null);
-  const audioContextRef = useRef<AudioContext | null>(null);
-  const sourceRef = useRef<AudioBufferSourceNode | null>(null);
-  const gainNodeRef = useRef<GainNode | null>(null);
-  const [audioBuffer, setAudioBuffer] = useState<AudioBuffer | null>(null);
-
-  // Initialize position
-  useEffect(() => {
-    const updatePosition = () => {
-      if (widgetRef.current) {
-        const widgetRect = widgetRef.current.getBoundingClientRect();
-        setPosition({
-          x: window.innerWidth - widgetRect.width - 20,
-          y: window.innerHeight - widgetRect.height - 20
-        });
-      }
-    };
-
-    updatePosition();
-    window.addEventListener('resize', updatePosition);
-
-    return () => window.removeEventListener('resize', updatePosition);
-  }, []);
-
-  // Initialize audio
-  useEffect(() => {
-    const initAudio = async () => {
-      try {
-        const AudioContext = window.AudioContext || window.webkitAudioContext;
-        audioContextRef.current = new AudioContext();
-        gainNodeRef.current = audioContextRef.current.createGain();
-        gainNodeRef.current.connect(audioContextRef.current.destination);
-        gainNodeRef.current.gain.value = volume;
-
-        const response = await fetch(audioSrc);
-        const arrayBuffer = await response.arrayBuffer();
-        const decoded = await audioContextRef.current.decodeAudioData(arrayBuffer);
-        setAudioBuffer(decoded);
-      } catch (error) {
-        console.error('Audio initialization error:', error);
-      }
-    };
-
-    initAudio();
-
-    return () => {
-      if (sourceRef.current) {
-        sourceRef.current.stop();
-      }
-      if (audioContextRef.current) {
-        audioContextRef.current.close();
-      }
-    };
-  }, [audioSrc]);
-
-  // Handle dragging
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      if (!isDragging) return;
-
-      const newX = e.clientX - dragOffset.x;
-      const newY = e.clientY - dragOffset.y;
-
-      if (widgetRef.current) {
-        const widgetRect = widgetRef.current.getBoundingClientRect();
-        const maxX = window.innerWidth - widgetRect.width;
-        const maxY = window.innerHeight - widgetRect.height;
-
-        const boundedX = Math.min(Math.max(0, newX), maxX);
-        const boundedY = Math.min(Math.max(0, newY), maxY);
-
-        setPosition({ x: boundedX, y: boundedY });
-      }
-    };
-
-    const handleMouseUp = () => {
-      setIsDragging(false);
-    };
-
-    if (isDragging) {
-      document.addEventListener('mousemove', handleMouseMove);
-      document.addEventListener('mouseup', handleMouseUp);
-    }
-
-    return () => {
-      document.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseup', handleMouseUp);
-    };
-  }, [isDragging, dragOffset]);
-
-  const handleMouseDown = (e: React.MouseEvent) => {
-    if (widgetRef.current) {
-      const rect = widgetRef.current.getBoundingClientRect();
-      setDragOffset({
-        x: e.clientX - rect.left,
-        y: e.clientY - rect.top
-      });
-      setIsDragging(true);
-    }
-  };
-
-  const togglePlayback = async () => {
-    if (!audioContextRef.current || !audioBuffer) return;
-
-    try {
-      if (isPlaying && sourceRef.current) {
-        sourceRef.current.stop();
-        sourceRef.current = null;
-        setIsPlaying(false);
-        return;
-      }
-
-      if (audioContextRef.current.state === 'suspended') {
-        await audioContextRef.current.resume();
-      }
-
-      sourceRef.current = audioContextRef.current.createBufferSource();
-      sourceRef.current.buffer = audioBuffer;
-      sourceRef.current.connect(gainNodeRef.current!);
-      sourceRef.current.loop = true;
-      sourceRef.current.start(0);
-      setIsPlaying(true);
-
-      sourceRef.current.onended = () => {
-        setIsPlaying(false);
-        sourceRef.current = null;
-      };
-    } catch (error) {
-      console.error('Playback error:', error);
-      setIsPlaying(false);
-    }
-  };
-
-  const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newVolume = parseFloat(e.target.value);
-    setVolume(newVolume);
-    if (gainNodeRef.current) {
-      gainNodeRef.current.gain.value = newVolume;
-    }
-    setIsMuted(newVolume === 0);
-  };
-
-  const toggleMute = () => {
-    if (gainNodeRef.current) {
-      if (isMuted) {
-        gainNodeRef.current.gain.value = volume;
-      } else {
-        gainNodeRef.current.gain.value = 0;
-      }
-      setIsMuted(!isMuted);
-    }
-  };
-
-  return (
-    <WidgetContainer
-      ref={widgetRef}
-      style={{
-        left: `${position.x}px`,
-        top: `${position.y}px`,
-      }}
-      $isDragging={isDragging}
-    >
-      <DragHandle onMouseDown={handleMouseDown}>
-        <GripVertical size={16} />
-        <span>Audio Controls</span>
-      </DragHandle>
-
-      <Controls>
-        <IconButton onClick={togglePlayback} aria-label={isPlaying ? 'Pause' : 'Play'}>
-          {isPlaying ? <Pause size={20} /> : <Play size={20} />}
-        </IconButton>
-
-        <IconButton onClick={toggleMute} aria-label={isMuted ? 'Unmute' : 'Mute'}>
-          {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
-        </IconButton>
-
-        <VolumeSlider
-          type="range"
-          min="0"
-          max="1"
-          step="0.01"
-          value={volume}
-          onChange={handleVolumeChange}
-          aria-label="Volume"
-        />
-
-        <IconButton
-          onClick={toggleTheme}
-          aria-label={isDarkTheme ? 'Switch to light theme' : 'Switch to dark theme'}
-        >
-          {isDarkTheme ? <Sun size={20} /> : <Moon size={20} />}
-        </IconButton>
-      </Controls>
-    </WidgetContainer>
-  );
-};
-
-export default DraggableAudioWidget;
 ```
 
 # src/components/DraggableControlWidget/DraggableControlWidget.tsx
@@ -4613,7 +4345,7 @@ const StyledImage = styled(motion.img)`
 const PoemOverlay = styled(motion.div)`
 	position: absolute;
 	max-width: 100%;
-	width: 100%;
+	width: 97%;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -4937,11 +4669,17 @@ import { ThemeMode } from "@/styles/theme";
 const ThemedPath = styled(motion.path)`
 	fill: ${({ theme }) => (theme.isDarkTheme ? theme.colors.text.dark.svgColor1 : theme.colors.text.light.svgColor1)};
 `;
-const ThemedPathAccent2 = styled(motion.path)`
+const ThemedPath2 = styled(motion.path)`
 	fill: ${({ theme }) => (theme.isDarkTheme ? theme.colors.text.dark.svgColor2 : theme.colors.text.light.svgColor2)};
 `;
-const ThemedPathAccent3 = styled(motion.path)`
+const ThemedPath3 = styled(motion.path)`
 	fill: ${({ theme }) => (theme.isDarkTheme ? theme.colors.text.dark.svgColor3 : theme.colors.text.light.svgColor3)};
+`;
+const ThemedPath4 = styled(motion.path)`
+	fill: ${({ theme }) => (theme.isDarkTheme ? theme.colors.text.dark.svgColor4 : theme.colors.text.light.svgColor4)};
+`;
+const ThemedPath5 = styled(motion.path)`
+	fill: ${({ theme }) => (theme.isDarkTheme ? theme.colors.text.dark.svgColor5 : theme.colors.text.light.svgColor5)};
 `;
 
 const LoaderOverlay = styled(motion.div)<{ $mode: ThemeMode }>`
@@ -5030,7 +4768,7 @@ const LoadingOverlay: React.FC<{ progress: number; mode: ThemeMode }> = ({ progr
 
 							// fill="#85aab6"
 						/>
-						<ThemedPath
+						<ThemedPath2
 							initial={{ rotate: 0 }}
 							animate={{ rotate: 60 }}
 							transition={{ duration: animationDuration, ease: easing, repeat: Infinity }}
@@ -5042,7 +4780,16 @@ const LoadingOverlay: React.FC<{ progress: number; mode: ThemeMode }> = ({ progr
 
 							// fill="#85aab6"
 						/>
-						<ThemedPathAccent2
+
+<svg width="1533" height="2531" viewBox="0 0 1533 2531" fill="none" xmlns="http://www.w3.org/2000/svg">
+<mask id="path-1-inside-1_118_577" fill="white">
+<path d="M1532.66 17.4199C1214.83 -34.7533 888.89 31.1704 616.316 202.758C343.742 374.346 143.371 639.738 52.9926 948.883C-37.3858 1258.03 -11.5253 1589.56 125.697 1880.95C262.919 2172.34 502.019 2403.45 797.903 2530.7L890.458 2315.48C647.128 2210.84 450.496 2020.77 337.647 1781.14C224.798 1541.5 203.531 1268.86 277.856 1014.62C352.182 760.386 516.964 542.132 741.124 401.021C965.284 259.91 1233.33 205.695 1494.71 248.602L1532.66 17.4199Z"/>
+</mask>
+<path d="M1532.66 17.4199C1214.83 -34.7533 888.89 31.1704 616.316 202.758C343.742 374.346 143.371 639.738 52.9926 948.883C-37.3858 1258.03 -11.5253 1589.56 125.697 1880.95C262.919 2172.34 502.019 2403.45 797.903 2530.7L890.458 2315.48C647.128 2210.84 450.496 2020.77 337.647 1781.14C224.798 1541.5 203.531 1268.86 277.856 1014.62C352.182 760.386 516.964 542.132 741.124 401.021C965.284 259.91 1233.33 205.695 1494.71 248.602L1532.66 17.4199Z" fill="#1EBCDC" stroke="black" stroke-width="2" stroke-dasharray="75 75" mask="url(#path-1-inside-1_118_577)"/>
+</svg>
+
+
+						<ThemedPath3
 							initial={{ rotate: 0 }}
 							animate={{ rotate: -360 }}
 							transition={{ duration: animationDuration, ease: easing, repeat: Infinity }}
@@ -5051,7 +4798,7 @@ const LoadingOverlay: React.FC<{ progress: number; mode: ThemeMode }> = ({ progr
 							d="M156.7 49.2993C97.3844 49.2993 49.2998 97.3839 49.2998 156.699C49.2998 216.015 97.3844 264.099 156.7 264.099C216.015 264.099 264.1 216.015 264.1 156.699C264.1 97.3839 216.015 49.2993 156.7 49.2993ZM47.2998 156.699C47.2998 96.2794 96.2799 47.2993 156.7 47.2993C217.12 47.2993 266.1 96.2794 266.1 156.699C266.1 217.119 217.12 266.099 156.7 266.099C96.2799 266.099 47.2998 217.119 47.2998 156.699Z"
 							// fill="#ff8d53"
 						/>
-						<ThemedPathAccent3
+						<ThemedPath4
 							initial={{ rotate: 0 }}
 							animate={{ rotate: 360 }}
 							transition={{ duration: animationDuration, ease: easing, repeat: Infinity }}
@@ -5060,7 +4807,7 @@ const LoadingOverlay: React.FC<{ progress: number; mode: ThemeMode }> = ({ progr
 							d="M156.7 67C107.114 67 67 107.114 67 156.7C67 206.286 107.114 246.4 156.7 246.4C206.282 246.4 246.4 206.19 246.4 156.7H258.4C258.4 212.81 212.918 258.4 156.7 258.4C100.486 258.4 55 212.914 55 156.7C55 100.486 100.486 55 156.7 55C184.75 55 210.266 66.3749 228.655 84.8696L220.145 93.3304C203.934 77.0251 181.45 67 156.7 67Z"
 							// fill="#85aab6"
 						/>
-						<ThemedPathAccent2
+						<ThemedPath5
 							initial={{ rotate: 0 }}
 							animate={{ rotate: 360 * 4 }}
 							transition={{ duration: animationDuration, ease: easing, repeat: Infinity }}
@@ -5081,7 +4828,7 @@ const LoadingOverlay: React.FC<{ progress: number; mode: ThemeMode }> = ({ progr
 
 							// fill="#A7A9AC"
 						/>
-						<ThemedPathAccent3
+						<ThemedPath
 							initial={{ rotate: 0 }}
 							animate={{ rotate: 360 }}
 							transition={{ duration: animationDuration, ease: easing, repeat: Infinity }}
@@ -5090,7 +4837,7 @@ const LoadingOverlay: React.FC<{ progress: number; mode: ThemeMode }> = ({ progr
 							d="M156.7 95.2993C138.384 95.2993 121.907 103.312 110.707 116.059L101.692 108.139C115.092 92.8871 134.816 83.2993 156.7 83.2993C197.214 83.2993 230.1 116.186 230.1 156.699C230.1 197.213 197.214 230.099 156.7 230.099C116.186 230.099 83.2998 197.213 83.2998 156.699H95.2998C95.2998 190.586 122.814 218.099 156.7 218.099C190.586 218.099 218.1 190.586 218.1 156.699C218.1 122.813 190.586 95.2993 156.7 95.2993Z"
 							// fill="#ff6a00"
 						/>
-						<ThemedPathAccent2
+						<ThemedPath2
 							initial={{ rotate: 0 }}
 							animate={{ rotate: -260 }}
 							transition={{ duration: animationDuration, ease: easing, repeat: Infinity }}
@@ -5362,27 +5109,37 @@ export const ErrorMessage = styled.div`
 
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { FiMenu, FiX} from "react-icons/fi";
-import { NavbarContainer, NavigationGroup, ControlsGroup, Logo, MenuItems, MenuItem, MobileMenuButton, MobileMenu, LogoButton } from "./Navbar.styles";
+import { FiMenu, FiMoon, FiSun, FiX } from "react-icons/fi";
+import {
+  NavbarContainer,
+  NavigationGroup,
+  ControlsGroup,
+  Logo,
+  MenuItems,
+  MenuItem,
+  MobileMenuButton,
+  MobileMenu,
+  LogoButton,
+  ThemeToggle,
+} from "./Navbar.styles";
 import { navigationData } from "@/data/mockData";
 import { NavigationItem } from "@/types/navigation";
 
 interface NavbarProps {
-	toggleTheme: () => void;
-	isDarkTheme: boolean;
+  toggleTheme: () => void;
+  isDarkTheme: boolean;
 }
 
-// const Navbar: React.FC<NavbarProps> = ({ toggleTheme, isDarkTheme }) => {
-const Navbar: React.FC<NavbarProps> = () => {
-	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-	const {
-		menuItems: { left: leftMenuItems, right: rightMenuItems },
-		logo,
-	} = navigationData;
+const Navbar: React.FC<NavbarProps> = ({ toggleTheme, isDarkTheme }): JSX.Element => {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const {
+    menuItems: { left: leftMenuItems, right: rightMenuItems },
+    logo,
+  } = navigationData;
 
-	const getWindowFeatures = (isLogo: boolean = false) => {
-		if (isLogo) {
-			return `
+  const getWindowFeatures = (isLogo = false): string => {
+    if (isLogo) {
+      return `
         height=1020,
         width=${window.innerWidth},
         left=${window.screenX},
@@ -5393,15 +5150,14 @@ const Navbar: React.FC<NavbarProps> = () => {
         status=no,
         scrollbars=yes
       `.replace(/\s/g, "");
-		}
+    }
 
-		// Features for social window
-		const width = 1920;
-		const height = 1020;
-		const left = (window.screen.width - width) / 2;
-		const top = (window.screen.height - height) / 2;
+    const width = 1920;
+    const height = 1020;
+    const left = (window.screen.width - width) / 2;
+    const top = (window.screen.height - height) / 2;
 
-		return `
+    return `
       width=${width},
       height=${height},
       left=${left},
@@ -5412,89 +5168,98 @@ const Navbar: React.FC<NavbarProps> = () => {
       status=no,
       scrollbars=yes
     `.replace(/\s/g, "");
-	};
+  };
 
-	const handleLogoClick = () => {
-		const newWindow = window.open(logo.path, "_blank", getWindowFeatures(true));
-		if (newWindow) {
-			newWindow.focus();
-			window.close();
-		}
-	};
+  const handleLogoClick = (): void => {
+    const newWindow = window.open(logo.path, "_blank", getWindowFeatures(true));
+    if (newWindow) {
+      newWindow.focus();
+      window.close();
+    }
+  };
 
-	const handleWindowOpen = (path: string) => {
-		const newWindow = window.open(path, "SocialWindow", getWindowFeatures());
-		if (newWindow) {
-			newWindow.focus();
-		}
-	};
+  const handleWindowOpen = (path: string): void => {
+    const newWindow = window.open(path, "SocialWindow", getWindowFeatures());
+    if (newWindow) {
+      newWindow.focus();
+    }
+  };
 
-	const renderMenuItem = (item: NavigationItem) => {
-		if (item.openInWindow) {
-			return (
-				<MenuItem key={item.label}>
-					<a
-						href={item.path}
-						onClick={(e) => {
-							e.preventDefault();
-							handleWindowOpen(item.path);
-						}}
-					>
-						{item.label}
-					</a>
-				</MenuItem>
-			);
-		}
+  const renderMenuItem = (item: NavigationItem): JSX.Element => {
+    if (item.openInWindow) {
+      return (
+        <MenuItem key={item.label}>
+          <a
+            href={item.path}
+            onClick={(e: React.MouseEvent<HTMLAnchorElement>) => {
+              e.preventDefault();
+              handleWindowOpen(item.path);
+            }}
+          >
+            {item.label}
+          </a>
+        </MenuItem>
+      );
+    }
 
-		if (item.label === "Home" || item.isExternal) {
-			return (
-				<MenuItem key={item.label}>
-					<a href={item.path} target="_blank" rel="noopener noreferrer">
-						{item.label}
-					</a>
-				</MenuItem>
-			);
-		}
+    if (item.label === "Home" || !item.isExternal) {
+      return (
+        <MenuItem key={item.label}>
+          <Link to={item.path}>{item.label}</Link>
+        </MenuItem>
+      );
+    }
 
-		return (
-			<MenuItem key={item.label}>
-				<Link to={item.path}>{item.label}</Link>
-			</MenuItem>
-		);
-	};
+    return (
+      <MenuItem key={item.label}>
+        <a href={item.path} target="_blank" rel="noopener noreferrer">
+          {item.label}
+        </a>
+      </MenuItem>
+    );
+  };
 
-	return (
-		<NavbarContainer>
-			<NavigationGroup>
-				<MenuItems className="left-menu">{leftMenuItems.map(renderMenuItem)}</MenuItems>
+  return (
+    <NavbarContainer>
+      <NavigationGroup>
+        <MenuItems className="left-menu">
+          {leftMenuItems.map(renderMenuItem)}
+        </MenuItems>
 
-				<Logo>
-					<LogoButton onClick={handleLogoClick} aria-label={`${logo.alt} - Open article site in new window`}>
-						<img src={logo.image} alt={logo.alt} loading="eager" />
-					</LogoButton>
-				</Logo>
+        <Logo>
+          <LogoButton onClick={handleLogoClick} aria-label={`${logo.alt} - Open article site in new window`}>
+            <img src={logo.image} alt={logo.alt} loading="eager" />
+          </LogoButton>
+        </Logo>
 
-				<MenuItems className="right-menu">{rightMenuItems.map(renderMenuItem)}</MenuItems>
-			</NavigationGroup>
+        <MenuItems className="right-menu">
+          {rightMenuItems.map(renderMenuItem)}
+        </MenuItems>
+      </NavigationGroup>
 
-			<ControlsGroup>
-				{/* <ThemeToggle
-               onClick={toggleTheme}
-               aria-label={isDarkTheme ? 'Switch to light theme' : 'Switch to dark theme'}
-               >
-                  {isDarkTheme ? <FiSun /> : <FiMoon />}
-                  </ThemeToggle> */}
+      <ControlsGroup>
+        <ThemeToggle
+          onClick={toggleTheme}
+          aria-label={isDarkTheme ? "Switch to light theme" : "Switch to dark theme"}
+        >
+          {isDarkTheme ? <FiSun size={20} /> : <FiMoon size={20} />}
+        </ThemeToggle>
 
-				<MobileMenuButton onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>{isMobileMenuOpen ? <FiX /> : <FiMenu />}</MobileMenuButton>
-			</ControlsGroup>
+        <MobileMenuButton onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+          {isMobileMenuOpen ? <FiX /> : <FiMenu />}
+        </MobileMenuButton>
+      </ControlsGroup>
 
-			{isMobileMenuOpen && <MobileMenu>{[...leftMenuItems, ...rightMenuItems].map(renderMenuItem)}</MobileMenu>}
-		</NavbarContainer>
-	);
+      {isMobileMenuOpen && (
+        <MobileMenu>
+          {[...leftMenuItems, ...rightMenuItems].map(renderMenuItem)}
+        </MobileMenu>
+      )}
+    </NavbarContainer>
+  );
 };
 
 export default Navbar;
-
 ```
 
 # src/components/NetworkThrottle/NetworkThrottle.tsx
@@ -5612,6 +5377,44 @@ const NetworkThrottle: React.FC<NetworkThrottleProps> = ({
 };
 
 export default NetworkThrottle;
+```
+
+# src/components/SharedControlWidget/SharedControlWidget.tsx
+
+```tsx
+// src/components/SharedControlWidget/SharedControlWidget.tsx
+import React from 'react';
+import DraggableControlWidget from '@/components/DraggableControlWidget/DraggableControlWidget';
+import whaleSound from '@/assets/sounds/whale-call-2.wav';
+
+interface SharedControlWidgetProps {
+  toggleTheme: () => void;
+  isDarkTheme: boolean;
+  onProgressChange?: (progress: number) => void;
+  onLoadComplete?: () => void;
+  onReload?: () => void;
+}
+
+const SharedControlWidget: React.FC<SharedControlWidgetProps> = ({
+  toggleTheme,
+  isDarkTheme,
+  onProgressChange = () => {},
+  onLoadComplete = () => {},
+  onReload = () => {}
+}) => {
+  return (
+    <DraggableControlWidget
+      audioSrc={whaleSound}
+      toggleTheme={toggleTheme}
+      isDarkTheme={isDarkTheme}
+      onProgressChange={onProgressChange}
+      onLoadComplete={onLoadComplete}
+      onReload={onReload}
+    />
+  );
+};
+
+export default SharedControlWidget;
 ```
 
 # src/components/Sound/AudioPlayer.tsx.bak
@@ -6388,36 +6191,64 @@ const URLS = {
 } as const;
 
 export const navigationData = {
-  logo: {
-    image: logo,
-    alt: 'GonzalesDesign Fusion Logo',
-    path: URLS.articleSite
-  },
-  menuItems: {
-    left: [
-      // { label: 'Home', path: URLS.portfolioSite, isExternal: true },
-      { label: 'Home', path: '/' },
-      { label: 'MashMedia Studio', path: '/mashmedia' },
-      // { label: 'DigitalOne', path: '/digitalone' }
-      // { label: 'DigitalOneX', path: '/colorpalette' }
-      // { label: 'DigitalOne', path: '/digitalone/colorpalette' }
-      { label: 'DigitalOne', path: '/digitalone' }
-    ],
-    right: [
-      { label: 'Zenmonics', path: '/zenmonics' },
-      { label: 'Styleguide', path: '/styleguide' },
-      { label: 'Profile', path: '/profile' },
-      // {
-      //   label: 'Sample page',
-      //   path: URLS.samplePage,
-      //   isExternal: true,
-      //   openInWindow: true // New flag to indicate window opening behavior
-      // }
-    ]
-  }
-};
+   logo: {
+     image: logo,
+     alt: 'GonzalesDesign Fusion Logo',
+     path: URLS.articleSite
+   },
+   menuItems: {
+     left: [
+       { label: 'Home', path: '/' },  // Fixed - now uses internal routing
+       { label: 'MashMedia Studio', path: '/mashmedia' },
+       { label: 'DigitalOne', path: '/digitalone' }
+     ],
+     right: [
+       { label: 'Zenmonics', path: '/zenmonics' },
+       { label: 'Styleguide', path: '/styleguide' },
+       { label: 'Profile', path: '/profile' }
+     ]
+   }
+ };
+/*-+++++++++++++++++++++++++++++++++++++++++++++++++-*/
+// import logo from '@/assets/GD-Fusion-logo.png';
 
-export { URLS };
+// const URLS = {
+//   portfolioSite: 'https://www.rlloydgonzales.com',
+//   articleSite: 'https://gd-article-bgtheme.netlify.app/',
+//   samplePage: 'https://gd-article-bgtheme.netlify.app/' // Add your actual URL here
+// } as const;
+
+// export const navigationData = {
+//   logo: {
+//     image: logo,
+//     alt: 'GonzalesDesign Fusion Logo',
+//     path: URLS.articleSite
+//   },
+//   menuItems: {
+//     left: [
+//       // { label: 'Home', path: URLS.portfolioSite, isExternal: true },
+//       { label: 'Home', path: '/' },
+//       { label: 'MashMedia Studio', path: '/mashmedia' },
+//       // { label: 'DigitalOne', path: '/digitalone' }
+//       // { label: 'DigitalOneX', path: '/colorpalette' }
+//       // { label: 'DigitalOne', path: '/digitalone/colorpalette' }
+//       { label: 'DigitalOne', path: '/digitalone' }
+//     ],
+//     right: [
+//       { label: 'Zenmonics', path: '/zenmonics' },
+//       { label: 'Styleguide', path: '/styleguide' },
+//       { label: 'Profile', path: '/profile' },
+//       // {
+//       //   label: 'Sample page',
+//       //   path: URLS.samplePage,
+//       //   isExternal: true,
+//       //   openInWindow: true // New flag to indicate window opening behavior
+//       // }
+//     ]
+//   }
+// };
+
+// export { URLS };
 
 // import logo from '@/assets/GD-Fusion-logo.png';
 
@@ -8774,6 +8605,8 @@ export interface ColorPalette {
          svgColor1: string;
          svgColor2: string;
          svgColor3: string;
+         svgColor4: string;
+         svgColor5: string;
       };
       dark: {
          primary: string;
@@ -8783,6 +8616,8 @@ export interface ColorPalette {
          svgColor1: string;
          svgColor2: string;
          svgColor3: string;
+         svgColor4: string;
+         svgColor5: string;
       };
    };
    border: {
@@ -9000,6 +8835,8 @@ export const lightTheme: Theme = {
             svgColor1: "red",
             svgColor2: "blue",
             svgColor3: "magenta",
+            svgColor4: "cyan",
+            svgColor5: "green",
          },
          dark: {
             primary: '#FFFFFF',
@@ -9008,7 +8845,9 @@ export const lightTheme: Theme = {
             svgColor1: "",
             svgColor2: "",
             svgColor3: "",
-            disabled: '#6E6E6E'
+            svgColor4: "",
+            svgColor5: "",
+            disabled: ''
          }
       },
       border: colors.border  // Add this
@@ -9041,16 +8880,20 @@ export const darkTheme: Theme = {
             svgColor1: "",
             svgColor2: "",
             svgColor3: "",
-            disabled: '#6E6E6E'
+            svgColor4: "",
+            svgColor5: "",
+            disabled: ''
          },
          dark: {
             primary: '#AF99DA',
             secondary: '#0d94a0cc',
             accent: 'yellowgreen',
             disabled: '#6E6E6E',
-            svgColor1: "yellow",
-            svgColor2: "green",
-            svgColor3: "orange",
+            svgColor1: "#C4C4C4",
+            svgColor2: "#900002",
+            svgColor3: "#6F9231",
+            svgColor4: "orange",
+            svgColor5: "green",
          }
       },
       border: colors.border  // Add this

@@ -1,7 +1,7 @@
 // src/components/DraggableControlWidget/DraggableControlWidget.tsx
 
 import React, { useState, useEffect, useCallback, useMemo, useRef } from "react";
-import { Play, Pause, Volume2, VolumeX, GripVertical, Moon, Sun, RotateCw } from "lucide-react";
+import { Play, Pause, Volume2, VolumeX, GripVertical, Moon, Sun, RotateCw, Maximize2, Minimize2 } from "lucide-react";
 import styled from "styled-components";
 
 // ================ Styled Components ================
@@ -16,6 +16,13 @@ const WidgetContainer = styled.div<{ $isDragging: boolean }>`
 	transition: ${({ $isDragging }) => ($isDragging ? "none" : "all 0.2s ease")};
 	z-index: 50;
 	min-width: 200px;
+`;
+
+const MinimizedContainer = styled(WidgetContainer)`
+	width: auto;
+	padding: 0.5rem;
+	display: flex;
+	gap: 0.5rem;
 `;
 
 const DragHandle = styled.div`
@@ -82,6 +89,10 @@ const VolumeSlider = styled.input`
 	@media (max-width: 640px) {
 		width: 4rem;
 	}
+`;
+
+const MinMaxButton = styled(IconButton)`
+	margin-left: auto;
 `;
 
 export const useLoadingSimulator = (onProgressChange: (progress: number) => void, onLoadComplete: () => void) => {
@@ -161,6 +172,7 @@ const DraggableControlWidget: React.FC<DraggableControlWidgetProps> = ({ audioSr
 	const [isPlaying, setIsPlaying] = useState(false);
 	const [isMuted, setIsMuted] = useState(false);
 	const [volume, setVolume] = useState(0.5);
+	const [isMinimized, setIsMinimized] = useState(false);
 
 	// Dragging States
 	const [position, setPosition] = useState({ x: 0, y: 0 });
@@ -253,71 +265,22 @@ const DraggableControlWidget: React.FC<DraggableControlWidgetProps> = ({ audioSr
 
 	// ================ Loading Functions ================
 
-   const { simulateProgress, clearSimulation } = useLoadingSimulator(
-      onProgressChange,
-      onLoadComplete
-    );
+	const { simulateProgress, clearSimulation } = useLoadingSimulator(onProgressChange, onLoadComplete);
 
-    const handleReload = useCallback(() => {
-      // Call parent's onReload first
-      onReload();
-      // Then start a fresh progress simulation
-      simulateProgress();
-    }, [onReload, simulateProgress]);
+	const handleReload = useCallback(() => {
+		// Call parent's onReload first
+		onReload();
+		// Then start a fresh progress simulation
+		simulateProgress();
+	}, [onReload, simulateProgress]);
 
-    // Start initial progress simulation on mount
-    useEffect(() => {
-      simulateProgress();
-      return () => {
-        clearSimulation();
-      };
-    }, [simulateProgress, clearSimulation]);
-
-	// const simulateProgress = useCallback(() => {
-	// 	let progress = 0;
-
-	// 	if (intervalId) {
-	// 		clearInterval(intervalId);
-	// 	}
-
-	// 	const interval = setInterval(() => {
-	// 		const incrementsNeeded = SLOW_4G.totalLoadTime / SLOW_4G.progressInterval;
-	// 		const baseIncrement = 100 / incrementsNeeded;
-	// 		const variation = (Math.random() * 2 - 1) * SLOW_4G.randomVariation * baseIncrement;
-	// 		const increment = Math.max(0.1, baseIncrement + variation);
-
-	// 		progress = Math.min(100, progress + increment);
-	// 		onProgressChange(Math.floor(progress));
-
-	// 		if (progress >= 100) {
-	// 			clearInterval(interval);
-	// 			setIntervalId(null);
-	// 			setTimeout(() => {
-	// 				onLoadComplete();
-	// 			}, 200);
-	// 		}
-	// 	}, SLOW_4G.progressInterval);
-
-	// 	setIntervalId(interval);
-	// }, [SLOW_4G.totalLoadTime, SLOW_4G.progressInterval, SLOW_4G.randomVariation, onProgressChange, onLoadComplete]);
-
-	// // Start initial progress
-	// useEffect(() => {
-	// 	simulateProgress();
-	// 	return () => {
-	// 		if (intervalId) {
-	// 			clearInterval(intervalId);
-	// 		}
-	// 	};
-	// }, []);
-
-	// // Handle Reload
-	// const handleReload = useCallback(() => {
-	// 	onReload();
-	// 	setTimeout(() => {
-	// 		simulateProgress();
-	// 	}, 100);
-	// }, [onReload, simulateProgress]);
+	// Start initial progress simulation on mount
+	useEffect(() => {
+		simulateProgress();
+		return () => {
+			clearSimulation();
+		};
+	}, [simulateProgress, clearSimulation]);
 
 	// ================ Dragging Functions ================
 	useEffect(() => {
@@ -383,6 +346,28 @@ const DraggableControlWidget: React.FC<DraggableControlWidgetProps> = ({ audioSr
 		return () => window.removeEventListener("resize", updatePosition);
 	}, []);
 
+	// ================ Minimize/Maximize Functions ================
+	const toggleMinimize = () => {
+		setIsMinimized(!isMinimized);
+	};
+
+	if (isMinimized) {
+		return (
+			<MinimizedContainer
+				style={{
+					left: `${position.x}px`,
+					top: `${position.y}px`,
+				}}
+				$isDragging={isDragging}
+			>
+				<GripVertical size={16} style={{ cursor: "move" }} onMouseDown={handleMouseDown} />
+				<IconButton onClick={toggleMinimize} aria-label="Maximize">
+					<Maximize2 size={16} />
+				</IconButton>
+			</MinimizedContainer>
+		);
+	}
+
 	// ================ Render ================
 	return (
 		<WidgetContainer
@@ -396,6 +381,9 @@ const DraggableControlWidget: React.FC<DraggableControlWidgetProps> = ({ audioSr
 			<DragHandle onMouseDown={handleMouseDown}>
 				<GripVertical size={16} />
 				<span>Controls</span>
+				<MinMaxButton onClick={toggleMinimize} aria-label="Minimize">
+					<Minimize2 size={16} />
+				</MinMaxButton>
 			</DragHandle>
 
 			<ControlsGroup>
