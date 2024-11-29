@@ -19,6 +19,53 @@
 ### Date: Nov. 28, 2024
 - Image responsiveness
 
+## Component: All affected
+### Date: Nov. 29, 2024
+- Source control: Changes/Discard all changes
+- npx ai-digest : Created a new codebase for a new chat
+
+## Project: All components integration
+#### Date: Nov. 29, 2024
+### Troubleshooting Light/Dark Mode Switch
+- Light & Dark mode switch not working
+   - Copy & paste App.tsx & Navbar.tsx code
+   - I see the issue. In the Navbar component, you're not using the toggleTheme and isDarkTheme props that are being passed down. Let's fix that. Here's the corrected Navbar component:
+   - ✅ Fixed!
+<!--================================================================-->
+### Implement Reusable Draggable Control Widget
+- I need the DraggableControlWidget to work accross all the different pages
+ - Created a new SharedControlWidget.tsx and update App.tsx
+ - ✅ Fixed!
+<!--================================================================-->
+### Fix Home menu item to use internal navigation
+- Home button is opening external link
+ - In /src/components/Navbar/Navbar.tsx, the renderMenuItem function needs to be fixed to correctly handle internal vs external links.
+ - ✅ Fixed!
+<!--================================================================-->
+### Add Minimize & Maximize button for the SharedControlWidget
+- To be able to get the widget out of the way we should be able to minimize it.
+<!--================================================================-->
+### Hard reload brakes loader
+- When doing a browser hard reload the percentages goes awry and the sequence of animation is out of synch.
+- It continues on the animation while the image is still loading. It should wait for the image
+  to finish loading before starting the animation.
+- Once loaded the Reload button works fine
+- It also takes time to load when hard reloading
+<!--================================================================-->
+### Loader has a black background in Darkmode
+- Go to dark mode, Reload page using widget, the background goes black covering
+  the Navbar, Widget and the image background, the loader continue to calculate.
+- Needs to show the dark image backgrpound instead of just black during loading
+<!--================================================================-->
+### Miscellaneous manual fixes
+- PoemEverlay width:97% instead of 100% : ✅ Fixed!
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+- Home opens a new window. Shouldn't!
+- Play a Whale sound after animation is not working. This can wait.
+- Loader color theme needs work. Comply to themes
+- Fonts in Color Palette is OFF
+
+
 
 
 

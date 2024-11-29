@@ -9,11 +9,17 @@ import { ThemeMode } from "@/styles/theme";
 const ThemedPath = styled(motion.path)`
 	fill: ${({ theme }) => (theme.isDarkTheme ? theme.colors.text.dark.svgColor1 : theme.colors.text.light.svgColor1)};
 `;
-const ThemedPathAccent2 = styled(motion.path)`
+const ThemedPath2 = styled(motion.path)`
 	fill: ${({ theme }) => (theme.isDarkTheme ? theme.colors.text.dark.svgColor2 : theme.colors.text.light.svgColor2)};
 `;
-const ThemedPathAccent3 = styled(motion.path)`
+const ThemedPath3 = styled(motion.path)`
 	fill: ${({ theme }) => (theme.isDarkTheme ? theme.colors.text.dark.svgColor3 : theme.colors.text.light.svgColor3)};
+`;
+const ThemedPath4 = styled(motion.path)`
+	fill: ${({ theme }) => (theme.isDarkTheme ? theme.colors.text.dark.svgColor4 : theme.colors.text.light.svgColor4)};
+`;
+const ThemedPath5 = styled(motion.path)`
+	fill: ${({ theme }) => (theme.isDarkTheme ? theme.colors.text.dark.svgColor5 : theme.colors.text.light.svgColor5)};
 `;
 
 const LoaderOverlay = styled(motion.div)<{ $mode: ThemeMode }>`
@@ -102,7 +108,7 @@ const LoadingOverlay: React.FC<{ progress: number; mode: ThemeMode }> = ({ progr
 
 							// fill="#85aab6"
 						/>
-						<ThemedPath
+						<ThemedPath2
 							initial={{ rotate: 0 }}
 							animate={{ rotate: 60 }}
 							transition={{ duration: animationDuration, ease: easing, repeat: Infinity }}
@@ -114,7 +120,16 @@ const LoadingOverlay: React.FC<{ progress: number; mode: ThemeMode }> = ({ progr
 
 							// fill="#85aab6"
 						/>
-						<ThemedPathAccent2
+
+<svg width="1533" height="2531" viewBox="0 0 1533 2531" fill="none" xmlns="http://www.w3.org/2000/svg">
+<mask id="path-1-inside-1_118_577" fill="white">
+<path d="M1532.66 17.4199C1214.83 -34.7533 888.89 31.1704 616.316 202.758C343.742 374.346 143.371 639.738 52.9926 948.883C-37.3858 1258.03 -11.5253 1589.56 125.697 1880.95C262.919 2172.34 502.019 2403.45 797.903 2530.7L890.458 2315.48C647.128 2210.84 450.496 2020.77 337.647 1781.14C224.798 1541.5 203.531 1268.86 277.856 1014.62C352.182 760.386 516.964 542.132 741.124 401.021C965.284 259.91 1233.33 205.695 1494.71 248.602L1532.66 17.4199Z"/>
+</mask>
+<path d="M1532.66 17.4199C1214.83 -34.7533 888.89 31.1704 616.316 202.758C343.742 374.346 143.371 639.738 52.9926 948.883C-37.3858 1258.03 -11.5253 1589.56 125.697 1880.95C262.919 2172.34 502.019 2403.45 797.903 2530.7L890.458 2315.48C647.128 2210.84 450.496 2020.77 337.647 1781.14C224.798 1541.5 203.531 1268.86 277.856 1014.62C352.182 760.386 516.964 542.132 741.124 401.021C965.284 259.91 1233.33 205.695 1494.71 248.602L1532.66 17.4199Z" fill="#1EBCDC" stroke="black" stroke-width="2" stroke-dasharray="75 75" mask="url(#path-1-inside-1_118_577)"/>
+</svg>
+
+
+						<ThemedPath3
 							initial={{ rotate: 0 }}
 							animate={{ rotate: -360 }}
 							transition={{ duration: animationDuration, ease: easing, repeat: Infinity }}
@@ -123,7 +138,7 @@ const LoadingOverlay: React.FC<{ progress: number; mode: ThemeMode }> = ({ progr
 							d="M156.7 49.2993C97.3844 49.2993 49.2998 97.3839 49.2998 156.699C49.2998 216.015 97.3844 264.099 156.7 264.099C216.015 264.099 264.1 216.015 264.1 156.699C264.1 97.3839 216.015 49.2993 156.7 49.2993ZM47.2998 156.699C47.2998 96.2794 96.2799 47.2993 156.7 47.2993C217.12 47.2993 266.1 96.2794 266.1 156.699C266.1 217.119 217.12 266.099 156.7 266.099C96.2799 266.099 47.2998 217.119 47.2998 156.699Z"
 							// fill="#ff8d53"
 						/>
-						<ThemedPathAccent3
+						<ThemedPath4
 							initial={{ rotate: 0 }}
 							animate={{ rotate: 360 }}
 							transition={{ duration: animationDuration, ease: easing, repeat: Infinity }}
@@ -132,7 +147,7 @@ const LoadingOverlay: React.FC<{ progress: number; mode: ThemeMode }> = ({ progr
 							d="M156.7 67C107.114 67 67 107.114 67 156.7C67 206.286 107.114 246.4 156.7 246.4C206.282 246.4 246.4 206.19 246.4 156.7H258.4C258.4 212.81 212.918 258.4 156.7 258.4C100.486 258.4 55 212.914 55 156.7C55 100.486 100.486 55 156.7 55C184.75 55 210.266 66.3749 228.655 84.8696L220.145 93.3304C203.934 77.0251 181.45 67 156.7 67Z"
 							// fill="#85aab6"
 						/>
-						<ThemedPathAccent2
+						<ThemedPath5
 							initial={{ rotate: 0 }}
 							animate={{ rotate: 360 * 4 }}
 							transition={{ duration: animationDuration, ease: easing, repeat: Infinity }}
@@ -153,7 +168,7 @@ const LoadingOverlay: React.FC<{ progress: number; mode: ThemeMode }> = ({ progr
 
 							// fill="#A7A9AC"
 						/>
-						<ThemedPathAccent3
+						<ThemedPath
 							initial={{ rotate: 0 }}
 							animate={{ rotate: 360 }}
 							transition={{ duration: animationDuration, ease: easing, repeat: Infinity }}
@@ -162,7 +177,7 @@ const LoadingOverlay: React.FC<{ progress: number; mode: ThemeMode }> = ({ progr
 							d="M156.7 95.2993C138.384 95.2993 121.907 103.312 110.707 116.059L101.692 108.139C115.092 92.8871 134.816 83.2993 156.7 83.2993C197.214 83.2993 230.1 116.186 230.1 156.699C230.1 197.213 197.214 230.099 156.7 230.099C116.186 230.099 83.2998 197.213 83.2998 156.699H95.2998C95.2998 190.586 122.814 218.099 156.7 218.099C190.586 218.099 218.1 190.586 218.1 156.699C218.1 122.813 190.586 95.2993 156.7 95.2993Z"
 							// fill="#ff6a00"
 						/>
-						<ThemedPathAccent2
+						<ThemedPath2
 							initial={{ rotate: 0 }}
 							animate={{ rotate: -260 }}
 							transition={{ duration: animationDuration, ease: easing, repeat: Infinity }}

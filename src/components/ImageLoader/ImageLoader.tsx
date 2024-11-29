@@ -52,7 +52,7 @@ const StyledImage = styled(motion.img)`
 const PoemOverlay = styled(motion.div)`
 	position: absolute;
 	max-width: 100%;
-	width: 100%;
+	width: 97%;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;

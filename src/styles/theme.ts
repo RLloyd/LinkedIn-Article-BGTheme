@@ -48,6 +48,8 @@ export interface ColorPalette {
          svgColor1: string;
          svgColor2: string;
          svgColor3: string;
+         svgColor4: string;
+         svgColor5: string;
       };
       dark: {
          primary: string;
@@ -57,6 +59,8 @@ export interface ColorPalette {
          svgColor1: string;
          svgColor2: string;
          svgColor3: string;
+         svgColor4: string;
+         svgColor5: string;
       };
    };
    border: {
@@ -274,6 +278,8 @@ export const lightTheme: Theme = {
             svgColor1: "red",
             svgColor2: "blue",
             svgColor3: "magenta",
+            svgColor4: "cyan",
+            svgColor5: "green",
          },
          dark: {
             primary: '#FFFFFF',
@@ -282,7 +288,9 @@ export const lightTheme: Theme = {
             svgColor1: "",
             svgColor2: "",
             svgColor3: "",
-            disabled: '#6E6E6E'
+            svgColor4: "",
+            svgColor5: "",
+            disabled: ''
          }
       },
       border: colors.border  // Add this
@@ -315,16 +323,20 @@ export const darkTheme: Theme = {
             svgColor1: "",
             svgColor2: "",
             svgColor3: "",
-            disabled: '#6E6E6E'
+            svgColor4: "",
+            svgColor5: "",
+            disabled: ''
          },
          dark: {
             primary: '#AF99DA',
             secondary: '#0d94a0cc',
             accent: 'yellowgreen',
             disabled: '#6E6E6E',
-            svgColor1: "yellow",
-            svgColor2: "green",
-            svgColor3: "orange",
+            svgColor1: "#C4C4C4",
+            svgColor2: "#900002",
+            svgColor3: "#6F9231",
+            svgColor4: "orange",
+            svgColor5: "green",
          }
       },
       border: colors.border  // Add this

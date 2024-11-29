@@ -9,36 +9,64 @@ const URLS = {
 } as const;
 
 export const navigationData = {
-  logo: {
-    image: logo,
-    alt: 'GonzalesDesign Fusion Logo',
-    path: URLS.articleSite
-  },
-  menuItems: {
-    left: [
-      // { label: 'Home', path: URLS.portfolioSite, isExternal: true },
-      { label: 'Home', path: '/' },
-      { label: 'MashMedia Studio', path: '/mashmedia' },
-      // { label: 'DigitalOne', path: '/digitalone' }
-      // { label: 'DigitalOneX', path: '/colorpalette' }
-      // { label: 'DigitalOne', path: '/digitalone/colorpalette' }
-      { label: 'DigitalOne', path: '/digitalone' }
-    ],
-    right: [
-      { label: 'Zenmonics', path: '/zenmonics' },
-      { label: 'Styleguide', path: '/styleguide' },
-      { label: 'Profile', path: '/profile' },
-      // {
-      //   label: 'Sample page',
-      //   path: URLS.samplePage,
-      //   isExternal: true,
-      //   openInWindow: true // New flag to indicate window opening behavior
-      // }
-    ]
-  }
-};
+   logo: {
+     image: logo,
+     alt: 'GonzalesDesign Fusion Logo',
+     path: URLS.articleSite
+   },
+   menuItems: {
+     left: [
+       { label: 'Home', path: '/' },  // Fixed - now uses internal routing
+       { label: 'MashMedia Studio', path: '/mashmedia' },
+       { label: 'DigitalOne', path: '/digitalone' }
+     ],
+     right: [
+       { label: 'Zenmonics', path: '/zenmonics' },
+       { label: 'Styleguide', path: '/styleguide' },
+       { label: 'Profile', path: '/profile' }
+     ]
+   }
+ };
+/*-+++++++++++++++++++++++++++++++++++++++++++++++++-*/
+// import logo from '@/assets/GD-Fusion-logo.png';
 
-export { URLS };
+// const URLS = {
+//   portfolioSite: 'https://www.rlloydgonzales.com',
+//   articleSite: 'https://gd-article-bgtheme.netlify.app/',
+//   samplePage: 'https://gd-article-bgtheme.netlify.app/' // Add your actual URL here
+// } as const;
+
+// export const navigationData = {
+//   logo: {
+//     image: logo,
+//     alt: 'GonzalesDesign Fusion Logo',
+//     path: URLS.articleSite
+//   },
+//   menuItems: {
+//     left: [
+//       // { label: 'Home', path: URLS.portfolioSite, isExternal: true },
+//       { label: 'Home', path: '/' },
+//       { label: 'MashMedia Studio', path: '/mashmedia' },
+//       // { label: 'DigitalOne', path: '/digitalone' }
+//       // { label: 'DigitalOneX', path: '/colorpalette' }
+//       // { label: 'DigitalOne', path: '/digitalone/colorpalette' }
+//       { label: 'DigitalOne', path: '/digitalone' }
+//     ],
+//     right: [
+//       { label: 'Zenmonics', path: '/zenmonics' },
+//       { label: 'Styleguide', path: '/styleguide' },
+//       { label: 'Profile', path: '/profile' },
+//       // {
+//       //   label: 'Sample page',
+//       //   path: URLS.samplePage,
+//       //   isExternal: true,
+//       //   openInWindow: true // New flag to indicate window opening behavior
+//       // }
+//     ]
+//   }
+// };
+
+// export { URLS };
 
 // import logo from '@/assets/GD-Fusion-logo.png';
 
