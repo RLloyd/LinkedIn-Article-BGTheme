@@ -196,14 +196,6 @@ const ImageLoader: React.FC<ImageLoaderProps> = ({ src, alt, mode = "light", cla
 		};
 	}, [src]);
 
-	// useEffect(() => {
-	// 	// Only start XHR after image is preloaded
-	// 	if (!isImagePreloaded) return;
-
-	// 	const xhr = new XMLHttpRequest();
-	// 	// Rest of your existing XHR code...
-	// }, [src, isImagePreloaded]);
-
 	const getImageHeight = () => {
 		// Initial heights matching the styled component media queries
 		if (window.innerWidth <= 480) return 250;
@@ -216,56 +208,20 @@ const ImageLoader: React.FC<ImageLoaderProps> = ({ src, alt, mode = "light", cla
 		setProgress(newProgress);
 	}, []);
 
-	// const handleLoadComplete = useCallback(() => {
-	// 	setIsLoading(false);
-	// 	setTimeout(() => {
-	// 		setShowPoem(true);
-	// 		setTimeout(() => {
-	// 			setStartSlideAnimation(true);
-	// 		}, 1000);
-	// 	}, 500);
-	// }, []);
+	// interface LoadingState {
+	// 	downloadProgress: number;
+	// 	imageLoadProgress: number;
+	// }
 
-	// 3. Update handleLoadComplete to wait for animations
-	// const handleLoadComplete = useCallback(() => {
-	// 	const runSequence = async () => {
-	// 		setIsLoading(false);
-	// 		await new Promise((resolve) => setTimeout(resolve, 500));
-	// 		setShowPoem(true);
-	// 		await new Promise((resolve) => setTimeout(resolve, 1000));
-	// 		setStartSlideAnimation(true);
-	//       setIsImagePreloaded(false); // Reset for next load
-	// 	};
-	// 	runSequence();
-	// }, []);
-
-	interface LoadingState {
-		downloadProgress: number;
-		imageLoadProgress: number;
-	}
-
-	const [loadingState, setLoadingState] = useState<LoadingState>({
-		downloadProgress: 0,
-		imageLoadProgress: 0,
-	});
+	// const [loadingState, setLoadingState] = useState<LoadingState>({
+	// 	downloadProgress: 0,
+	// 	imageLoadProgress: 0,
+	// });
 
 	const handleLoadComplete = useCallback(() => {
 		return new Promise<void>((resolve) => {
 			const img = new Image();
-			// img.src = src;
-			// Keep progress at current value during image load
-			// setProgress((prev) => Math.min(prev, 95));
 			img.onload = async () => {
-				// // Only show 100% when fully loaded
-				// setProgress(100);
-				// setLoadingState((prev) => ({ ...prev, imageLoadProgress: 100 }));
-				// setIsLoading(false);
-				// await new Promise((r) => setTimeout(r, 500));
-				// setShowPoem(true);
-				// await new Promise((r) => setTimeout(r, 1000));
-				// setStartSlideAnimation(true);
-				// resolve();
-				// Small delay before finishing
 				await new Promise((r) => setTimeout(r, 200));
 				setIsLoading(false);
 				setShowPoem(true);
@@ -273,8 +229,6 @@ const ImageLoader: React.FC<ImageLoaderProps> = ({ src, alt, mode = "light", cla
 				setStartSlideAnimation(true);
 				resolve();
 			};
-			// Keep progress at 95% during final image load
-			// setProgress(95);
 			img.src = src;
 		});
 	}, [src]);
@@ -286,121 +240,26 @@ const ImageLoader: React.FC<ImageLoaderProps> = ({ src, alt, mode = "light", cla
 		setStartSlideAnimation(false);
 	}, []);
 
-	// useEffect(() => {
-	// 	// Only start XHR after image is preloaded
-	// 	if (!isImagePreloaded) return;
-
-	// 	const xhr = new XMLHttpRequest();
-	// 	xhr.open("GET", src, true);
-	// 	xhr.responseType = "blob";
-
-	// 	// xhr.onprogress = (event) => {
-	// 	// 	if (event.lengthComputable) {
-	// 	// 		const percentComplete = (event.loaded / event.total) * 100;
-	// 	// 		handleProgressChange(Math.round(percentComplete));
-	// 	// 	}
-	// 	// };
-	// 	xhr.onprogress = (event) => {
-	// 		// if (event.lengthComputable) {
-	// 		// 	const downloadPercent = (event.loaded / event.total) * 100;
-	// 		// 	setLoadingState((prev) => ({
-	// 		// 		...prev,
-	// 		// 		downloadProgress: Math.round(downloadPercent),
-	// 		// 	}));
-	// 		// }
-	// 		if (event.lengthComputable) {
-	// 			handleProgressChange(Math.round((event.loaded / event.total) * 80)); // Up to 80%
-	// 		}
-	// 	};
-	// 	// Pass combined progress to LoadingOverlay
-	// 	const totalProgress = Math.round((loadingState.downloadProgress + loadingState.imageLoadProgress) / 2);
-	// 	handleProgressChange(totalProgress);
-
-	// 	// xhr.onload = () => {
-	// 	// 	if (xhr.status === 200) {
-	// 	// 		handleLoadComplete();
-	// 	// 	} else {
-	// 	// 		setHasError(true);
-	// 	// 	}
-	// 	// };
-
-	// 	// xhr.onerror = () => {
-	// 	// 	setHasError(true);
-	// 	// };
-	// 	xhr.onload = async () => {
-	// 		if (xhr.status === 200) {
-	// 			const blob = xhr.response;
-	// 			const imageUrl = URL.createObjectURL(blob);
-	// 			const img = new Image();
-
-	// 			img.onprogress = (event) => {
-	// 				if (event.lengthComputable) {
-	// 					const remaining = (event.loaded / event.total) * 20 + 80; // Last 20%
-	// 					handleProgressChange(Math.round(remaining));
-	// 				}
-	// 			};
-
-	// 			img.onload = async () => {
-	// 				URL.revokeObjectURL(imageUrl);
-	// 				handleLoadComplete();
-	// 			};
-
-	// 			img.src = imageUrl;
-	// 		} else {
-	// 			setHasError(true);
-	// 		}
-	// 	};
-
-	// 	xhr.send();
-
-	// 	return () => {
-	// 		xhr.abort();
-	// 	};
-	// }, [src, isImagePreloaded, handleLoadComplete, handleProgressChange]);
-	// // }, [src, isImagePreloaded]);
-
 	useEffect(() => {
 		const xhr = new XMLHttpRequest();
 		xhr.open("GET", src, true);
 		xhr.responseType = "blob";
-
 		xhr.onprogress = (event) => {
-			// if (event.lengthComputable) {
-			// 	// handleProgressChange(Math.round((event.loaded / event.total) * 100));
-			// 	const rawProgress = (event.loaded / event.total) * 100;
-			// 	// Smooth early progress updates
-			// 	if (rawProgress < 15) {
-			// 		setSmoothProgress((prev) => Math.max(prev, Math.round(rawProgress)));
-			// 	} else {
-			// 		setSmoothProgress(Math.round(rawProgress));
-			// 	}
-			// }
 			if (event.lengthComputable) {
-				// Cap progress at 90% until fully loaded
-				// const progress = (event.loaded / event.total) * 90;
-            const progress = (event.loaded / event.total) * 100;
-            handleProgressChange(Math.round(progress));
+				const progress = (event.loaded / event.total) * 100;
+				handleProgressChange(Math.round(progress));
 			}
 		};
-
 		handleProgressChange(smoothProgress);
-
 		xhr.onload = () => {
 			if (xhr.status === 200) {
 				const imageUrl = URL.createObjectURL(xhr.response);
 				const img = new Image();
-
 				img.onload = () => {
-					// URL.revokeObjectURL(imageUrl);
-					// handleLoadComplete();
-					// handleProgressChange(100);
 					URL.revokeObjectURL(imageUrl);
 					handleLoadComplete();
 				};
-
 				img.src = imageUrl;
-			// } else {
-			// 	setHasError(true);
 			}
 		};
 
@@ -460,13 +319,14 @@ const ImageLoader: React.FC<ImageLoaderProps> = ({ src, alt, mode = "light", cla
 				</AnimatePresence>
 			</ContentWrapper>
 
-			{/* <DraggableAudioWidget
+			<DraggableControlWidget
             audioSrc={whaleSound}
             toggleTheme={toggleTheme}
             isDarkTheme={isDarkTheme}
-            /> */}
-
-			<DraggableControlWidget audioSrc={whaleSound} toggleTheme={toggleTheme} isDarkTheme={isDarkTheme} onProgressChange={handleProgressChange} onLoadComplete={handleLoadComplete} onReload={handleReload} />
+            onProgressChange={handleProgressChange}
+            onLoadComplete={handleLoadComplete}
+            onReload={handleReload}
+            />
 
 			{isLoading && <LoadingOverlay progress={progress} mode={mode} />}
 		</Container>

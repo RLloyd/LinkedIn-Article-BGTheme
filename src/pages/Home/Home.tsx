@@ -4,7 +4,8 @@ import React from "react";
 import { HomeContainer, ImageDiv } from "./Home.styles";
 import whale from "@/assets/Loader/Whale.png";
 // import whaleSound from "@/assets/sounds/whale-call-2.wav";
-import ImageLoader from "@/components/ImageLoader/ImageLoader";
+import ImageLoader from "@/components/ImageLoader/ImageLoader"; //Getting too complicated loader but kinda working
+// import ImageLoader from "@/components/ImageLoader/SimpleImageLoader"; //Bonsai original loader
 
 interface HomeProps {
    toggleTheme: () => void;

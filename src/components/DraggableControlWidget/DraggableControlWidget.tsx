@@ -31,7 +31,7 @@ const DragHandle = styled.div`
 	justify-content: space-between;
 	margin-bottom: 0.75rem;
 	cursor: move;
-	color: ${({ theme }) => theme.colors.text[theme.isDarkTheme ? "dark" : "light"].accent};
+	color: ${({ theme }) => theme.colors.text[theme.isDarkTheme ? "dark" : "light"].primary};
 	font-family: ${({ theme }) => theme.typography.heading.fontFamily};
 	//   font-family: ${({ theme }) => theme.typography.body.fontFamily};
 	font-size: 1rem;
@@ -166,7 +166,14 @@ interface DraggableControlWidgetProps {
 }
 
 // ================ Main Component ================
-const DraggableControlWidget: React.FC<DraggableControlWidgetProps> = ({ audioSrc, toggleTheme, isDarkTheme, onProgressChange, onLoadComplete, onReload }) => {
+const DraggableControlWidget: React.FC<DraggableControlWidgetProps> = ({
+   audioSrc,
+   toggleTheme,
+   isDarkTheme,
+   onProgressChange,
+   onLoadComplete,
+   onReload
+}) => {
 	// ================ State Management ================
 	// Audio States
 	const [isPlaying, setIsPlaying] = useState(false);
@@ -380,7 +387,7 @@ const DraggableControlWidget: React.FC<DraggableControlWidgetProps> = ({ audioSr
 		>
 			<DragHandle onMouseDown={handleMouseDown}>
 				<GripVertical size={16} />
-				<span>Controls</span>
+				<span>Draggable Controls Widget</span>
 				<MinMaxButton onClick={toggleMinimize} aria-label="Minimize">
 					<Minimize2 size={16} />
 				</MinMaxButton>
