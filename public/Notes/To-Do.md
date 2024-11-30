@@ -59,12 +59,24 @@
 <!--================================================================-->
 ### Miscellaneous manual fixes
 - PoemEverlay width:97% instead of 100% : ✅ Fixed!
+<!--================================================================-->
+### Audio needs to completely load before playing
+- Audio skips a beat when it's not fully loaded
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 - Home opens a new window. Shouldn't!
 - Play a Whale sound after animation is not working. This can wait.
 - Loader color theme needs work. Comply to themes
 - Fonts in Color Palette is OFF
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+## Project: All components integration
+#### Date: Nov. 30, 2024
+### Optimizing Page Load Performance
+- Initial loading progression is jittery between 0-12%
+- AJAX progress shows 100% before image is fully loaded, causing visual discrepancy
+- Suggestions: We need to go back to the simple working version of the loader same that was used in Bonsai
+- GIT:
+<!--===================================================================================================-->
 
 
 
