@@ -312,7 +312,13 @@ const ImageLoader: React.FC<ImageLoaderProps> = ({ src, alt, mode = "light", cla
 								Of minds that learn and dreams that spring.
 								<br />
 								Its hums weave tales of AI's might,
-								<br />A guiding song in endless night.
+								<br />
+                        A guiding song in endless night.
+								<br />
+								<br />
+                        <div className="tw-text-sm tw-font-sans tw-not-italic tw-max-w-xl tw-mt-8">
+                        The poem as a whole uses the whale as a metaphor for AI: a vast, mysterious, and awe-inspiring force that hums quietly but powerfully, guiding us through challenges and towards a brighter future.
+                        </div>
 							</PoemText>
 						</PoemOverlay>
 					)}

@@ -76,6 +76,9 @@
 - AJAX progress shows 100% before image is fully loaded, causing visual discrepancy
 - Suggestions: We need to go back to the simple working version of the loader same that was used in Bonsai
 - GIT:
+
+
+- Persist on light & dark status: if user select light, it should remain light mode until it's changed
 <!--===================================================================================================-->
 
 

@@ -15,7 +15,7 @@ const WidgetContainer = styled.div<{ $isDragging: boolean }>`
 	transform: ${({ $isDragging }) => ($isDragging ? "scale(1.02)" : "scale(1)")};
 	transition: ${({ $isDragging }) => ($isDragging ? "none" : "all 0.2s ease")};
 	z-index: 50;
-	min-width: 200px;
+	min-width: 70px;
 `;
 
 const MinimizedContainer = styled(WidgetContainer)`

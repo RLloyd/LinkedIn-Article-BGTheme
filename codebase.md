@@ -463,7 +463,183 @@ Use the source control to commit and push to GIT
 # public/Notes/Misc.tsx
 
 ```tsx
+// ImageLoader for the Bonsai
 
+import React, { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import styled from "styled-components";
+
+const Container = styled.div`
+	position: relative;
+	width: 100%;
+	height: 100%;
+	min-height: 314px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+   // border: 1px solid yellowgreen;
+`;
+
+const LoaderContainer = styled.div`
+	position: absolute;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	width: 200px;
+	height: 200px;
+   // border: 1px solid red;
+`;
+
+const CircularSVG = styled.div`
+	position: absolute;
+	// background: rgba(255, 255, 255, 0.15);
+	border-radius: 100%;
+	z-index: 100;
+	width: 200px;
+	height: 200px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+   // border: 1px solid cyan;
+`;
+
+const Image = styled.img`
+	max-width: 100%;
+	width: 100%;
+	height: auto;
+	opacity: 0;
+	transition: opacity 0.5s ease-in-out;
+	&.loaded {
+		opacity: 1;
+	}
+`;
+
+const CounterContainer = styled.div`
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	line-height: 1;
+	position: relative;
+	z-index: 101;
+   // border: 1px solid blue;
+`;
+
+const LoadingText = styled.p`
+	font-size: .6rem;
+	margin: 0;
+	color: #3F1F0B;
+`;
+
+const CountdownText = styled.div`
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	font-size: 2rem;
+	margin: 0;
+	color: #3F1F0B;
+`;
+
+interface ImageLoaderProps {
+	src: string;
+	alt: string;
+	className?: string;
+}
+
+
+const ImageLoader: React.FC<ImageLoaderProps> = ({ src, alt, className }) => {
+	const [loading, setLoading] = useState(true);
+	const [progress, setProgress] = useState(0);
+	const easing = [0.35, 0.27, 0.3, 0.83];
+	const animationDuration = 3;
+
+	useEffect(() => {
+		const xhr = new XMLHttpRequest();
+		xhr.open("GET", src, true);
+		xhr.responseType = "arraybuffer";
+
+		xhr.onload = () => {
+			if (xhr.status === 200) {
+				setProgress(100);
+				setLoading(false);
+			}
+		};
+
+		xhr.onprogress = (event) => {
+			if (event.lengthComputable) {
+				const percentComplete = (event.loaded / event.total) * 100;
+				setProgress(Math.round(percentComplete));
+			}
+		};
+
+		xhr.onerror = () => {
+			console.error("Error loading image");
+			setLoading(false);
+		};
+
+		xhr.send();
+
+		return () => {
+			xhr.abort();
+		};
+	}, [src]);
+
+	return (
+		<Container>
+			<Image src={src} alt={alt} className={`${className} ${!loading ? "loaded" : ""}`} />
+
+			<AnimatePresence>
+				{loading && (
+					<LoaderContainer>
+						<CounterContainer>
+							<LoadingText>LOADING...</LoadingText>
+							<CountdownText>
+								<span>{Math.min(progress, 100)}</span>
+								<span>%</span>
+							</CountdownText>
+						</CounterContainer>
+
+						<CircularSVG>
+							<motion.svg width="314" height="314" viewBox="0 0 314 314" fill="none" xmlns="http://www.w3.org/2000/svg">
+								<motion.path
+                           initial={{ rotate: 0 }}
+                           animate={{ rotate: 720 }}
+                           transition={{ duration: animationDuration, ease: easing, repeat: Infinity }}
+                           fill-rule="evenodd" clip-rule="evenodd" d="M156.699 33.1997C88.4921 33.1997 33.1992 88.4925 33.1992 156.7C33.1992 224.907 88.4921 280.2 156.699 280.2C224.906 280.2 280.199 224.907 280.199 156.7C280.199 88.4925 224.906 33.1997 156.699 33.1997ZM31.1992 156.7C31.1992 87.388 87.3875 31.1997 156.699 31.1997C226.011 31.1997 282.199 87.388 282.199 156.7C282.199 226.011 226.011 282.2 156.699 282.2C87.3875 282.2 31.1992 226.011 31.1992 156.7Z" fill="#85aab6" />
+								<motion.path
+									initial={{ rotate: 0 }}
+									animate={{ rotate: 60 }}
+									transition={{ duration: animationDuration, ease: easing, repeat: Infinity }}
+									fill-rule="evenodd"
+									clip-rule="evenodd"
+									d="M147.046 36.5809C150.231 36.3283 153.451 36.1997 156.699 36.1997C159.948 36.1997 163.167 36.3283 166.352 36.5809L165.72 44.5559C162.745 44.32 159.737 44.1997 156.699 44.1997C153.662 44.1997 150.654 44.32 147.678 44.5559L147.046 36.5809ZM120.556 41.7153C126.636 39.8059 132.924 38.3655 139.375 37.4363L140.516 45.3546C134.493 46.2219 128.626 47.5662 122.953 49.3478L120.556 41.7153ZM174.023 37.4363C180.475 38.3655 186.762 39.8059 192.843 41.7153L190.446 49.3478C184.773 47.5662 178.905 46.2219 172.883 45.3546L174.023 37.4363ZM95.8792 52.653C101.407 49.415 107.217 46.6045 113.262 44.2673L116.147 51.7291C110.506 53.91 105.083 56.5331 99.9227 59.5559L95.8792 52.653ZM200.136 44.2673C206.182 46.6045 211.991 49.415 217.519 52.6531L213.476 59.556C208.315 56.5331 202.893 53.9101 197.251 51.7291L200.136 44.2673ZM74.2661 68.8071C78.9555 64.4072 83.9975 60.3782 89.3455 56.7669L93.8225 63.3968C88.8288 66.7689 84.12 70.5316 79.7399 74.6412L74.2661 68.8071ZM224.053 56.7669C229.401 60.3782 234.443 64.4073 239.132 68.8071L233.659 74.6412C229.279 70.5317 224.57 66.769 219.576 63.3969L224.053 56.7669ZM56.7664 89.3459C60.3777 83.998 64.4068 78.956 68.8066 74.2665L74.6407 79.7404C70.5312 84.1204 66.7685 88.8293 63.3964 93.823L56.7664 89.3459ZM244.592 74.2666C248.992 78.956 253.021 83.998 256.632 89.346L250.002 93.823C246.63 88.8293 242.867 84.1205 238.758 79.7404L244.592 74.2666ZM44.2668 113.263C46.604 107.217 49.4145 101.408 52.6526 95.8797L59.5555 99.9231C56.5326 105.084 53.9096 110.506 51.7286 116.148L44.2668 113.263ZM260.746 95.8797C263.984 101.408 266.794 107.217 269.132 113.263L261.67 116.148C259.489 110.506 256.866 105.084 253.843 99.9232L260.746 95.8797ZM37.4358 139.376C38.365 132.924 39.8054 126.637 41.7148 120.556L49.3473 122.953C47.5657 128.626 46.2214 134.494 45.3541 140.516L37.4358 139.376ZM271.684 120.556C273.593 126.637 275.033 132.924 275.963 139.376L268.044 140.516C267.177 134.494 265.833 128.626 264.051 122.953L271.684 120.556ZM36.1992 156.7C36.1992 153.451 36.3279 150.232 36.5804 147.047L44.5554 147.679C44.3195 150.654 44.1992 153.662 44.1992 156.7C44.1992 159.737 44.3195 162.745 44.5554 165.72L36.5804 166.353C36.3279 163.168 36.1992 159.948 36.1992 156.7ZM276.818 147.047C277.071 150.232 277.199 153.451 277.199 156.7C277.199 159.948 277.071 163.168 276.818 166.353L268.843 165.72C269.079 162.745 269.199 159.737 269.199 156.7C269.199 153.662 269.079 150.654 268.843 147.679L276.818 147.047ZM41.7148 192.843C39.8054 186.763 38.365 180.475 37.4358 174.024L45.3541 172.883C46.2214 178.906 47.5657 184.773 49.3473 190.446L41.7148 192.843ZM275.963 174.024C275.033 180.475 273.593 186.763 271.684 192.843L264.051 190.446C265.833 184.773 267.177 178.906 268.044 172.883L275.963 174.024ZM52.6525 217.52C49.4145 211.992 46.604 206.182 44.2668 200.136L51.7286 197.252C53.9096 202.893 56.5326 208.316 59.5555 213.476L52.6525 217.52ZM269.132 200.136C266.794 206.182 263.984 211.992 260.746 217.52L253.843 213.476C256.866 208.316 259.489 202.893 261.67 197.252L269.132 200.136ZM68.8066 239.133C64.4067 234.443 60.3777 229.401 56.7664 224.053L63.3964 219.576C66.7684 224.57 70.5311 229.279 74.6407 233.659L68.8066 239.133ZM256.632 224.053C253.021 229.401 248.992 234.443 244.592 239.133L238.758 233.659C242.867 229.279 246.63 224.57 250.002 219.576L256.632 224.053ZM89.3455 256.633C83.9975 253.021 78.9555 248.992 74.266 244.592L79.7399 238.758C84.1199 242.868 88.8288 246.63 93.8225 250.003L89.3455 256.633ZM239.132 244.592C234.443 248.992 229.401 253.021 224.053 256.633L219.576 250.003C224.57 246.63 229.278 242.868 233.659 238.758L239.132 244.592ZM113.262 269.132C107.217 266.795 101.407 263.984 95.8792 260.746L99.9227 253.843C105.083 256.866 110.506 259.489 116.147 261.67L113.262 269.132ZM217.519 260.746C211.991 263.984 206.182 266.795 200.136 269.132L197.251 261.67C202.893 259.489 208.315 256.866 213.476 253.843L217.519 260.746ZM139.375 275.963C132.924 275.034 126.636 273.594 120.556 271.684L122.953 264.052C128.626 265.833 134.493 267.177 140.516 268.045L139.375 275.963ZM192.843 271.684C186.762 273.594 180.475 275.034 174.023 275.963L172.883 268.045C178.905 267.177 184.773 265.833 190.446 264.052L192.843 271.684ZM156.699 277.2C153.451 277.2 150.231 277.071 147.046 276.818L147.678 268.844C150.654 269.079 153.662 269.2 156.699 269.2C159.737 269.2 162.745 269.079 165.72 268.844L166.352 276.818C163.167 277.071 159.948 277.2 156.699 277.2Z"
+									fill="#85aab6"
+								/>
+								<motion.path initial={{ rotate: 0 }} animate={{ rotate: -360 }} transition={{ duration: animationDuration, ease: easing, repeat: Infinity }} fill-rule="evenodd" clip-rule="evenodd" d="M156.7 49.2993C97.3844 49.2993 49.2998 97.3839 49.2998 156.699C49.2998 216.015 97.3844 264.099 156.7 264.099C216.015 264.099 264.1 216.015 264.1 156.699C264.1 97.3839 216.015 49.2993 156.7 49.2993ZM47.2998 156.699C47.2998 96.2794 96.2799 47.2993 156.7 47.2993C217.12 47.2993 266.1 96.2794 266.1 156.699C266.1 217.119 217.12 266.099 156.7 266.099C96.2799 266.099 47.2998 217.119 47.2998 156.699Z" fill="#ff8d53" />
+								<motion.path initial={{ rotate: 0 }} animate={{ rotate: 360 }} transition={{ duration: animationDuration, ease: easing, repeat: Infinity }} fill-rule="evenodd" clip-rule="evenodd" d="M156.7 67C107.114 67 67 107.114 67 156.7C67 206.286 107.114 246.4 156.7 246.4C206.282 246.4 246.4 206.19 246.4 156.7H258.4C258.4 212.81 212.918 258.4 156.7 258.4C100.486 258.4 55 212.914 55 156.7C55 100.486 100.486 55 156.7 55C184.75 55 210.266 66.3749 228.655 84.8696L220.145 93.3304C203.934 77.0251 181.45 67 156.7 67Z" fill="#85aab6" />
+								<motion.path initial={{ rotate: 0 }} animate={{ rotate: 360 * 4 }} transition={{ duration: animationDuration, ease: easing, repeat: Infinity }} fill-rule="evenodd" clip-rule="evenodd" d="M171.65 71.8689C124.843 63.5629 80.1766 94.9308 71.8686 141.749L71.8685 141.749C67.3737 167.057 74.5041 191.781 89.3643 210.454L86.2344 212.945C70.6946 193.418 63.225 167.542 67.9301 141.05L69.8993 141.4L67.9301 141.05C76.6221 92.0685 123.355 59.2364 172.349 67.9304C221.33 76.6224 254.163 123.356 245.469 172.349C236.777 221.331 190.043 254.163 141.05 245.469L141.749 241.53C188.555 249.836 233.222 218.469 241.53 171.65C249.836 124.844 218.468 80.177 171.65 71.8689Z" fill="#f0fcff" />
+								<motion.path
+									initial={{ rotate: 0 }}
+									animate={{ rotate: -160 }}
+									transition={{ duration: animationDuration, ease: easing, repeat: Infinity }}
+									fill-rule="evenodd"
+									clip-rule="evenodd"
+									d="M155.715 75.5054C156.042 75.5015 156.371 75.4995 156.699 75.4995C157.028 75.4995 157.356 75.5015 157.683 75.5054L157.648 78.5051C157.332 78.5014 157.016 78.4995 156.699 78.4995C156.382 78.4995 156.066 78.5014 155.75 78.5051L155.715 75.5054ZM145.934 76.2069C146.582 76.1212 147.231 76.0431 147.883 75.9727L148.205 78.9553C147.577 79.0231 146.952 79.0984 146.328 79.1809L145.934 76.2069ZM165.515 75.9727C166.167 76.0431 166.816 76.1212 167.464 76.2069L167.07 79.1809C166.446 79.0984 165.821 79.0231 165.193 78.9553L165.515 75.9727ZM136.312 78.0806C136.942 77.9175 137.576 77.7618 138.213 77.6135L138.893 80.5354C138.28 80.6781 137.67 80.828 137.063 80.9851L136.312 78.0806ZM175.185 77.6135C175.822 77.7618 176.456 77.9175 177.087 78.0806L176.335 80.9851C175.728 80.828 175.118 80.6781 174.505 80.5354L175.185 77.6135ZM126.981 81.1102C127.589 80.8709 128.201 80.6387 128.816 80.4138L129.846 83.2314C129.254 83.448 128.665 83.6715 128.079 83.9019L126.981 81.1102ZM184.582 80.4138C185.197 80.6387 185.809 80.8709 186.417 81.1102L185.319 83.9019C184.733 83.6715 184.144 83.448 183.552 83.2314L184.582 80.4138ZM118.091 85.2477C118.665 84.937 119.243 84.633 119.825 84.3358L121.189 87.0077C120.629 87.2939 120.072 87.5866 119.519 87.8859L118.091 85.2477ZM193.573 84.3358C194.155 84.633 194.733 84.937 195.307 85.2477L193.879 87.8859C193.326 87.5866 192.769 87.2939 192.209 87.0077L193.573 84.3358ZM202.02 89.3145C202.563 89.68 203.1 90.0518 203.633 90.4299L201.897 92.8767C201.384 92.5125 200.866 92.1543 200.344 91.8023L202.02 89.3145ZM109.765 90.43C110.298 90.0518 110.835 89.68 111.378 89.3145L113.054 91.8023C112.532 92.1544 112.014 92.5125 111.501 92.8767L109.765 90.43ZM102.123 96.5743C102.607 96.1351 103.096 95.7017 103.59 95.2741L105.553 97.5426C105.077 97.9545 104.606 98.372 104.14 98.7951L102.123 96.5743ZM209.808 95.2741C210.302 95.7017 210.791 96.1351 211.275 96.5743L209.258 98.7951C208.792 98.372 208.321 97.9545 207.845 97.5426L209.808 95.2741ZM216.824 102.124C217.263 102.607 217.697 103.096 218.124 103.591L215.856 105.554C215.444 105.078 215.026 104.607 214.603 104.141L216.824 102.124ZM95.2736 103.591C95.7012 103.096 96.1346 102.607 96.5739 102.124L98.7946 104.141C98.3715 104.607 97.954 105.078 97.5421 105.554L95.2736 103.591ZM222.969 109.765C223.347 110.298 223.719 110.836 224.084 111.378L221.596 113.055C221.244 112.532 220.886 112.014 220.522 111.501L222.969 109.765ZM89.314 111.378C89.6795 110.836 90.0513 110.298 90.4295 109.765L92.8762 111.501C92.512 112.014 92.1539 112.532 91.8019 113.055L89.314 111.378ZM84.3353 119.826C84.6325 119.244 84.9365 118.665 85.2473 118.092L87.8854 119.52C87.5861 120.073 87.2934 120.629 87.0072 121.19L84.3353 119.826ZM228.151 118.092C228.462 118.665 228.766 119.244 229.063 119.826L226.391 121.19C226.105 120.629 225.812 120.073 225.513 119.52L228.151 118.092ZM80.4133 128.817C80.6382 128.201 80.8704 127.59 81.1097 126.981L83.9014 128.08C83.671 128.665 83.4475 129.254 83.2309 129.847L80.4133 128.817ZM232.288 126.981C232.528 127.59 232.76 128.201 232.985 128.817L230.167 129.847C229.951 129.254 229.727 128.665 229.497 128.08L232.288 126.981ZM77.6131 138.213C77.7613 137.577 77.917 136.943 78.0801 136.312L80.9846 137.063C80.8275 137.67 80.6776 138.281 80.5349 138.893L77.6131 138.213ZM235.318 136.312C235.481 136.943 235.637 137.577 235.785 138.213L232.863 138.893C232.72 138.281 232.57 137.67 232.413 137.063L235.318 136.312ZM75.9722 147.884C76.0426 147.232 76.1207 146.582 76.2064 145.935L79.1805 146.329C79.0979 146.952 79.0226 147.578 78.9548 148.206L75.9722 147.884ZM237.192 145.935C237.277 146.582 237.355 147.232 237.426 147.884L234.443 148.206C234.375 147.578 234.3 146.952 234.218 146.329L237.192 145.935ZM75.499 156.7C75.499 156.371 75.501 156.043 75.5049 155.715L78.5047 155.751C78.5009 156.067 78.499 156.383 78.499 156.7C78.499 157.016 78.5009 157.332 78.5047 157.648L75.5049 157.684C75.501 157.356 75.499 157.028 75.499 156.7ZM237.893 155.715C237.897 156.043 237.899 156.371 237.899 156.7C237.899 157.028 237.897 157.356 237.893 157.684L234.893 157.648C234.897 157.332 234.899 157.016 234.899 156.7C234.899 156.383 234.897 156.067 234.893 155.751L237.893 155.715ZM76.2064 167.464C76.1207 166.817 76.0426 166.167 75.9722 165.515L78.9548 165.193C79.0226 165.821 79.0979 166.447 79.1805 167.07L76.2064 167.464ZM237.426 165.515C237.355 166.167 237.277 166.817 237.192 167.464L234.218 167.07C234.3 166.447 234.375 165.821 234.443 165.193L237.426 165.515ZM78.0801 177.087C77.917 176.456 77.7613 175.823 77.6131 175.186L80.5349 174.506C80.6776 175.118 80.8275 175.729 80.9846 176.336L78.0801 177.087ZM235.785 175.186C235.637 175.823 235.481 176.456 235.318 177.087L232.413 176.336C232.57 175.729 232.72 175.118 232.863 174.506L235.785 175.186ZM81.1097 186.418C80.8704 185.809 80.6382 185.198 80.4133 184.582L83.2309 183.552C83.4475 184.145 83.671 184.734 83.9014 185.319L81.1097 186.418ZM232.985 184.582C232.76 185.198 232.528 185.809 232.288 186.418L229.497 185.319C229.727 184.734 229.951 184.145 230.167 183.552L232.985 184.582ZM85.2473 195.307C84.9365 194.734 84.6325 194.156 84.3353 193.573L87.0072 192.209C87.2934 192.77 87.5861 193.326 87.8854 193.879L85.2473 195.307ZM229.063 193.573C228.766 194.156 228.462 194.734 228.151 195.307L225.513 193.879C225.812 193.326 226.105 192.77 226.391 192.209L229.063 193.573ZM224.084 202.021C223.719 202.563 223.347 203.101 222.969 203.634L220.522 201.898C220.886 201.385 221.244 200.867 221.596 200.344L224.084 202.021ZM90.4295 203.634C90.0513 203.101 89.6795 202.563 89.314 202.021L91.8019 200.344C92.1539 200.867 92.512 201.385 92.8762 201.898L90.4295 203.634ZM96.5739 211.275C96.1346 210.792 95.7012 210.303 95.2736 209.809L97.5421 207.845C97.954 208.321 98.3715 208.792 98.7946 209.258L96.5739 211.275ZM218.124 209.809C217.697 210.303 217.263 210.792 216.824 211.275L214.603 209.258C215.026 208.792 215.444 208.321 215.856 207.845L218.124 209.809ZM103.59 218.125C103.096 217.697 102.607 217.264 102.123 216.825L104.14 214.604C104.606 215.027 105.077 215.445 105.553 215.856L103.59 218.125ZM211.275 216.825C210.791 217.264 210.302 217.697 209.808 218.125L207.845 215.856C208.321 215.445 208.792 215.027 209.258 214.604L211.275 216.825ZM111.378 224.085C110.835 223.719 110.298 223.347 109.765 222.969L111.501 220.522C112.014 220.887 112.532 221.245 113.054 221.597L111.378 224.085ZM203.633 222.969C203.1 223.347 202.563 223.719 202.02 224.085L200.344 221.597C200.866 221.245 201.384 220.887 201.897 220.522L203.633 222.969ZM119.825 229.063C119.243 228.766 118.665 228.462 118.091 228.151L119.519 225.513C120.072 225.812 120.629 226.105 121.189 226.391L119.825 229.063ZM195.307 228.151C194.733 228.462 194.155 228.766 193.573 229.063L192.209 226.391C192.769 226.105 193.326 225.812 193.879 225.513L195.307 228.151ZM128.816 232.985C128.201 232.76 127.589 232.528 126.981 232.289L128.079 229.497C128.665 229.728 129.254 229.951 129.846 230.168L128.816 232.985ZM186.417 232.289C185.809 232.528 185.197 232.76 184.582 232.985L183.552 230.168C184.144 229.951 184.733 229.728 185.319 229.497L186.417 232.289ZM138.213 235.785C137.576 235.637 136.942 235.482 136.312 235.318L137.063 232.414C137.67 232.571 138.28 232.721 138.893 232.864L138.213 235.785ZM177.087 235.318C176.456 235.482 175.822 235.637 175.185 235.785L174.505 232.864C175.118 232.721 175.728 232.571 176.335 232.414L177.087 235.318ZM147.883 237.426C147.231 237.356 146.582 237.278 145.934 237.192L146.328 234.218C146.952 234.301 147.577 234.376 148.205 234.444L147.883 237.426ZM167.464 237.192C166.816 237.278 166.167 237.356 165.515 237.426L165.193 234.444C165.821 234.376 166.446 234.301 167.07 234.218L167.464 237.192ZM156.699 237.9C156.371 237.9 156.042 237.898 155.715 237.894L155.75 234.894C156.066 234.898 156.382 234.9 156.699 234.9C157.016 234.9 157.332 234.898 157.648 234.894L157.683 237.894C157.356 237.898 157.028 237.9 156.699 237.9Z"
+									fill="#A7A9AC"
+								/>
+								<motion.path initial={{ rotate: 0 }} animate={{ rotate: 360 }} transition={{ duration: animationDuration, ease: easing, repeat: Infinity }} fill-rule="evenodd" clip-rule="evenodd" d="M156.7 95.2993C138.384 95.2993 121.907 103.312 110.707 116.059L101.692 108.139C115.092 92.8871 134.816 83.2993 156.7 83.2993C197.214 83.2993 230.1 116.186 230.1 156.699C230.1 197.213 197.214 230.099 156.7 230.099C116.186 230.099 83.2998 197.213 83.2998 156.699H95.2998C95.2998 190.586 122.814 218.099 156.7 218.099C190.586 218.099 218.1 190.586 218.1 156.699C218.1 122.813 190.586 95.2993 156.7 95.2993Z" fill="#ff6a00" />
+								<motion.path initial={{ rotate: 0 }} animate={{ rotate: -260 }} transition={{ duration: animationDuration, ease: easing, repeat: Infinity }} fill-rule="evenodd" clip-rule="evenodd" d="M166.383 101.654C136.009 96.339 106.97 116.654 101.655 147.014C98.807 163.443 103.365 179.476 113.039 191.521L108.361 195.278C97.6353 181.924 92.593 164.157 95.7439 145.987L95.7447 145.982C101.631 112.344 133.791 89.8598 167.417 95.7442C201.055 101.631 223.539 133.791 217.655 167.416C211.768 201.055 179.608 223.539 145.983 217.654L147.017 211.744C177.391 217.06 206.431 196.744 211.745 166.382C217.06 136.008 196.744 106.968 166.383 101.654Z" fill="#bad2d9" />
+							</motion.svg>
+
+						</CircularSVG>
+					</LoaderContainer>
+				)}
+			</AnimatePresence>
+		</Container>
+	);
+};
+
+export default ImageLoader;
 ```
 
 # public/Notes/Misc2.ts
@@ -536,12 +712,27 @@ Use the source control to commit and push to GIT
 <!--================================================================-->
 ### Miscellaneous manual fixes
 - PoemEverlay width:97% instead of 100% : ✅ Fixed!
+<!--================================================================-->
+### Audio needs to completely load before playing
+- Audio skips a beat when it's not fully loaded
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 - Home opens a new window. Shouldn't!
 - Play a Whale sound after animation is not working. This can wait.
 - Loader color theme needs work. Comply to themes
 - Fonts in Color Palette is OFF
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+## Project: All components integration
+#### Date: Nov. 30, 2024
+### Optimizing Page Load Performance
+- Initial loading progression is jittery between 0-12%
+- AJAX progress shows 100% before image is fully loaded, causing visual discrepancy
+- Suggestions: We need to go back to the simple working version of the loader same that was used in Bonsai
+- GIT:
+
+
+- Persist on light & dark status: if user select light, it should remain light mode until it's changed
+<!--===================================================================================================-->
 
 
 
@@ -937,6 +1128,10 @@ This is a binary file of the type: Image
 This is a binary file of the type: Image
 
 # src/assets/Fusion-logo.png
+
+This is a binary file of the type: Image
+
+# src/assets/GD-Fusion-logo-large.png
 
 This is a binary file of the type: Image
 
@@ -1886,6 +2081,8 @@ export default AudioPlayer;
 ```md
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap');
+
+
 
 /* Base styles */
 body {
@@ -3861,7 +4058,7 @@ export { default } from './ColorPalette';
 // src/components/DraggableControlWidget/DraggableControlWidget.tsx
 
 import React, { useState, useEffect, useCallback, useMemo, useRef } from "react";
-import { Play, Pause, Volume2, VolumeX, GripVertical, Moon, Sun, RotateCw } from "lucide-react";
+import { Play, Pause, Volume2, VolumeX, GripVertical, Moon, Sun, RotateCw, Maximize2, Minimize2 } from "lucide-react";
 import styled from "styled-components";
 
 // ================ Styled Components ================
@@ -3878,13 +4075,20 @@ const WidgetContainer = styled.div<{ $isDragging: boolean }>`
 	min-width: 200px;
 `;
 
+const MinimizedContainer = styled(WidgetContainer)`
+	width: auto;
+	padding: 0.5rem;
+	display: flex;
+	gap: 0.5rem;
+`;
+
 const DragHandle = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 	margin-bottom: 0.75rem;
 	cursor: move;
-	color: ${({ theme }) => theme.colors.text[theme.isDarkTheme ? "dark" : "light"].accent};
+	color: ${({ theme }) => theme.colors.text[theme.isDarkTheme ? "dark" : "light"].primary};
 	font-family: ${({ theme }) => theme.typography.heading.fontFamily};
 	//   font-family: ${({ theme }) => theme.typography.body.fontFamily};
 	font-size: 1rem;
@@ -3942,6 +4146,10 @@ const VolumeSlider = styled.input`
 	@media (max-width: 640px) {
 		width: 4rem;
 	}
+`;
+
+const MinMaxButton = styled(IconButton)`
+	margin-left: auto;
 `;
 
 export const useLoadingSimulator = (onProgressChange: (progress: number) => void, onLoadComplete: () => void) => {
@@ -4015,12 +4223,20 @@ interface DraggableControlWidgetProps {
 }
 
 // ================ Main Component ================
-const DraggableControlWidget: React.FC<DraggableControlWidgetProps> = ({ audioSrc, toggleTheme, isDarkTheme, onProgressChange, onLoadComplete, onReload }) => {
+const DraggableControlWidget: React.FC<DraggableControlWidgetProps> = ({
+   audioSrc,
+   toggleTheme,
+   isDarkTheme,
+   onProgressChange,
+   onLoadComplete,
+   onReload
+}) => {
 	// ================ State Management ================
 	// Audio States
 	const [isPlaying, setIsPlaying] = useState(false);
 	const [isMuted, setIsMuted] = useState(false);
 	const [volume, setVolume] = useState(0.5);
+	const [isMinimized, setIsMinimized] = useState(false);
 
 	// Dragging States
 	const [position, setPosition] = useState({ x: 0, y: 0 });
@@ -4113,71 +4329,22 @@ const DraggableControlWidget: React.FC<DraggableControlWidgetProps> = ({ audioSr
 
 	// ================ Loading Functions ================
 
-   const { simulateProgress, clearSimulation } = useLoadingSimulator(
-      onProgressChange,
-      onLoadComplete
-    );
+	const { simulateProgress, clearSimulation } = useLoadingSimulator(onProgressChange, onLoadComplete);
 
-    const handleReload = useCallback(() => {
-      // Call parent's onReload first
-      onReload();
-      // Then start a fresh progress simulation
-      simulateProgress();
-    }, [onReload, simulateProgress]);
+	const handleReload = useCallback(() => {
+		// Call parent's onReload first
+		onReload();
+		// Then start a fresh progress simulation
+		simulateProgress();
+	}, [onReload, simulateProgress]);
 
-    // Start initial progress simulation on mount
-    useEffect(() => {
-      simulateProgress();
-      return () => {
-        clearSimulation();
-      };
-    }, [simulateProgress, clearSimulation]);
-
-	// const simulateProgress = useCallback(() => {
-	// 	let progress = 0;
-
-	// 	if (intervalId) {
-	// 		clearInterval(intervalId);
-	// 	}
-
-	// 	const interval = setInterval(() => {
-	// 		const incrementsNeeded = SLOW_4G.totalLoadTime / SLOW_4G.progressInterval;
-	// 		const baseIncrement = 100 / incrementsNeeded;
-	// 		const variation = (Math.random() * 2 - 1) * SLOW_4G.randomVariation * baseIncrement;
-	// 		const increment = Math.max(0.1, baseIncrement + variation);
-
-	// 		progress = Math.min(100, progress + increment);
-	// 		onProgressChange(Math.floor(progress));
-
-	// 		if (progress >= 100) {
-	// 			clearInterval(interval);
-	// 			setIntervalId(null);
-	// 			setTimeout(() => {
-	// 				onLoadComplete();
-	// 			}, 200);
-	// 		}
-	// 	}, SLOW_4G.progressInterval);
-
-	// 	setIntervalId(interval);
-	// }, [SLOW_4G.totalLoadTime, SLOW_4G.progressInterval, SLOW_4G.randomVariation, onProgressChange, onLoadComplete]);
-
-	// // Start initial progress
-	// useEffect(() => {
-	// 	simulateProgress();
-	// 	return () => {
-	// 		if (intervalId) {
-	// 			clearInterval(intervalId);
-	// 		}
-	// 	};
-	// }, []);
-
-	// // Handle Reload
-	// const handleReload = useCallback(() => {
-	// 	onReload();
-	// 	setTimeout(() => {
-	// 		simulateProgress();
-	// 	}, 100);
-	// }, [onReload, simulateProgress]);
+	// Start initial progress simulation on mount
+	useEffect(() => {
+		simulateProgress();
+		return () => {
+			clearSimulation();
+		};
+	}, [simulateProgress, clearSimulation]);
 
 	// ================ Dragging Functions ================
 	useEffect(() => {
@@ -4243,6 +4410,28 @@ const DraggableControlWidget: React.FC<DraggableControlWidgetProps> = ({ audioSr
 		return () => window.removeEventListener("resize", updatePosition);
 	}, []);
 
+	// ================ Minimize/Maximize Functions ================
+	const toggleMinimize = () => {
+		setIsMinimized(!isMinimized);
+	};
+
+	if (isMinimized) {
+		return (
+			<MinimizedContainer
+				style={{
+					left: `${position.x}px`,
+					top: `${position.y}px`,
+				}}
+				$isDragging={isDragging}
+			>
+				<GripVertical size={16} style={{ cursor: "move" }} onMouseDown={handleMouseDown} />
+				<IconButton onClick={toggleMinimize} aria-label="Maximize">
+					<Maximize2 size={16} />
+				</IconButton>
+			</MinimizedContainer>
+		);
+	}
+
 	// ================ Render ================
 	return (
 		<WidgetContainer
@@ -4255,7 +4444,10 @@ const DraggableControlWidget: React.FC<DraggableControlWidgetProps> = ({ audioSr
 		>
 			<DragHandle onMouseDown={handleMouseDown}>
 				<GripVertical size={16} />
-				<span>Controls</span>
+				<span>Draggable Controls Widget</span>
+				<MinMaxButton onClick={toggleMinimize} aria-label="Minimize">
+					<Minimize2 size={16} />
+				</MinMaxButton>
 			</DragHandle>
 
 			<ControlsGroup>
@@ -4285,6 +4477,62 @@ const DraggableControlWidget: React.FC<DraggableControlWidgetProps> = ({ audioSr
 };
 
 export default DraggableControlWidget;
+
+```
+
+# src/components/ImageLoader/CircularSVG2.tsx
+
+```tsx
+import { motion } from "framer-motion";
+
+const CircularSVG2 = () => {
+	return (
+		<svg width="3082" height="3082" viewBox="0 0 3082 3082" fill="none" xmlns="http://www.w3.org/2000/svg">
+			<motion.path initial={{ rotate: 0 }} animate={{ rotate: 360 }} transition={{ duration: 4, ease: "linear", repeat: Infinity }} style={{ originX: "50%", originY: "50%" }} d="M2464.25 2774.81C2786.8 2533.45 3002.01 2175.37 3063.78 1777.28C3125.55 1379.18 3028.96 972.724 2794.72 644.968C2560.47 317.211 2207.19 94.2194 1810.54 23.7553C1413.89 -46.7088 1005.41 40.9585 672.611 267.98C339.808 495 109.14 843.322 30.0153 1238.33C-49.1098 1633.35 29.6001 2043.64 249.286 2381.33C468.971 2719.02 812.163 2957.25 1205.35 3045C1598.54 3132.75 2010.45 3063.03 2352.87 2850.79L2064.99 2386.35C1843.99 2523.33 1578.14 2568.33 1324.37 2511.69C1070.6 2455.06 849.106 2301.3 707.32 2083.35C565.533 1865.41 514.733 1600.6 565.801 1345.66C616.869 1090.71 765.743 865.905 980.536 719.385C1195.33 572.864 1458.96 516.283 1714.96 561.761C1970.96 607.239 2198.97 751.159 2350.16 962.695C2501.34 1174.23 2563.68 1436.56 2523.81 1693.49C2483.94 1950.43 2345.05 2181.53 2136.87 2337.31L2464.25 2774.81Z" fill="#3C493D" />
+			<motion.path initial={{ rotate: 0 }} animate={{ rotate: -360 }} transition={{ duration: 5, ease: "easeIn", repeat: Infinity }} style={{ originX: "50%", originY: "50%" }} d="M106.965 1774.99C154.874 2068.61 291.756 2340.44 499.115 2553.76C706.475 2767.08 974.318 2911.61 1266.46 2967.83L1329.8 2638.64C1105.06 2595.4 899.008 2484.21 739.488 2320.11C579.968 2156 474.667 1946.88 437.811 1721.01L106.965 1774.99Z" fill="#BE2809" />
+			{/* <motion.circle cx="1541" cy="1541" r="1271" stroke="#1EBCDC" stroke-width="250" stroke-dasharray="100 100" initial={{ rotate: 0 }} animate={{ rotate: -360 }} transition={{ duration: 5, ease: "easeIn", repeat: Infinity }} /> */}
+			{/* <motion.circle cx="1541" cy="1541" r="1271" stroke="#1EBCDC" stroke-width="250" stroke-dasharray="100 100" initial={{ rotate: 0 }} animate={{ rotate: -360 }} transition={{ duration: 5, ease: "easeIn", repeat: Infinity }} style={{ originX: "50%", originY: "50%" }}/> */}
+			{/* <circle cx="1541" cy="1541" r="1271" stroke="#1EBCDC" stroke-width="250" stroke-dasharray="100 100"/> */}
+			<motion.path initial={{ rotate: 0 }} animate={{ rotate: 360 }} transition={{ duration: 6, ease: "easeOut", repeat: Infinity }} style={{ originX: "50%", originY: "50%" }} d="M2847.83 2267.11C2949.11 2084.83 3011.13 1883.38 3029.92 1675.7C3048.71 1468.02 3023.84 1258.71 2956.92 1061.21C2890 863.712 2782.5 682.4 2641.33 528.923C2500.16 375.446 2328.45 253.199 2137.22 170.036C1946 86.8727 1739.49 44.6341 1530.97 46.0337C1322.44 47.4333 1116.52 92.4402 926.428 178.163C736.335 263.885 566.278 388.426 427.184 543.785C288.089 699.143 183.034 881.882 118.768 1080.26L446.891 1186.56C496.33 1033.95 577.148 893.368 684.152 773.852C791.156 654.336 921.979 558.528 1068.22 492.582C1214.45 426.637 1372.87 392.013 1533.28 390.937C1693.69 389.86 1852.56 422.354 1999.67 486.33C2146.78 550.307 2278.87 644.351 2387.47 762.419C2496.07 880.488 2578.77 1019.97 2630.25 1171.9C2681.74 1323.83 2700.87 1484.86 2686.41 1644.62C2671.96 1804.39 2624.24 1959.36 2546.33 2099.59L2847.83 2267.11Z" fill="#FF8000" />
+			<motion.circle
+				cx="1541"
+				cy="1541"
+				r="1271"
+				stroke="#1EBCDC"
+				strokeWidth="250"
+				strokeDasharray="100 100"
+				fill="transparent"
+				style={{
+					originX: "50%", // Rotate around the center of the circle
+					originY: "50%",
+				}}
+				animate={{
+					rotate: 360, // Rotate full circle
+				}}
+				transition={{
+					repeat: Infinity, // Infinite rotation
+					duration: 5, // Rotation duration in seconds
+					ease: "linear", // Smooth and continuous animation
+				}}
+			/>
+			<motion.path initial={{ rotate: 0 }} animate={{ rotate: 360 }} transition={{ duration: 9, ease: "easeInOut", repeat: Infinity }} style={{ originX: "50%", originY: "50%" }} d="M2443.14 2607.8C2662.4 2422.36 2819.18 2173.82 2892.15 1896.03C2965.12 1618.23 2950.72 1324.69 2850.91 1055.38C2751.1 786.072 2570.74 554.081 2334.39 391.005C2098.03 227.93 1817.18 141.695 1530.07 144.047L1531.69 342.385C1778.04 340.367 2019.02 414.358 2221.81 554.28C2424.61 694.203 2579.37 893.256 2665 1124.33C2750.64 1355.4 2762.99 1607.27 2700.39 1845.62C2637.78 2083.97 2503.25 2297.23 2315.13 2456.34L2443.14 2607.8Z" fill="#0E9DBA" />
+			<motion.circle initial={{ rotate: 0 }} animate={{ rotate: 360 }} transition={{ duration: 9, ease: "easeInOut", repeat: Infinity }} style={{ originX: "50%", originY: "50%" }} r="1271" stroke="#1EBCDC" stroke-width="250" stroke-dasharray="100 100" />
+			{/* <motion.circle cx="1541" cy="1523" r="1271" stroke="#1EBCDC" stroke-width="250" stroke-dasharray="100 100"/> */}
+
+			<motion.path initial={{ rotate: 0 }} animate={{ rotate: -360 }} transition={{ duration: 12, ease: "linear", repeat: Infinity }} style={{ originX: "50%", originY: "50%" }} d="M301.123 899.502C186.139 1121.74 133.002 1370.8 147.272 1620.61C161.542 1870.43 242.695 2111.82 382.238 2319.52C521.781 2527.22 714.585 2693.59 940.471 2801.23C1166.36 2908.87 1417.02 2953.82 1666.24 2931.37L1643.64 2680.55C1439.39 2698.95 1233.94 2662.11 1048.8 2573.89C863.667 2485.67 705.645 2349.3 591.276 2179.07C476.906 2008.84 410.392 1811 398.697 1606.25C387.001 1401.5 430.552 1197.37 524.793 1015.23L301.123 899.502Z" fill="#88A751" />
+			<motion.path initial={{ rotate: 0 }} animate={{ rotate: 360 }} transition={{ duration: 5, ease: "linear", repeat: Infinity }} style={{ originX: "50%", originY: "50%" }} d="M1935.7 142.637C1719.73 81.6756 1492.57 71.5699 1272.03 113.112C1051.49 154.654 843.578 246.715 664.584 382.076L786.248 542.958C940.394 426.387 1119.45 347.107 1309.37 311.331C1499.29 275.556 1694.92 284.259 1880.91 336.758L1935.7 142.637Z" fill="#F1D5AE" />
+			<motion.path initial={{ rotate: 0 }} animate={{ rotate: 360 }} transition={{ duration: 7, ease: "easeInOut", repeat: Infinity }} style={{ originX: "50%", originY: "50%" }} d="M546.095 482.051C407.032 612.703 295.065 769.467 216.586 943.392C138.107 1117.32 94.653 1305 88.7059 1495.71L423.764 1506.16C428.339 1359.44 461.767 1215.06 522.141 1081.27C582.514 947.467 668.649 826.87 775.629 726.36L546.095 482.051Z" fill="#D8FE93" />
+			<motion.path initial={{ rotate: 0 }} animate={{ rotate: 360 }} transition={{ duration: 8, ease: "linear", repeat: Infinity }} style={{ originX: "50%", originY: "50%" }} d="M2123.2 2724.55C2351.06 2612.47 2541.72 2436.99 2672.28 2219.2C2802.85 2001.41 2867.77 1750.56 2859.26 1496.77L2625.11 1504.62C2632.12 1713.33 2578.73 1919.63 2471.35 2098.74C2363.97 2277.85 2207.18 2422.16 2019.79 2514.34L2123.2 2724.55Z" fill="#E45C04" />
+			<motion.path initial={{ rotate: 0 }} animate={{ rotate: -360 }} transition={{ duration: 10, ease: "linear", repeat: Infinity }} style={{ originX: "50%", originY: "50%" }} d="M606.559 503.872C466.976 629.634 354.216 782.277 275.034 952.658C195.852 1123.04 151.877 1307.65 145.744 1495.43L359.248 1502.4C364.443 1343.36 401.688 1187 468.754 1042.69C535.82 898.378 631.325 769.092 749.548 662.574L606.559 503.872Z" fill="#184D5D" />
+			<motion.path initial={{ rotate: 0 }} animate={{ rotate: 360 }} transition={{ duration: 5, ease: "easeInOut", repeat: Infinity }} style={{ originX: "50%", originY: "50%" }} d="M2676.89 1286.74C2620.31 1033.96 2481.03 807.278 2281.09 642.579C2081.16 477.88 1832 384.577 1573.06 377.442L1570.04 487.216C1804.54 493.677 2030.2 578.178 2211.27 727.339C2392.34 876.5 2518.48 1081.8 2569.73 1310.73L2676.89 1286.74Z" fill="#32DCFE" />
+			<motion.path initial={{ rotate: 0 }} animate={{ rotate: 360 }} transition={{ duration: 9, ease: "linear", repeat: Infinity }} style={{ originX: "50%", originY: "50%" }} d="M384.541 1408.72C366.746 1564.29 380.522 1721.85 425.044 1871.97C469.567 2022.09 543.92 2161.68 643.654 2282.39C743.388 2403.11 866.452 2502.46 1005.48 2574.5C1144.51 2646.54 1296.64 2689.78 1452.77 2701.65L1461.1 2592.15C1319.69 2581.4 1181.91 2542.24 1056 2476.99C930.091 2411.75 818.637 2321.77 728.312 2212.45C637.988 2103.12 570.649 1976.7 530.327 1840.74C490.005 1704.78 477.529 1562.09 493.645 1421.2L384.541 1408.72Z" fill="#D8FE93" />
+			<motion.path initial={{ rotate: 0 }} animate={{ rotate: -360 }} transition={{ duration: 15, ease: "easeInOut", repeat: Infinity }} style={{ originX: "50%", originY: "50%" }} d="M2218.76 2591.31C2013.72 2723.62 1774.44 2793.02 1530.43 2790.96L1531.37 2679.21C1753.57 2681.09 1971.46 2617.89 2158.16 2497.41L2218.76 2591.31Z" fill="#F7D3B9" />
+			<motion.path initial={{ rotate: 0 }} animate={{ rotate: 360 }} transition={{ duration: 10, ease: "linear", repeat: Infinity }} style={{ originX: "50%", originY: "50%" }} d="M391.874 1923.14C460.675 2130.03 584.054 2314.51 748.989 2457.1L805.507 2391.73C652.342 2259.31 537.768 2088 473.877 1895.87L391.874 1923.14Z" fill="#0E9DBA" />
+		</svg>
+	);
+};
+
+export default CircularSVG2;
 
 ```
 
@@ -4319,7 +4567,7 @@ const StyledImage = styled(motion.img)`
 	position: relative;
 	max-width: 100%;
 	// width: 100%;
-   width: 1020px;
+	width: 1020px;
 	height: 550px;
 	display: block;
 	object-fit: cover;
@@ -4473,6 +4721,21 @@ const ImageLoader: React.FC<ImageLoaderProps> = ({ src, alt, mode = "light", cla
 	const [showPoem, setShowPoem] = useState(false);
 	const [startSlideAnimation, setStartSlideAnimation] = useState(false);
 	const [hasError, setHasError] = useState(false);
+	// 1. Add image preloading state
+	const [isImagePreloaded, setIsImagePreloaded] = useState(false);
+	const [smoothProgress, setSmoothProgress] = useState(0);
+
+	// 2. Split loading effect into two parts
+	useEffect(() => {
+		// First effect: Preload image
+		const img = new Image();
+		img.src = src;
+		img.onload = () => setIsImagePreloaded(true);
+
+		return () => {
+			img.onload = null;
+		};
+	}, [src]);
 
 	const getImageHeight = () => {
 		// Initial heights matching the styled component media queries
@@ -4486,15 +4749,30 @@ const ImageLoader: React.FC<ImageLoaderProps> = ({ src, alt, mode = "light", cla
 		setProgress(newProgress);
 	}, []);
 
+	// interface LoadingState {
+	// 	downloadProgress: number;
+	// 	imageLoadProgress: number;
+	// }
+
+	// const [loadingState, setLoadingState] = useState<LoadingState>({
+	// 	downloadProgress: 0,
+	// 	imageLoadProgress: 0,
+	// });
+
 	const handleLoadComplete = useCallback(() => {
-		setIsLoading(false);
-		setTimeout(() => {
-			setShowPoem(true);
-			setTimeout(() => {
+		return new Promise<void>((resolve) => {
+			const img = new Image();
+			img.onload = async () => {
+				await new Promise((r) => setTimeout(r, 200));
+				setIsLoading(false);
+				setShowPoem(true);
+				await new Promise((r) => setTimeout(r, 1000));
 				setStartSlideAnimation(true);
-			}, 1000);
-		}, 500);
-	}, []);
+				resolve();
+			};
+			img.src = src;
+		});
+	}, [src]);
 
 	const handleReload = useCallback(() => {
 		setIsLoading(true);
@@ -4507,31 +4785,28 @@ const ImageLoader: React.FC<ImageLoaderProps> = ({ src, alt, mode = "light", cla
 		const xhr = new XMLHttpRequest();
 		xhr.open("GET", src, true);
 		xhr.responseType = "blob";
-
 		xhr.onprogress = (event) => {
 			if (event.lengthComputable) {
-				const percentComplete = (event.loaded / event.total) * 100;
-				handleProgressChange(Math.round(percentComplete));
+				const progress = (event.loaded / event.total) * 100;
+				handleProgressChange(Math.round(progress));
 			}
 		};
-
+		handleProgressChange(smoothProgress);
 		xhr.onload = () => {
 			if (xhr.status === 200) {
-				handleLoadComplete();
-			} else {
-				setHasError(true);
+				const imageUrl = URL.createObjectURL(xhr.response);
+				const img = new Image();
+				img.onload = () => {
+					URL.revokeObjectURL(imageUrl);
+					handleLoadComplete();
+				};
+				img.src = imageUrl;
 			}
-		};
-
-		xhr.onerror = () => {
-			setHasError(true);
 		};
 
 		xhr.send();
 
-		return () => {
-			xhr.abort();
-		};
+		return () => xhr.abort();
 	}, [src, handleLoadComplete, handleProgressChange]);
 
 	if (hasError) {
@@ -4585,13 +4860,14 @@ const ImageLoader: React.FC<ImageLoaderProps> = ({ src, alt, mode = "light", cla
 				</AnimatePresence>
 			</ContentWrapper>
 
-			{/* <DraggableAudioWidget
+			<DraggableControlWidget
             audioSrc={whaleSound}
             toggleTheme={toggleTheme}
             isDarkTheme={isDarkTheme}
-            /> */}
-
-			<DraggableControlWidget audioSrc={whaleSound} toggleTheme={toggleTheme} isDarkTheme={isDarkTheme} onProgressChange={handleProgressChange} onLoadComplete={handleLoadComplete} onReload={handleReload} />
+            onProgressChange={handleProgressChange}
+            onLoadComplete={handleLoadComplete}
+            onReload={handleReload}
+            />
 
 			{isLoading && <LoadingOverlay progress={progress} mode={mode} />}
 		</Container>
@@ -4599,6 +4875,273 @@ const ImageLoader: React.FC<ImageLoaderProps> = ({ src, alt, mode = "light", cla
 };
 
 export default ImageLoader;
+
+```
+
+# src/components/ImageLoader/SimpleImageLoader.tsx
+
+```tsx
+// Originally: ImageLoader for the Bonsai
+
+import React, { useCallback, useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import styled from "styled-components";
+// import { ThemeMode } from "@/styles/theme";
+// import SpinningDots from "./SpinningDots";
+import CircularSVG2 from "./CircularSVG2";
+import LoadingOverlay from "../LoadingOverlay/LoadingOverlay";
+import DraggableControlWidget from "../DraggableControlWidget/DraggableControlWidget";
+import { ThemeMode } from "@/styles/theme";
+import whaleSound from "@/assets/sounds/whale-call-2.wav";
+
+const Container = styled.div`
+	position: relative;
+	width: 100%;
+	height: 100%;
+	min-height: 314px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	// border: 1px solid yellowgreen;
+`;
+
+const LoaderContainer = styled.div`
+	position: absolute;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	width: 200px;
+	height: 200px;
+	// border: 1px solid red;
+`;
+
+const CircularSVG = styled.div`
+	position: absolute;
+	// background: rgba(255, 255, 255, 0.15);
+	border-radius: 100%;
+	z-index: 100;
+	width: 200px;
+	height: 200px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	// border: 1px solid cyan;
+`;
+
+const Image = styled.img`
+	max-width: 100%;
+	width: 100%;
+	height: auto;
+	opacity: 0;
+	transition: opacity 0.5s ease-in-out;
+	&.loaded {
+		opacity: 1;
+	}
+`;
+
+const CounterContainer = styled.div`
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	line-height: 1;
+	position: relative;
+	z-index: 101;
+	// border: 1px solid blue;
+`;
+
+const LoadingText = styled.p`
+	font-size: 1rem;
+	font-family: "Open Sans" san-serif;
+	margin: 0;
+	color: #3f1f0b;
+`;
+
+const CountdownText = styled.h1`
+	display: flex;
+	align-items: center;
+	// gap: 4px;
+	font-size: 3rem;
+	margin: 0;
+	color: #3f1f0b;
+`;
+
+interface ImageLoaderProps {
+	src: string;
+	alt: string;
+	className?: string;
+	mode?: ThemeMode;
+	toggleTheme: () => void;
+	isDarkTheme: boolean;
+}
+
+// const ImageLoader: React.FC<ImageLoaderProps> = ({ src, alt, className }) => {
+const ImageLoader: React.FC<ImageLoaderProps> = ({ src, alt, mode = "light", className, toggleTheme, isDarkTheme }) => {
+	// const [isLoading, setIsLoading] = useState(true);
+	// const [loading, setLoading] = useState(true);
+	// const [progress, setProgress] = useState(0);
+   const [isLoading, setIsLoading] = useState(true);
+	const [progress, setProgress] = useState(0);
+	const [showPoem, setShowPoem] = useState(false);
+	const [startSlideAnimation, setStartSlideAnimation] = useState(false);
+	const [hasError, setHasError] = useState(false);
+	// 1. Add image preloading state
+	const [isImagePreloaded, setIsImagePreloaded] = useState(false);
+	const [smoothProgress, setSmoothProgress] = useState(0);
+
+   useEffect(() => {
+		// First effect: Preload image
+		const img = new Image();
+		img.src = src;
+		img.onload = () => setIsImagePreloaded(true);
+
+		return () => {
+			img.onload = null;
+		};
+	}, [src]);
+   const getImageHeight = () => {
+		// Initial heights matching the styled component media queries
+		if (window.innerWidth <= 480) return 250;
+		if (window.innerWidth <= 768) return 350;
+		if (window.innerWidth <= 1024) return 450;
+		return 550;
+	};
+
+   const handleProgressChange = useCallback((newProgress: number) => {
+      setProgress(newProgress);
+   }, []);
+
+   const handleLoadComplete = useCallback(() => {
+		return new Promise<void>((resolve) => {
+			const img = new Image();
+			img.onload = async () => {
+				await new Promise((r) => setTimeout(r, 200));
+				setIsLoading(false);
+				// setShowPoem(true);
+				await new Promise((r) => setTimeout(r, 1000));
+				// setStartSlideAnimation(true);
+				resolve();
+			};
+			img.src = src;
+		});
+	}, [src]);
+
+   const handleReload = useCallback(() => {
+		setIsLoading(true);
+		setProgress(0);
+		// setShowPoem(false);
+		// setStartSlideAnimation(false);
+	}, []);
+
+	useEffect(() => {
+		const xhr = new XMLHttpRequest();
+		xhr.open("GET", src, true);
+		xhr.responseType = "arraybuffer";
+		xhr.onload = () => {
+			if (xhr.status === 200) {
+				setProgress(100);
+				setIsLoading(false);
+			}
+		};
+		xhr.onprogress = (event) => {
+			if (event.lengthComputable) {
+				const percentComplete = (event.loaded / event.total) * 100;
+				setProgress(Math.round(percentComplete));
+			}
+		};
+		xhr.onerror = () => {
+			console.error("Error loading image");
+			setIsLoading(false);
+		};
+		xhr.send();
+		return () => {
+			xhr.abort();
+		};
+	}, [src]);
+
+	return (
+		<Container>
+			<Image src={src} alt={alt} className={`${className} ${!isLoading ? "loaded" : ""}`} />
+
+			<AnimatePresence>
+				{isLoading && (
+					<LoaderContainer>
+						<CounterContainer>
+							<LoadingText>LOADING...</LoadingText>
+							<CountdownText>
+								<span>{Math.min(progress, 100)}</span>
+								<span>%</span>
+							</CountdownText>
+						</CounterContainer>
+
+						<CircularSVG>
+							{/* <SpinningDots /> */}
+							<CircularSVG2 />
+						</CircularSVG>
+					</LoaderContainer>
+				)}
+			</AnimatePresence>
+
+			<DraggableControlWidget
+            audioSrc={whaleSound}
+            toggleTheme={toggleTheme}
+            isDarkTheme={isDarkTheme}
+            onProgressChange={handleProgressChange}
+            onLoadComplete={handleLoadComplete}
+            onReload={handleReload}
+         />
+
+			{isLoading && <LoadingOverlay progress={progress} mode={mode} />}
+		</Container>
+	);
+};
+
+export default ImageLoader;
+
+```
+
+# src/components/ImageLoader/SpinningDots.tsx
+
+```tsx
+import { motion } from "framer-motion";
+
+const SpinningDots = () => {
+	const rotations = [
+		{ speed: 2, color: "magenta" }, // 2 seconds per rotation
+		{ speed: 3, color: "cyan" }, // 3 seconds per rotation
+		{ speed: 5, color: "yellow" }, // 5 seconds per rotation
+		{ speed: 7, color: "black" }, // 7 seconds per rotation
+	];
+
+	return (
+		<svg width="300" height="300" viewBox="0 0 300 300">
+			<circle cx="150" cy="150" r="110" stroke="grey" stroke-width="2" fill="transparent" />
+			{rotations.map((item, index) => (
+				<motion.circle
+					key={index}
+					cx="100" // Origin X coordinate
+					cy="50" // Y coordinate above origin
+					r="20" // Circle radius
+					fill={item.color}
+					style={{
+						originX: "50%", // Rotate around the center of the canvas
+						originY: "50%",
+					}}
+					animate={{
+						rotate: 360,
+					}}
+					transition={{
+						repeat: Infinity,
+						duration: item.speed,
+						ease: "linear",
+					}}
+				/>
+			))}
+		</svg>
+	);
+};
+
+export default SpinningDots;
 
 ```
 
@@ -4664,6 +5207,10 @@ import React from "react";
 import { motion } from "framer-motion";
 import styled, { useTheme } from "styled-components";
 import { ThemeMode } from "@/styles/theme";
+import SpinningDots from "../ImageLoader/SpinningDots";
+import CircularSVG2 from "../ImageLoader/CircularSVG2";
+// import SpinningDots from "../ImageLoader/SpinningDots";
+// import CircularSVG2 from "../ImageLoader/CircularSVG2";
 
 // Styled components for the SVGs
 const ThemedPath = styled(motion.path)`
@@ -4730,123 +5277,46 @@ const CounterContainer = styled.div`
 	z-index: 1001;
 `;
 
-const CountdownText = styled.h1`
+const CountdownText = styled.h1<{ $primary?: boolean; }>`
 	display: flex;
 	align-items: center;
 	gap: 4px;
-	font-size: 3rem;
+	font-size: 4.75rem;
+	// font-family: "Open Sans", sans-serif;
+   font-family: "Playfair Display", serif;
+   font-weight: 800;
+   // color: ${props => props.$primary ? "white" : "#BF4F74"};
+	// color: ${({ theme }) => theme.colors.text[theme.isDarkTheme ? "dark" : "light"].primary};
 	color: ${({ theme }) => theme.colors.text[theme.isDarkTheme ? "dark" : "light"].primary};
 	margin: 0;
 	line-height: 1;
+
+   // span {
+   //    font-size: 2.25rem;
+   // }
+`;
+
+const MySpan = styled.span`
+  ${props => props.className}
 `;
 
 const LoadingOverlay: React.FC<{ progress: number; mode: ThemeMode }> = ({ progress, mode }) => {
-	const theme = useTheme();
-	const easing = [0.35, 0.27, 0.3, 0.83];
-	const animationDuration = 3;
 
 	return (
 		<LoaderOverlay $mode={mode} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }}>
 			<LoaderContainer>
 				<CounterContainer>
 					<CountdownText>
+                  {/* <MySpan className="text-red text-5xl">{Math.min(progress, 100)}</MySpan>
+                  <MySpan className="text-yellow text-base">%</MySpan> */}
 						<span>{Math.min(progress, 100)}</span>
-						<span>%</span>
+						<span className="text-blue text-base">%</span>
 					</CountdownText>
 				</CounterContainer>
 
 				<CircularSVG>
-					<motion.svg width="314" height="314" viewBox="0 0 314 314" fill="none" xmlns="http://www.w3.org/2000/svg">
-						<ThemedPath
-							initial={{ rotate: 0 }}
-							animate={{ rotate: 720 }}
-							transition={{ duration: animationDuration, ease: easing, repeat: Infinity }}
-							// fill-rule="evenodd"
-							// clip-rule="evenodd"
-
-							d="M156.699 33.1997C88.4921 33.1997 33.1992 88.4925 33.1992 156.7C33.1992 224.907 88.4921 280.2 156.699 280.2C224.906 280.2 280.199 224.907 280.199 156.7C280.199 88.4925 224.906 33.1997 156.699 33.1997ZM31.1992 156.7C31.1992 87.388 87.3875 31.1997 156.699 31.1997C226.011 31.1997 282.199 87.388 282.199 156.7C282.199 226.011 226.011 282.2 156.699 282.2C87.3875 282.2 31.1992 226.011 31.1992 156.7Z"
-
-							// fill="#85aab6"
-						/>
-						<ThemedPath2
-							initial={{ rotate: 0 }}
-							animate={{ rotate: 60 }}
-							transition={{ duration: animationDuration, ease: easing, repeat: Infinity }}
-							// fill-rule="evenodd"
-
-							// clip-rule="evenodd"
-
-							d="M147.046 36.5809C150.231 36.3283 153.451 36.1997 156.699 36.1997C159.948 36.1997 163.167 36.3283 166.352 36.5809L165.72 44.5559C162.745 44.32 159.737 44.1997 156.699 44.1997C153.662 44.1997 150.654 44.32 147.678 44.5559L147.046 36.5809ZM120.556 41.7153C126.636 39.8059 132.924 38.3655 139.375 37.4363L140.516 45.3546C134.493 46.2219 128.626 47.5662 122.953 49.3478L120.556 41.7153ZM174.023 37.4363C180.475 38.3655 186.762 39.8059 192.843 41.7153L190.446 49.3478C184.773 47.5662 178.905 46.2219 172.883 45.3546L174.023 37.4363ZM95.8792 52.653C101.407 49.415 107.217 46.6045 113.262 44.2673L116.147 51.7291C110.506 53.91 105.083 56.5331 99.9227 59.5559L95.8792 52.653ZM200.136 44.2673C206.182 46.6045 211.991 49.415 217.519 52.6531L213.476 59.556C208.315 56.5331 202.893 53.9101 197.251 51.7291L200.136 44.2673ZM74.2661 68.8071C78.9555 64.4072 83.9975 60.3782 89.3455 56.7669L93.8225 63.3968C88.8288 66.7689 84.12 70.5316 79.7399 74.6412L74.2661 68.8071ZM224.053 56.7669C229.401 60.3782 234.443 64.4073 239.132 68.8071L233.659 74.6412C229.279 70.5317 224.57 66.769 219.576 63.3969L224.053 56.7669ZM56.7664 89.3459C60.3777 83.998 64.4068 78.956 68.8066 74.2665L74.6407 79.7404C70.5312 84.1204 66.7685 88.8293 63.3964 93.823L56.7664 89.3459ZM244.592 74.2666C248.992 78.956 253.021 83.998 256.632 89.346L250.002 93.823C246.63 88.8293 242.867 84.1205 238.758 79.7404L244.592 74.2666ZM44.2668 113.263C46.604 107.217 49.4145 101.408 52.6526 95.8797L59.5555 99.9231C56.5326 105.084 53.9096 110.506 51.7286 116.148L44.2668 113.263ZM260.746 95.8797C263.984 101.408 266.794 107.217 269.132 113.263L261.67 116.148C259.489 110.506 256.866 105.084 253.843 99.9232L260.746 95.8797ZM37.4358 139.376C38.365 132.924 39.8054 126.637 41.7148 120.556L49.3473 122.953C47.5657 128.626 46.2214 134.494 45.3541 140.516L37.4358 139.376ZM271.684 120.556C273.593 126.637 275.033 132.924 275.963 139.376L268.044 140.516C267.177 134.494 265.833 128.626 264.051 122.953L271.684 120.556ZM36.1992 156.7C36.1992 153.451 36.3279 150.232 36.5804 147.047L44.5554 147.679C44.3195 150.654 44.1992 153.662 44.1992 156.7C44.1992 159.737 44.3195 162.745 44.5554 165.72L36.5804 166.353C36.3279 163.168 36.1992 159.948 36.1992 156.7ZM276.818 147.047C277.071 150.232 277.199 153.451 277.199 156.7C277.199 159.948 277.071 163.168 276.818 166.353L268.843 165.72C269.079 162.745 269.199 159.737 269.199 156.7C269.199 153.662 269.079 150.654 268.843 147.679L276.818 147.047ZM41.7148 192.843C39.8054 186.763 38.365 180.475 37.4358 174.024L45.3541 172.883C46.2214 178.906 47.5657 184.773 49.3473 190.446L41.7148 192.843ZM275.963 174.024C275.033 180.475 273.593 186.763 271.684 192.843L264.051 190.446C265.833 184.773 267.177 178.906 268.044 172.883L275.963 174.024ZM52.6525 217.52C49.4145 211.992 46.604 206.182 44.2668 200.136L51.7286 197.252C53.9096 202.893 56.5326 208.316 59.5555 213.476L52.6525 217.52ZM269.132 200.136C266.794 206.182 263.984 211.992 260.746 217.52L253.843 213.476C256.866 208.316 259.489 202.893 261.67 197.252L269.132 200.136ZM68.8066 239.133C64.4067 234.443 60.3777 229.401 56.7664 224.053L63.3964 219.576C66.7684 224.57 70.5311 229.279 74.6407 233.659L68.8066 239.133ZM256.632 224.053C253.021 229.401 248.992 234.443 244.592 239.133L238.758 233.659C242.867 229.279 246.63 224.57 250.002 219.576L256.632 224.053ZM89.3455 256.633C83.9975 253.021 78.9555 248.992 74.266 244.592L79.7399 238.758C84.1199 242.868 88.8288 246.63 93.8225 250.003L89.3455 256.633ZM239.132 244.592C234.443 248.992 229.401 253.021 224.053 256.633L219.576 250.003C224.57 246.63 229.278 242.868 233.659 238.758L239.132 244.592ZM113.262 269.132C107.217 266.795 101.407 263.984 95.8792 260.746L99.9227 253.843C105.083 256.866 110.506 259.489 116.147 261.67L113.262 269.132ZM217.519 260.746C211.991 263.984 206.182 266.795 200.136 269.132L197.251 261.67C202.893 259.489 208.315 256.866 213.476 253.843L217.519 260.746ZM139.375 275.963C132.924 275.034 126.636 273.594 120.556 271.684L122.953 264.052C128.626 265.833 134.493 267.177 140.516 268.045L139.375 275.963ZM192.843 271.684C186.762 273.594 180.475 275.034 174.023 275.963L172.883 268.045C178.905 267.177 184.773 265.833 190.446 264.052L192.843 271.684ZM156.699 277.2C153.451 277.2 150.231 277.071 147.046 276.818L147.678 268.844C150.654 269.079 153.662 269.2 156.699 269.2C159.737 269.2 162.745 269.079 165.72 268.844L166.352 276.818C163.167 277.071 159.948 277.2 156.699 277.2Z"
-
-							// fill="#85aab6"
-						/>
-
-<svg width="1533" height="2531" viewBox="0 0 1533 2531" fill="none" xmlns="http://www.w3.org/2000/svg">
-<mask id="path-1-inside-1_118_577" fill="white">
-<path d="M1532.66 17.4199C1214.83 -34.7533 888.89 31.1704 616.316 202.758C343.742 374.346 143.371 639.738 52.9926 948.883C-37.3858 1258.03 -11.5253 1589.56 125.697 1880.95C262.919 2172.34 502.019 2403.45 797.903 2530.7L890.458 2315.48C647.128 2210.84 450.496 2020.77 337.647 1781.14C224.798 1541.5 203.531 1268.86 277.856 1014.62C352.182 760.386 516.964 542.132 741.124 401.021C965.284 259.91 1233.33 205.695 1494.71 248.602L1532.66 17.4199Z"/>
-</mask>
-<path d="M1532.66 17.4199C1214.83 -34.7533 888.89 31.1704 616.316 202.758C343.742 374.346 143.371 639.738 52.9926 948.883C-37.3858 1258.03 -11.5253 1589.56 125.697 1880.95C262.919 2172.34 502.019 2403.45 797.903 2530.7L890.458 2315.48C647.128 2210.84 450.496 2020.77 337.647 1781.14C224.798 1541.5 203.531 1268.86 277.856 1014.62C352.182 760.386 516.964 542.132 741.124 401.021C965.284 259.91 1233.33 205.695 1494.71 248.602L1532.66 17.4199Z" fill="#1EBCDC" stroke="black" stroke-width="2" stroke-dasharray="75 75" mask="url(#path-1-inside-1_118_577)"/>
-</svg>
-
-
-						<ThemedPath3
-							initial={{ rotate: 0 }}
-							animate={{ rotate: -360 }}
-							transition={{ duration: animationDuration, ease: easing, repeat: Infinity }}
-							// fill-rule="evenodd"
-							// clip-rule="evenodd"
-							d="M156.7 49.2993C97.3844 49.2993 49.2998 97.3839 49.2998 156.699C49.2998 216.015 97.3844 264.099 156.7 264.099C216.015 264.099 264.1 216.015 264.1 156.699C264.1 97.3839 216.015 49.2993 156.7 49.2993ZM47.2998 156.699C47.2998 96.2794 96.2799 47.2993 156.7 47.2993C217.12 47.2993 266.1 96.2794 266.1 156.699C266.1 217.119 217.12 266.099 156.7 266.099C96.2799 266.099 47.2998 217.119 47.2998 156.699Z"
-							// fill="#ff8d53"
-						/>
-						<ThemedPath4
-							initial={{ rotate: 0 }}
-							animate={{ rotate: 360 }}
-							transition={{ duration: animationDuration, ease: easing, repeat: Infinity }}
-							// fill-rule="evenodd"
-							// clip-rule="evenodd"
-							d="M156.7 67C107.114 67 67 107.114 67 156.7C67 206.286 107.114 246.4 156.7 246.4C206.282 246.4 246.4 206.19 246.4 156.7H258.4C258.4 212.81 212.918 258.4 156.7 258.4C100.486 258.4 55 212.914 55 156.7C55 100.486 100.486 55 156.7 55C184.75 55 210.266 66.3749 228.655 84.8696L220.145 93.3304C203.934 77.0251 181.45 67 156.7 67Z"
-							// fill="#85aab6"
-						/>
-						<ThemedPath5
-							initial={{ rotate: 0 }}
-							animate={{ rotate: 360 * 4 }}
-							transition={{ duration: animationDuration, ease: easing, repeat: Infinity }}
-							// fill-rule="evenodd"
-							// clip-rule="evenodd"
-							d="M171.65 71.8689C124.843 63.5629 80.1766 94.9308 71.8686 141.749L71.8685 141.749C67.3737 167.057 74.5041 191.781 89.3643 210.454L86.2344 212.945C70.6946 193.418 63.225 167.542 67.9301 141.05L69.8993 141.4L67.9301 141.05C76.6221 92.0685 123.355 59.2364 172.349 67.9304C221.33 76.6224 254.163 123.356 245.469 172.349C236.777 221.331 190.043 254.163 141.05 245.469L141.749 241.53C188.555 249.836 233.222 218.469 241.53 171.65C249.836 124.844 218.468 80.177 171.65 71.8689Z"
-							// fill="#f0fcff"
-						/>
-						<ThemedPath
-							initial={{ rotate: 0 }}
-							animate={{ rotate: -160 }}
-							transition={{ duration: animationDuration, ease: easing, repeat: Infinity }}
-							// fill-rule="evenodd"
-
-							// clip-rule="evenodd"
-
-							d="M155.715 75.5054C156.042 75.5015 156.371 75.4995 156.699 75.4995C157.028 75.4995 157.356 75.5015 157.683 75.5054L157.648 78.5051C157.332 78.5014 157.016 78.4995 156.699 78.4995C156.382 78.4995 156.066 78.5014 155.75 78.5051L155.715 75.5054ZM145.934 76.2069C146.582 76.1212 147.231 76.0431 147.883 75.9727L148.205 78.9553C147.577 79.0231 146.952 79.0984 146.328 79.1809L145.934 76.2069ZM165.515 75.9727C166.167 76.0431 166.816 76.1212 167.464 76.2069L167.07 79.1809C166.446 79.0984 165.821 79.0231 165.193 78.9553L165.515 75.9727ZM136.312 78.0806C136.942 77.9175 137.576 77.7618 138.213 77.6135L138.893 80.5354C138.28 80.6781 137.67 80.828 137.063 80.9851L136.312 78.0806ZM175.185 77.6135C175.822 77.7618 176.456 77.9175 177.087 78.0806L176.335 80.9851C175.728 80.828 175.118 80.6781 174.505 80.5354L175.185 77.6135ZM126.981 81.1102C127.589 80.8709 128.201 80.6387 128.816 80.4138L129.846 83.2314C129.254 83.448 128.665 83.6715 128.079 83.9019L126.981 81.1102ZM184.582 80.4138C185.197 80.6387 185.809 80.8709 186.417 81.1102L185.319 83.9019C184.733 83.6715 184.144 83.448 183.552 83.2314L184.582 80.4138ZM118.091 85.2477C118.665 84.937 119.243 84.633 119.825 84.3358L121.189 87.0077C120.629 87.2939 120.072 87.5866 119.519 87.8859L118.091 85.2477ZM193.573 84.3358C194.155 84.633 194.733 84.937 195.307 85.2477L193.879 87.8859C193.326 87.5866 192.769 87.2939 192.209 87.0077L193.573 84.3358ZM202.02 89.3145C202.563 89.68 203.1 90.0518 203.633 90.4299L201.897 92.8767C201.384 92.5125 200.866 92.1543 200.344 91.8023L202.02 89.3145ZM109.765 90.43C110.298 90.0518 110.835 89.68 111.378 89.3145L113.054 91.8023C112.532 92.1544 112.014 92.5125 111.501 92.8767L109.765 90.43ZM102.123 96.5743C102.607 96.1351 103.096 95.7017 103.59 95.2741L105.553 97.5426C105.077 97.9545 104.606 98.372 104.14 98.7951L102.123 96.5743ZM209.808 95.2741C210.302 95.7017 210.791 96.1351 211.275 96.5743L209.258 98.7951C208.792 98.372 208.321 97.9545 207.845 97.5426L209.808 95.2741ZM216.824 102.124C217.263 102.607 217.697 103.096 218.124 103.591L215.856 105.554C215.444 105.078 215.026 104.607 214.603 104.141L216.824 102.124ZM95.2736 103.591C95.7012 103.096 96.1346 102.607 96.5739 102.124L98.7946 104.141C98.3715 104.607 97.954 105.078 97.5421 105.554L95.2736 103.591ZM222.969 109.765C223.347 110.298 223.719 110.836 224.084 111.378L221.596 113.055C221.244 112.532 220.886 112.014 220.522 111.501L222.969 109.765ZM89.314 111.378C89.6795 110.836 90.0513 110.298 90.4295 109.765L92.8762 111.501C92.512 112.014 92.1539 112.532 91.8019 113.055L89.314 111.378ZM84.3353 119.826C84.6325 119.244 84.9365 118.665 85.2473 118.092L87.8854 119.52C87.5861 120.073 87.2934 120.629 87.0072 121.19L84.3353 119.826ZM228.151 118.092C228.462 118.665 228.766 119.244 229.063 119.826L226.391 121.19C226.105 120.629 225.812 120.073 225.513 119.52L228.151 118.092ZM80.4133 128.817C80.6382 128.201 80.8704 127.59 81.1097 126.981L83.9014 128.08C83.671 128.665 83.4475 129.254 83.2309 129.847L80.4133 128.817ZM232.288 126.981C232.528 127.59 232.76 128.201 232.985 128.817L230.167 129.847C229.951 129.254 229.727 128.665 229.497 128.08L232.288 126.981ZM77.6131 138.213C77.7613 137.577 77.917 136.943 78.0801 136.312L80.9846 137.063C80.8275 137.67 80.6776 138.281 80.5349 138.893L77.6131 138.213ZM235.318 136.312C235.481 136.943 235.637 137.577 235.785 138.213L232.863 138.893C232.72 138.281 232.57 137.67 232.413 137.063L235.318 136.312ZM75.9722 147.884C76.0426 147.232 76.1207 146.582 76.2064 145.935L79.1805 146.329C79.0979 146.952 79.0226 147.578 78.9548 148.206L75.9722 147.884ZM237.192 145.935C237.277 146.582 237.355 147.232 237.426 147.884L234.443 148.206C234.375 147.578 234.3 146.952 234.218 146.329L237.192 145.935ZM75.499 156.7C75.499 156.371 75.501 156.043 75.5049 155.715L78.5047 155.751C78.5009 156.067 78.499 156.383 78.499 156.7C78.499 157.016 78.5009 157.332 78.5047 157.648L75.5049 157.684C75.501 157.356 75.499 157.028 75.499 156.7ZM237.893 155.715C237.897 156.043 237.899 156.371 237.899 156.7C237.899 157.028 237.897 157.356 237.893 157.684L234.893 157.648C234.897 157.332 234.899 157.016 234.899 156.7C234.899 156.383 234.897 156.067 234.893 155.751L237.893 155.715ZM76.2064 167.464C76.1207 166.817 76.0426 166.167 75.9722 165.515L78.9548 165.193C79.0226 165.821 79.0979 166.447 79.1805 167.07L76.2064 167.464ZM237.426 165.515C237.355 166.167 237.277 166.817 237.192 167.464L234.218 167.07C234.3 166.447 234.375 165.821 234.443 165.193L237.426 165.515ZM78.0801 177.087C77.917 176.456 77.7613 175.823 77.6131 175.186L80.5349 174.506C80.6776 175.118 80.8275 175.729 80.9846 176.336L78.0801 177.087ZM235.785 175.186C235.637 175.823 235.481 176.456 235.318 177.087L232.413 176.336C232.57 175.729 232.72 175.118 232.863 174.506L235.785 175.186ZM81.1097 186.418C80.8704 185.809 80.6382 185.198 80.4133 184.582L83.2309 183.552C83.4475 184.145 83.671 184.734 83.9014 185.319L81.1097 186.418ZM232.985 184.582C232.76 185.198 232.528 185.809 232.288 186.418L229.497 185.319C229.727 184.734 229.951 184.145 230.167 183.552L232.985 184.582ZM85.2473 195.307C84.9365 194.734 84.6325 194.156 84.3353 193.573L87.0072 192.209C87.2934 192.77 87.5861 193.326 87.8854 193.879L85.2473 195.307ZM229.063 193.573C228.766 194.156 228.462 194.734 228.151 195.307L225.513 193.879C225.812 193.326 226.105 192.77 226.391 192.209L229.063 193.573ZM224.084 202.021C223.719 202.563 223.347 203.101 222.969 203.634L220.522 201.898C220.886 201.385 221.244 200.867 221.596 200.344L224.084 202.021ZM90.4295 203.634C90.0513 203.101 89.6795 202.563 89.314 202.021L91.8019 200.344C92.1539 200.867 92.512 201.385 92.8762 201.898L90.4295 203.634ZM96.5739 211.275C96.1346 210.792 95.7012 210.303 95.2736 209.809L97.5421 207.845C97.954 208.321 98.3715 208.792 98.7946 209.258L96.5739 211.275ZM218.124 209.809C217.697 210.303 217.263 210.792 216.824 211.275L214.603 209.258C215.026 208.792 215.444 208.321 215.856 207.845L218.124 209.809ZM103.59 218.125C103.096 217.697 102.607 217.264 102.123 216.825L104.14 214.604C104.606 215.027 105.077 215.445 105.553 215.856L103.59 218.125ZM211.275 216.825C210.791 217.264 210.302 217.697 209.808 218.125L207.845 215.856C208.321 215.445 208.792 215.027 209.258 214.604L211.275 216.825ZM111.378 224.085C110.835 223.719 110.298 223.347 109.765 222.969L111.501 220.522C112.014 220.887 112.532 221.245 113.054 221.597L111.378 224.085ZM203.633 222.969C203.1 223.347 202.563 223.719 202.02 224.085L200.344 221.597C200.866 221.245 201.384 220.887 201.897 220.522L203.633 222.969ZM119.825 229.063C119.243 228.766 118.665 228.462 118.091 228.151L119.519 225.513C120.072 225.812 120.629 226.105 121.189 226.391L119.825 229.063ZM195.307 228.151C194.733 228.462 194.155 228.766 193.573 229.063L192.209 226.391C192.769 226.105 193.326 225.812 193.879 225.513L195.307 228.151ZM128.816 232.985C128.201 232.76 127.589 232.528 126.981 232.289L128.079 229.497C128.665 229.728 129.254 229.951 129.846 230.168L128.816 232.985ZM186.417 232.289C185.809 232.528 185.197 232.76 184.582 232.985L183.552 230.168C184.144 229.951 184.733 229.728 185.319 229.497L186.417 232.289ZM138.213 235.785C137.576 235.637 136.942 235.482 136.312 235.318L137.063 232.414C137.67 232.571 138.28 232.721 138.893 232.864L138.213 235.785ZM177.087 235.318C176.456 235.482 175.822 235.637 175.185 235.785L174.505 232.864C175.118 232.721 175.728 232.571 176.335 232.414L177.087 235.318ZM147.883 237.426C147.231 237.356 146.582 237.278 145.934 237.192L146.328 234.218C146.952 234.301 147.577 234.376 148.205 234.444L147.883 237.426ZM167.464 237.192C166.816 237.278 166.167 237.356 165.515 237.426L165.193 234.444C165.821 234.376 166.446 234.301 167.07 234.218L167.464 237.192ZM156.699 237.9C156.371 237.9 156.042 237.898 155.715 237.894L155.75 234.894C156.066 234.898 156.382 234.9 156.699 234.9C157.016 234.9 157.332 234.898 157.648 234.894L157.683 237.894C157.356 237.898 157.028 237.9 156.699 237.9Z"
-
-							// fill="#A7A9AC"
-						/>
-						<ThemedPath
-							initial={{ rotate: 0 }}
-							animate={{ rotate: 360 }}
-							transition={{ duration: animationDuration, ease: easing, repeat: Infinity }}
-							// fill-rule="evenodd"
-							// clip-rule="evenodd"
-							d="M156.7 95.2993C138.384 95.2993 121.907 103.312 110.707 116.059L101.692 108.139C115.092 92.8871 134.816 83.2993 156.7 83.2993C197.214 83.2993 230.1 116.186 230.1 156.699C230.1 197.213 197.214 230.099 156.7 230.099C116.186 230.099 83.2998 197.213 83.2998 156.699H95.2998C95.2998 190.586 122.814 218.099 156.7 218.099C190.586 218.099 218.1 190.586 218.1 156.699C218.1 122.813 190.586 95.2993 156.7 95.2993Z"
-							// fill="#ff6a00"
-						/>
-						<ThemedPath2
-							initial={{ rotate: 0 }}
-							animate={{ rotate: -260 }}
-							transition={{ duration: animationDuration, ease: easing, repeat: Infinity }}
-							// fill-rule="evenodd"
-							// clip-rule="evenodd"
-							d="M166.383 101.654C136.009 96.339 106.97 116.654 101.655 147.014C98.807 163.443 103.365 179.476 113.039 191.521L108.361 195.278C97.6353 181.924 92.593 164.157 95.7439 145.987L95.7447 145.982C101.631 112.344 133.791 89.8598 167.417 95.7442C201.055 101.631 223.539 133.791 217.655 167.416C211.768 201.055 179.608 223.539 145.983 217.654L147.017 211.744C177.391 217.06 206.431 196.744 211.745 166.382C217.06 136.008 196.744 106.968 166.383 101.654Z"
-							// fill="#bad2d9"
-						/>
-					</motion.svg>
+				   <CircularSVG2 />
+               {/* <SpinningDots /> */}
 				</CircularSVG>
 			</LoaderContainer>
 		</LoaderOverlay>
@@ -6413,7 +6883,8 @@ import React from "react";
 import { HomeContainer, ImageDiv } from "./Home.styles";
 import whale from "@/assets/Loader/Whale.png";
 // import whaleSound from "@/assets/sounds/whale-call-2.wav";
-import ImageLoader from "@/components/ImageLoader/ImageLoader";
+import ImageLoader from "@/components/ImageLoader/ImageLoader"; //Getting too complicated loader but kinda working
+// import ImageLoader from "@/components/ImageLoader/SimpleImageLoader"; //Bonsai original loader
 
 interface HomeProps {
    toggleTheme: () => void;
